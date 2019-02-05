@@ -25,7 +25,7 @@ class Dashboard extends React.Component {
   state = {
     open: true,
     selectedData: examplePeople,
-    activePanel: "Map"
+    activePanel: "map"
   };
 
   handleDrawerOpen = () => {
@@ -38,11 +38,6 @@ class Dashboard extends React.Component {
 
   selectPanel(panel) {
     this.setState({ activePanel: panel });
-    console.log(panel);
-  }
-
-  handleItemClick(e) {
-
   }
 
   render() {
@@ -110,7 +105,7 @@ class Dashboard extends React.Component {
               <SearchPanel data={this.state.selectedData} />
             ) :
             this.state.activePanel === "details" ? (
-                  <DetailsPanel data={this.state.selectedData} />
+              <DetailsPanel data={this.state.selectedData} />
             ) :
             null
           }
