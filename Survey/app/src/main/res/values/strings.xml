@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">FeverFinder</string>
+    <string name="new_survey_string">Start New Survey</string>
+    <string name="personal_info_title">Insert Personal Information</string>
 </resources>
