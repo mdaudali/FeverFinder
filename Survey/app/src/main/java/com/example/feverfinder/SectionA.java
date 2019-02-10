@@ -10,4 +10,6 @@ public class SectionA extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_section_a);
     }
+
+
 }

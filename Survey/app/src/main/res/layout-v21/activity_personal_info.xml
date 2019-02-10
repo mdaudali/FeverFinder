@@ -15,6 +15,7 @@
         android:layout_marginTop="24dp"
         android:text="@string/personal_info_title"
         android:textAllCaps="true"
+        android:textAppearance="@android:style/TextAppearance.Material"
         android:textColor="@color/colorAccent"
         android:textSize="24sp"
         android:textStyle="bold"
