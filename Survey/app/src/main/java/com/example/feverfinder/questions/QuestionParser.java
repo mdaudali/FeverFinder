@@ -95,7 +95,7 @@ public class QuestionParser {
                 JSONObject currentOption;
                 for (int j=0; j<optionsArray.size(); j++){
                     currentOption = (JSONObject) optionsArray.get(j);
-                    Option newOption = new Option(currentOption.get("name").toString(), currentOption.get("label").toString());
+                    Option newOption = new Option(currentOption.get("name").toString(),  currentOption.get("label").toString());
                     optionsList.add(newOption);
                 }
 

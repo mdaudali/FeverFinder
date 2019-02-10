@@ -9,7 +9,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".SectionE"></activity>
+        <activity
+            android:name=".SurveyActivity"
+            android:label="@string/title_activity_survey"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity android:name=".SectionE" />
         <activity android:name=".SectionD" />
         <activity android:name=".SectionC" />
         <activity android:name=".SectionB" />
