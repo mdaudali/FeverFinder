@@ -28,3 +28,5 @@ front_end/yarn-error.log*
 **/__pycache__
 fever_finder/frontend/static/**/*
 fever_finder/db.sqlite3
+
+env/**/*
