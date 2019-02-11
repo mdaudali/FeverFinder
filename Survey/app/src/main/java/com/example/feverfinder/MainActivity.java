@@ -14,7 +14,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onStartSurvey(View view) {
-        Intent intent = new Intent(this, PersonalInfo.class);
+        Intent intent = new Intent(this, SurveyActivity.class);
         startActivity(intent);
     }
 }

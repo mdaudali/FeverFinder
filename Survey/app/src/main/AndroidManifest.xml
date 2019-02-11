@@ -13,13 +13,6 @@
             android:name=".SurveyActivity"
             android:label="@string/title_activity_survey"
             android:theme="@style/AppTheme.NoActionBar"></activity>
-        <activity android:name=".SectionE" />
-        <activity android:name=".SectionD" />
-        <activity android:name=".SectionC" />
-        <activity android:name=".SectionB" />
-        <activity android:name=".SectionA" />
-        <activity android:name=".SurveyStatus" />
-        <activity android:name=".PersonalInfo" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

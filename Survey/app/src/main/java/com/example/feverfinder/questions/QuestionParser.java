@@ -8,10 +8,14 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
+import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -19,66 +23,83 @@ import java.util.Map;
 * Response has a type and if the type is of the form select_... response will also contain
 * a list of options and null otherwise*/
 public class QuestionParser {
-    Map<String, List<Option>> responseChoices;
-    Map<Question, Response> questions;
 
+    /**
+     * @param questionsFile is a json file containing a list of the sections
+     * @param choicesFile is a json file containing the options for any multiple choice questions
+     * @return a list of sections
+     */
     @RequiresApi(api = Build.VERSION_CODES.N)
-    public QuestionParser(){
-        parseChoices();
-        parseQuestions();
-    }
+    public static List<Section> getSections(InputStream questionsFile, InputStream choicesFile) {
+        List<Section> sections = new LinkedList<>();
+        Map<String, List<Option>> responseChoices = parseChoices(questionsFile);
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
-    public void addQuestionToMap(JSONObject currentQuestion){
-        Question question = new Question(currentQuestion.get("type").toString(),
-                currentQuestion.get("name").toString(),
-                currentQuestion.get("label").toString());
-
-        // get option
-        String optionName = "";
-        if (question.type.split(" ").length > 1){
-            optionName = question.type.split(" ")[1];
-        }
-
-        // add question text and either list of responses or null if no options for response
-        questions.put(question, new Response(question.type, responseChoices.getOrDefault(optionName, null)));
-    }
-
-    @RequiresApi(api = Build.VERSION_CODES.N)
-    public void parseQuestions(){
         try {
-            Object obj = new JSONParser().parse(new FileReader("C:\\Users\\sumaiyah\\OneDrive - University Of Cambridge\\Group Project\\JSONToObjects\\src\\questions.json"));
-            JSONArray sections = (JSONArray)obj;
+            Object obj = new JSONParser().parse(new InputStreamReader(choicesFile));
+            JSONArray sectionsJson = (JSONArray)obj;
 
             // iterate over each section in turn
-            for (int i=0; i<sections.size(); i++){
-                JSONArray section = (JSONArray) sections.get(i);
+            for (int i=0; i<sectionsJson.size(); i++) {
+                List<Question> questions = new LinkedList<>();
+                JSONArray sectionJson = (JSONArray) sectionsJson.get(i);
 
                 // iterate over questions in a section
-                for (int j=0; j<section.size(); j++){
-                    JSONObject currentQ = (JSONObject) section.get(j);
+                for (int j = 0; j < sectionJson.size(); j++) {
+                    JSONObject currentQ = (JSONObject) sectionJson.get(j);
 
                     // skip empty questions
-                    if (currentQ.get("label").equals("")) continue;
+                    if (!currentQ.get("label").equals("")) {
+                        String type = currentQ.get("type").toString();
+                        String name = currentQ.get("name").toString();
+                        String label = currentQ.get("label").toString();
 
-                    // Add question and details about response to hashmap
-                    addQuestionToMap(currentQ);
+                        if (type.equals("text")) {
+                            questions.add(new TextQuestion(name, label));
+                        }
+
+                        else if (type.startsWith("select")) {
+                            questions.add(new SelectQuestion(name, label,
+                                    type.startsWith("select_multiple"), responseChoices.get(name)));
+                        }
+
+                        else if (type.equals("integer")) {
+                            questions.add(new IntegerQuestion(name, label));
+                        }
+
+                        else if (type.equals("decimal")) {
+                            questions.add(new DecimalQuestion(name, label));
+                        }
+
+                        else if (type.equals("range")) {
+                            try {
+                                questions.add(new RangeQuestion(name, label, currentQ.get("parameters").toString()));
+                            } catch (ParameterParseException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }
                 }
-                // todo what to do after end of each section
+                sections.add(new Section("Section " + String.valueOf(i + 1), questions));
             }
-
         } catch (ParseException | IOException e){
             e.printStackTrace();
         }
+
+        return sections;
     }
 
-    public void parseChoices(){
+
+    /**
+     * @param file is a json file containing the options for any multiple choice questions
+     * @return map from the question name to a list of options
+     */
+    private static Map<String, List<Option>> parseChoices(InputStream file){
         // local variables
-        responseChoices = new HashMap<>();
+        Map<String, List<Option>> responseChoices = new HashMap<>();
         List<Option> optionsList; JSONObject currentList; JSONArray optionsArray;
 
         try {
-            Object obj = new JSONParser().parse(new FileReader("C:\\Users\\sumaiyah\\OneDrive - University Of Cambridge\\Group Project\\JSONToObjects\\src\\choices.json"));
+            Object obj = new JSONParser().parse(new InputStreamReader(file));
 
             // array of JSON objects for each choice type
             JSONArray listsOfChoices = (JSONArray)obj;
@@ -106,9 +127,6 @@ public class QuestionParser {
         } catch (ParseException | IOException e){
             e.printStackTrace();
         }
-    }
-
-    public Map<Question, Response> getQuestions(){
-        return questions;
+        return responseChoices;
     }
 }
