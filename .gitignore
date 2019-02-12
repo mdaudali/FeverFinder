@@ -26,6 +26,8 @@ front_end/yarn-error.log*
 
 **/*.pyc
 **/__pycache__
+QuestionToJSON/.idea/**/*
+QuestionToJSON/venv/**/*
 fever_finder/frontend/static/**/*
 fever_finder/db.sqlite3
 
