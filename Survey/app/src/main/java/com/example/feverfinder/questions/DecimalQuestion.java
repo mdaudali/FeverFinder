@@ -1,6 +1,15 @@
 package com.example.feverfinder.questions;
 
+import android.content.Context;
+import android.os.Build;
+import android.support.annotation.RequiresApi;
+import android.support.design.widget.TextInputLayout;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.EditText;
+
+import com.example.feverfinder.R;
 
 public class DecimalQuestion extends Question {
 
@@ -8,8 +17,13 @@ public class DecimalQuestion extends Question {
         super(name, label);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
-    View generateView() {
-        return null;
+    public View generateView(Context context, ViewGroup root) {
+        View view = context.getSystemService(LayoutInflater.class)
+                .inflate(R.layout.decimal_question, root, false);
+        TextInputLayout editText = view.findViewById(R.id.editTextLayout);
+        editText.setHint(getLabel());
+        return view;
     }
 }

@@ -7,10 +7,14 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.example.feverfinder.questions.Question;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
 
 
 /**
@@ -25,9 +29,11 @@ public class SurveySection extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_TITLE = "title";
+    private static final String ARG_QUESTIONS = "questions";
 
     // TODO: Rename and change types of parameters
     private String mTitle;
+    private List<Question> mQuestions;
 
     private OnFragmentInteractionListener mListener;
 
@@ -43,11 +49,11 @@ public class SurveySection extends Fragment {
      * @param questions List of the questions for this section to display.
      * @return A new instance of fragment SurveySection.
      */
-    // TODO: FIND WAY TO STORE QUESTIONS
-    public static SurveySection newInstance(String title, ArrayList<Question> questions) {
+    public static SurveySection newInstance(String title, List<Question> questions) {
         SurveySection fragment = new SurveySection();
         Bundle args = new Bundle();
         args.putString(ARG_TITLE, title);
+        args.putSerializable(ARG_QUESTIONS, new LinkedList<>(questions));
         fragment.setArguments(args);
         return fragment;
     }
@@ -57,7 +63,7 @@ public class SurveySection extends Fragment {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             mTitle = getArguments().getString(ARG_TITLE);
-
+            mQuestions = (List) getArguments().getSerializable(ARG_QUESTIONS);
         }
     }
 
@@ -65,7 +71,20 @@ public class SurveySection extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_survey_section, container, false);
+        View view = inflater.inflate(R.layout.fragment_survey_section, container, false);
+        TextView title = view.findViewById(R.id.fragment_title);
+        title.setText(mTitle);
+
+        //Add the questions
+        LinearLayout linearLayout = view.findViewById(R.id.question_container);
+        for (Question q : mQuestions) {
+            //TODO: remove this once all generated views are not null
+            View child = q.generateView(getContext(), linearLayout);
+            if (child != null)
+                linearLayout.addView(child);
+        }
+
+        return view;
     }
 
     // TODO: Rename method, update argument and hook method into UI event

@@ -1,6 +1,8 @@
 package com.example.feverfinder.questions;
 
+import android.content.Context;
 import android.view.View;
+import android.view.ViewGroup;
 
 public class RangeQuestion extends Question {
     private int start;
@@ -28,7 +30,7 @@ public class RangeQuestion extends Question {
     }
 
     @Override
-    View generateView() {
+    public View generateView(Context context, ViewGroup root) {
         return null;
     }
 

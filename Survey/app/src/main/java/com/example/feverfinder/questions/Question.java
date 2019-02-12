@@ -1,10 +1,14 @@
 package com.example.feverfinder.questions;
 
+import android.content.Context;
 import android.view.View;
+import android.view.ViewGroup;
+
+import java.io.Serializable;
 
 /* name gives a unique ID for each question - useful when saving responses
  * label gives the test of each question*/
-abstract public class Question {
+abstract public class Question implements Serializable {
     private String name;
     private String label;
 
@@ -21,5 +25,5 @@ abstract public class Question {
         return label;
     }
 
-    abstract View generateView();
+    public abstract View generateView(Context context, ViewGroup root);
 }

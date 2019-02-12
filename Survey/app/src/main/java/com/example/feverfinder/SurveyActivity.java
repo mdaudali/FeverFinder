@@ -1,10 +1,14 @@
 package com.example.feverfinder;
 
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
+import android.util.SparseArray;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -18,24 +22,28 @@ import android.view.MenuItem;
 import com.example.feverfinder.questions.QuestionParser;
 import com.example.feverfinder.questions.Section;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class SurveyActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener, SurveySection.OnFragmentInteractionListener {
 
-    List<Section> sections;
+    private SparseArray<SurveySection> surveySections;
+
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        sections = QuestionParser.getSections(getResources().openRawResource(R.raw.choices),
+        List<Section> sections = QuestionParser.getSections(getResources().openRawResource(R.raw.choices),
                 getResources().openRawResource(R.raw.questions));
 
         setContentView(R.layout.activity_survey);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
 
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -44,7 +52,36 @@ public class SurveyActivity extends AppCompatActivity
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
+        surveySections = new SparseArray<>();
+
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        Menu m = navigationView.getMenu();
+        int firstId = -1;
+        for (Section s: sections) {
+            int id = View.generateViewId();
+            MenuItem menuItem = m.add(Menu.NONE, id, Menu.NONE, s.getName());
+            menuItem.setCheckable(true);
+
+            //If this is the default section
+            if (firstId < 0) {
+                firstId = id;
+                menuItem.setChecked(true);
+            }
+
+            //TODO: actually build the correct SurveySection
+            surveySections.append(id, SurveySection.newInstance(s.getName(), s.getQuestions()));
+        }
+
+        //TODO: setup the default first page
+        FragmentManager fm = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fm.beginTransaction();
+        //TODO: sort out back button presses - maybe add to the back stack???
+
+        fragmentTransaction.add(R.id.fragment_container, surveySections.get(firstId));
+        fragmentTransaction.commit();
+
+
+
         navigationView.setNavigationItemSelectedListener(this);
     }
 
@@ -86,22 +123,21 @@ public class SurveyActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
-            // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
+        FragmentManager fm = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fm.beginTransaction();
+        //TODO: sort out back button presses - maybe add to the back stack???
 
-        } else if (id == R.id.nav_slideshow) {
-
-        } else if (id == R.id.nav_manage) {
-
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
-
-        }
+        fragmentTransaction.replace(R.id.fragment_container, surveySections.get(id));
+        fragmentTransaction.commit();
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    //TODO: deal with fragment interaction
+    @Override
+    public void onFragmentInteraction(Uri uri) {
+
     }
 }
