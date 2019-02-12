@@ -1,40 +1,57 @@
 import uuid
+import re
 from datetime import datetime
 from django.db import models
 
-# The definition of these classes is basically the same, but let's not an extra
-# class from which we inherit them, because that just complicates things further.
-
+# TODO: do this nicely with inheritance
 class FarmerType(models.Model):
-    type = models.CharField(max_length=32)
+    value = models.CharField(max_length=32, default="")
 
+    def __str__(self):
+        return self.value
 
 class TraderOccupationType(models.Model):
-    type = models.CharField(max_length=32)
+    value = models.CharField(max_length=32, default="")
 
+    def __str__(self):
+        return self.value
 
 class LassaCause(models.Model):
-    type = models.CharField(max_length=32)
+    value = models.CharField(max_length=32, default="")
 
+    def __str__(self):
+        return self.value
 
 class LassaTreatment(models.Model):
-    type = models.CharField(max_length=32)
+    value = models.CharField(max_length=32, default="")
+
+    def __str__(self):
+        return self.value
 
 
 class LassaPrevent(models.Model):
-    type = models.CharField(max_length=32)
+    value = models.CharField(max_length=32, default="")
 
+    def __str__(self):
+        return self.value
 
 class RiceType(models.Model):
-    type = models.CharField(max_length=32)
+    value = models.CharField(max_length=32, default="")
 
-class EducationType(models.Model):
-    type = models.CharField(max_length=32)
-
+    def __str__(self):
+        return self.value
 
 class OccupationType(models.Model):
-    type = models.CharField(max_length=32)
+    value = models.CharField(max_length=32, default="")
 
+    def __str__(self):
+        return self.value
+
+class EducationType(models.Model):
+    value = models.CharField(max_length=32, default="")
+
+    def __str__(self):
+        return self.value
 
 class Person(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
@@ -63,7 +80,7 @@ class Person(models.Model):
     knows_lassa_can_kill = models.BooleanField(default=False)
     knows_lassa_can_treat = models.BooleanField(default=False)
     knows_lassa_what_treat = models.ManyToManyField(LassaTreatment)
-    knows_lassa_can_prevent = models.CharField(max_length=8, default="Does not know")
+    knows_lassa_can_prevent = models.BooleanField(default=False)
     knows_lassa_how_prevent = models.ManyToManyField(LassaPrevent)
     take_vaccine = models.BooleanField(default=False)
     had_lassa = models.BooleanField(default=False)
@@ -73,9 +90,7 @@ class Person(models.Model):
     mastomys = models.BooleanField(default=False)
     farm = models.BooleanField(default=False)
     cultivate_rice = models.BooleanField(default=False)
-    rice = models.ManyToManyField(RiceType)
+    rice_how_store = models.ManyToManyField(RiceType)
     eat_rice = models.BooleanField(default=False)
     make_garri = models.BooleanField(default=False)
     drink_garri = models.BooleanField(default=False)
-
-    name = models.CharField(max_length=128)
