@@ -57,7 +57,7 @@ class Person(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     created_at = models.DateTimeField(auto_now_add=True, blank=False, editable=False)
 
-    # SimPrints specific columns based on survey (not everything from the survey)
+    # SimPrints specific columns based on survey (but not everything)
     community_name = models.CharField(max_length=64, default="Unknown")
     village_name = models.CharField(max_length=64, default="Unknown")
     town_name = models.CharField(max_length=64, default="Unknown")
@@ -94,3 +94,7 @@ class Person(models.Model):
     eat_rice = models.BooleanField(default=False)
     make_garri = models.BooleanField(default=False)
     drink_garri = models.BooleanField(default=False)
+
+    # Our fields
+    sick = models.FloatField(default=0.0)
+    risk = models.FloatField(default=0.0)
