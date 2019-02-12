@@ -1,8 +1,8 @@
 from django.shortcuts import render
-from people.serializers import PatientSerializer
+from people.serializers import PersonSerializer
 from rest_framework import generics
-from people.models import Patient
+from people.models import Person
 
-class PatientListCreate(generics.ListCreateAPIView):
-    queryset = Patient.objects.all()
-    serializer_class = PatientSerializer
+class PersonListCreate(generics.ListCreateAPIView):
+    queryset = Person.objects.all()
+    serializer_class = PersonSerializer
