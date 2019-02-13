@@ -45,6 +45,7 @@ public class SurveyActivity extends AppCompatActivity
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        setTitle("Fever Finder");
 
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
