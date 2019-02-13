@@ -3,7 +3,9 @@ package com.example.feverfinder;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +14,7 @@ import android.widget.TextView;
 
 import com.example.feverfinder.questions.Question;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -27,12 +30,18 @@ import java.util.List;
  */
 public class SurveySection extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
+    // TODO: remove the parameters?????????????
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_TITLE = "title";
-    private static final String ARG_QUESTIONS = "questions";
+    public static final String ARG_TITLE = "title";
+    //public static final String ARG_QUESTIONS = "questions";
 
     // TODO: Rename and change types of parameters
     private String mTitle;
+
+    public void setmQuestions(List<Question> mQuestions) {
+        this.mQuestions = mQuestions;
+    }
+
     private List<Question> mQuestions;
 
     private OnFragmentInteractionListener mListener;
@@ -53,7 +62,6 @@ public class SurveySection extends Fragment {
         SurveySection fragment = new SurveySection();
         Bundle args = new Bundle();
         args.putString(ARG_TITLE, title);
-        args.putSerializable(ARG_QUESTIONS, new LinkedList<>(questions));
         fragment.setArguments(args);
         return fragment;
     }
@@ -63,13 +71,18 @@ public class SurveySection extends Fragment {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             mTitle = getArguments().getString(ARG_TITLE);
-            mQuestions = (List) getArguments().getSerializable(ARG_QUESTIONS);
         }
+        Log.d("CREATION", "onCreate() running in" + this.mTitle);
+
+
+
     }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_survey_section, container, false);
         TextView title = view.findViewById(R.id.fragment_title);

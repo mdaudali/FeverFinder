@@ -29,5 +29,5 @@ dependencies {
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
 
 // TODO SORT OUT IMPORTING THIS LIBRARY
-    compile project(':json-simple-1.1.1')
+    implementation project(':json-simple-1.1.1')
 }

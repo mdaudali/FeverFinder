@@ -29,7 +29,8 @@ import java.util.Map;
 public class SurveyActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, SurveySection.OnFragmentInteractionListener {
 
-    private SparseArray<SurveySection> surveySections;
+    private SparseArray<Section> sectionMap;
+    private int currentFragment;
 
 
     @RequiresApi(api = Build.VERSION_CODES.N)
@@ -41,21 +42,23 @@ public class SurveyActivity extends AppCompatActivity
                 getResources().openRawResource(R.raw.questions));
 
         setContentView(R.layout.activity_survey);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
 
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
-        surveySections = new SparseArray<>();
+        //sectionMap is a map from ids to their associated Section
+        sectionMap = new SparseArray<>();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        NavigationView navigationView = findViewById(R.id.nav_view);
         Menu m = navigationView.getMenu();
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         int firstId = -1;
         for (Section s: sections) {
             int id = View.generateViewId();
@@ -67,20 +70,17 @@ public class SurveyActivity extends AppCompatActivity
                 firstId = id;
                 menuItem.setChecked(true);
             }
+            fragmentTransaction.add(R.id.fragment_container, s.getSurveySectionFragment());
+            fragmentTransaction.hide(s.getSurveySectionFragment());
 
             //TODO: actually build the correct SurveySection
-            surveySections.append(id, SurveySection.newInstance(s.getName(), s.getQuestions()));
+            sectionMap.append(id, s);
         }
 
-        //TODO: setup the default first page
-        FragmentManager fm = getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction = fm.beginTransaction();
         //TODO: sort out back button presses - maybe add to the back stack???
-
-        fragmentTransaction.add(R.id.fragment_container, surveySections.get(firstId));
+        fragmentTransaction.show(sectionMap.get(firstId).getSurveySectionFragment());
+        currentFragment = firstId;
         fragmentTransaction.commit();
-
-
 
         navigationView.setNavigationItemSelectedListener(this);
     }
@@ -123,15 +123,18 @@ public class SurveyActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        FragmentManager fm = getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction = fm.beginTransaction();
-        //TODO: sort out back button presses - maybe add to the back stack???
-
-        fragmentTransaction.replace(R.id.fragment_container, surveySections.get(id));
-        fragmentTransaction.commit();
-
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
+
+        FragmentManager fm = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fm.beginTransaction();
+
+        fragmentTransaction.hide(sectionMap.get(currentFragment).getSurveySectionFragment());
+        fragmentTransaction.show(sectionMap.get(id).getSurveySectionFragment());
+        currentFragment = id;
+
+        fragmentTransaction.commit();
+
         return true;
     }
 
