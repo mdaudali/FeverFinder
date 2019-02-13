@@ -8,6 +8,7 @@
     "prop-types": "latest",
     "react": "latest",
     "react-dom": "latest",
+    "react-google-maps": "^9.4.5",
     "react-scripts": "latest",
     "recompose": "^0.30.0"
   },
