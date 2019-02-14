@@ -14,12 +14,10 @@ import android.widget.EditText;
 import com.example.feverfinder.R;
 
 public class DecimalQuestion extends Question implements TextWatcher {
-    String content;
+    Float content;
 
     public DecimalQuestion(String name, String label) {
         super(name, label);
-        //TODO: change content to decimal??
-        content = "";
     }
 
     @RequiresApi(api = Build.VERSION_CODES.M)
@@ -54,6 +52,6 @@ public class DecimalQuestion extends Question implements TextWatcher {
      */
     @Override
     public void afterTextChanged(Editable s) {
-        content = s.toString();
+        content = Float.parseFloat(s.toString());
     }
 }

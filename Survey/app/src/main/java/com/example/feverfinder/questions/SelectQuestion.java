@@ -7,17 +7,20 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.example.feverfinder.R;
 
+import java.util.LinkedList;
 import java.util.List;
 
-public class SelectQuestion extends Question {
+public class SelectQuestion extends Question implements CompoundButton.OnCheckedChangeListener {
     private List<Option> options;
     private boolean multiple;
+    private List<Option> selected;
 
     /**
      * @param name is the name for storage
@@ -29,6 +32,7 @@ public class SelectQuestion extends Question {
         super(name, label);
         this.multiple = multiple;
         this.options = options;
+        selected = new LinkedList<>();
     }
 
     @RequiresApi(api = Build.VERSION_CODES.M)
@@ -54,5 +58,23 @@ public class SelectQuestion extends Question {
             }
         }
         return view;
+    }
+
+    @Override
+    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+        if (isChecked) {
+            for (Option option : options) {
+                if (buttonView.getText().equals(option.label)) {
+                    selected.add(option);
+                    return;
+                }
+            }
+        } else {
+            for (Option option : selected) {
+                if (buttonView.getText().equals(option.label)) {
+                    selected.remove(option);
+                }
+            }
+        }
     }
 }

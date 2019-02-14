@@ -1,8 +1,14 @@
 package com.example.feverfinder.questions;
 
 import android.content.Context;
+import android.os.Build;
+import android.support.annotation.RequiresApi;
+import android.support.design.widget.TextInputLayout;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.example.feverfinder.R;
 
 public class RangeQuestion extends Question {
     private int start;
@@ -29,10 +35,17 @@ public class RangeQuestion extends Question {
         }
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     public View generateView(Context context, ViewGroup root) {
-        return null;
+        //TODO: set this up properly
+        View view = context.getSystemService(LayoutInflater.class).inflate(R.layout.integer_question, root, false);
+        TextInputLayout editText = view.findViewById(R.id.editTextLayout);
+        editText.setHint(getLabel());
+        return view;
     }
+
+    //TODO: store value somewhere
 
 
 }
