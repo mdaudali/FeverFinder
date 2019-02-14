@@ -37,14 +37,12 @@ public class SurveySection extends Fragment {
 
     // TODO: Rename and change types of parameters
     private String mTitle;
+    private List<Question> mQuestions;
+    private OnFragmentInteractionListener mListener;
 
     public void setmQuestions(List<Question> mQuestions) {
         this.mQuestions = mQuestions;
     }
-
-    private List<Question> mQuestions;
-
-    private OnFragmentInteractionListener mListener;
 
     public SurveySection() {
         // Required empty public constructor
@@ -73,9 +71,6 @@ public class SurveySection extends Fragment {
             mTitle = getArguments().getString(ARG_TITLE);
         }
         Log.d("CREATION", "onCreate() running in" + this.mTitle);
-
-
-
     }
 
 
@@ -92,9 +87,14 @@ public class SurveySection extends Fragment {
         LinearLayout linearLayout = view.findViewById(R.id.question_container);
         for (Question q : mQuestions) {
             //TODO: remove this once all generated views are not null
-            View child = q.generateView(getContext(), linearLayout);
-            if (child != null)
-                linearLayout.addView(child);
+
+            // display mandatory questions
+            if (!q.getRelevant().equals("")){
+                View child = q.generateView(getContext(), linearLayout);
+                if (child != null)
+                    linearLayout.addView(child);
+            }
+
         }
 
         return view;
@@ -116,6 +116,7 @@ public class SurveySection extends Fragment {
             throw new RuntimeException(context.toString()
                     + " must implement OnFragmentInteractionListener");
         }
+
     }
 
     @Override

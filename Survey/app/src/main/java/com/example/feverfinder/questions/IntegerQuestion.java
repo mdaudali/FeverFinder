@@ -16,8 +16,8 @@ import com.example.feverfinder.R;
 public class IntegerQuestion extends Question implements TextWatcher {
     private int content;
 
-    public IntegerQuestion(String name, String label) {
-        super(name, label);
+    public IntegerQuestion(String name, String label, String relevant) {
+        super(name, label, relevant);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.M)

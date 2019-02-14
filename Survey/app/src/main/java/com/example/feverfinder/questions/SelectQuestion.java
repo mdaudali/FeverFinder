@@ -28,8 +28,8 @@ public class SelectQuestion extends Question implements CompoundButton.OnChecked
      * @param multiple is whether you can select multiple options
      * @param options is the list of options
      */
-    public SelectQuestion(String name, String label, boolean multiple, List<Option> options) {
-        super(name, label);
+    public SelectQuestion(String name, String label, String relevant, boolean multiple, List<Option> options) {
+        super(name, label, relevant);
         this.multiple = multiple;
         this.options = options;
         selected = new LinkedList<>();

@@ -3,10 +3,11 @@ package com.example.feverfinder.questions;
 import android.content.Context;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
-import android.support.design.widget.TextInputLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.SeekBar;
+import android.widget.TextView;
 
 import com.example.feverfinder.R;
 
@@ -23,8 +24,8 @@ public class RangeQuestion extends Question {
      * @throws ParameterParseException if parameters not in the form "start=x end=y step=z"
      *                                                         where x, y and z are integers
      */
-    public RangeQuestion(String name, String label, String parameters) throws ParameterParseException {
-        super(name, label);
+    public RangeQuestion(String name, String label, String relevant, String parameters) throws ParameterParseException {
+        super(name, label, relevant);
         try {
             start = Integer.parseInt(parameters.split("=")[1].split(" ")[0]);
             end = Integer.parseInt(parameters.split("=")[2].split(" ")[0]);
@@ -38,14 +39,19 @@ public class RangeQuestion extends Question {
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     public View generateView(Context context, ViewGroup root) {
-        //TODO: set this up properly
-        View view = context.getSystemService(LayoutInflater.class).inflate(R.layout.integer_question, root, false);
-        TextInputLayout editText = view.findViewById(R.id.editTextLayout);
-        editText.setHint(getLabel());
+        // TODO add indicator numbers to slider
+        View view = context.getSystemService(LayoutInflater.class)
+                .inflate(R.layout.range_question, root, false);
+
+        TextView rangeTextView = view.findViewById(R.id.rangeTextView);
+        rangeTextView.setText(getLabel());
+
+        SeekBar rangeSeekBar = view.findViewById(R.id.rangeSeekBar);
+        rangeSeekBar.setMax(this.end);
+        rangeSeekBar.setProgress(this.step);
+
         return view;
     }
-
-    //TODO: store value somewhere
 
 
 }
