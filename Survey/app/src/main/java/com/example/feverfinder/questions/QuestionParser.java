@@ -52,27 +52,29 @@ public class QuestionParser {
                         String type = currentQ.get("type").toString();
                         String name = currentQ.get("name").toString();
                         String label = currentQ.get("label").toString();
+                        String relevant = currentQ.get("relevant").toString();
 
                         if (type.equals("text")) {
-                            questions.add(new TextQuestion(name, label));
+                            questions.add(new TextQuestion(name, label, relevant));
                         }
 
                         else if (type.startsWith("select")) {
-                            questions.add(new SelectQuestion(name, label,
+                            questions.add(new SelectQuestion(name, label, relevant,
                                     type.startsWith("select_multiple"), responseChoices.get(name)));
                         }
 
                         else if (type.equals("integer")) {
-                            questions.add(new IntegerQuestion(name, label));
+                            questions.add(new IntegerQuestion(name, label, relevant));
                         }
 
                         else if (type.equals("decimal")) {
-                            questions.add(new DecimalQuestion(name, label));
+                            questions.add(new DecimalQuestion(name, label, relevant));
                         }
 
                         else if (type.equals("range")) {
                             try {
-                                questions.add(new RangeQuestion(name, label, currentQ.get("parameters").toString()));
+                                questions.add(new RangeQuestion(name, label, relevant,
+                                        currentQ.get("parameters").toString()));
                             } catch (ParameterParseException e) {
                                 e.printStackTrace();
                             }

@@ -16,8 +16,8 @@ import com.example.feverfinder.R;
 public class DecimalQuestion extends Question implements TextWatcher {
     String content;
 
-    public DecimalQuestion(String name, String label) {
-        super(name, label);
+    public DecimalQuestion(String name, String label, String relevant) {
+        super(name, label, relevant);
         //TODO: change content to decimal??
         content = "";
     }

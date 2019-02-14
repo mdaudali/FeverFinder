@@ -16,8 +16,8 @@ import com.example.feverfinder.R;
 
 public class TextQuestion extends Question implements TextWatcher {
     private String content;
-    public TextQuestion(String name, String label) {
-        super(name, label);
+    public TextQuestion(String name, String label, String relevant) {
+        super(name, label, relevant);
         content = "";
     }
 

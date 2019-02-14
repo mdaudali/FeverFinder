@@ -24,8 +24,8 @@ public class RangeQuestion extends Question {
      * @throws ParameterParseException if parameters not in the form "start=x end=y step=z"
      *                                                         where x, y and z are integers
      */
-    public RangeQuestion(String name, String label, String parameters) throws ParameterParseException {
-        super(name, label);
+    public RangeQuestion(String name, String label, String relevant, String parameters) throws ParameterParseException {
+        super(name, label, relevant);
         try {
             start = Integer.parseInt(parameters.split("=")[1].split(" ")[0]);
             end = Integer.parseInt(parameters.split("=")[2].split(" ")[0]);

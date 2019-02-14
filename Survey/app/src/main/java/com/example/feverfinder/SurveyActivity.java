@@ -142,6 +142,5 @@ public class SurveyActivity extends AppCompatActivity
     //TODO: deal with fragment interaction
     @Override
     public void onFragmentInteraction(Uri uri) {
-
     }
 }
