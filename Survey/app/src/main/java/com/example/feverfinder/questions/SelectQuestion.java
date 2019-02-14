@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -20,6 +21,11 @@ import java.util.List;
 public class SelectQuestion extends Question implements CompoundButton.OnCheckedChangeListener {
     private List<Option> options;
     private boolean multiple;
+
+    public List<Option> getSelected() {
+        return selected;
+    }
+
     private List<Option> selected;
 
     /**
@@ -60,6 +66,7 @@ public class SelectQuestion extends Question implements CompoundButton.OnChecked
         return view;
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
         if (isChecked) {

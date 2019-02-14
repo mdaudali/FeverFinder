@@ -12,12 +12,16 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.example.feverfinder.questions.Option;
 import com.example.feverfinder.questions.Question;
+import com.example.feverfinder.questions.SelectQuestion;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 
 /**
@@ -39,6 +43,8 @@ public class SurveySection extends Fragment {
     private String mTitle;
     private List<Question> mQuestions;
     private OnFragmentInteractionListener mListener;
+
+    private List<Question> mRelevantQuestions;
 
     public void setmQuestions(List<Question> mQuestions) {
         this.mQuestions = mQuestions;
@@ -73,10 +79,11 @@ public class SurveySection extends Fragment {
         Log.d("CREATION", "onCreate() running in" + this.mTitle);
     }
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        // Questions that aren't yet relevant
+        mRelevantQuestions = new LinkedList<>();
 
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_survey_section, container, false);
@@ -89,16 +96,20 @@ public class SurveySection extends Fragment {
             //TODO: remove this once all generated views are not null
 
             // display mandatory questions
-            if (!q.getRelevant().equals("")){
+            if (q.getRelevant().equals("")) {
                 View child = q.generateView(getContext(), linearLayout);
                 if (child != null)
                     linearLayout.addView(child);
+            } else {
+                // TODO WHAT TO do if q is not yet relevant??
+                // add name to list of strings of relevant qs to be asked
+                mRelevantQuestions.add(q);
             }
-
         }
 
         return view;
     }
+
 
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
@@ -116,7 +127,6 @@ public class SurveySection extends Fragment {
             throw new RuntimeException(context.toString()
                     + " must implement OnFragmentInteractionListener");
         }
-
     }
 
     @Override
