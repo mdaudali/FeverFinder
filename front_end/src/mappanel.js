@@ -28,6 +28,7 @@ class MapPanel extends React.Component {
     fetch("https://api.myjson.com/bins/1bnvni")
       .then(r => r.json())
       .then(data => {
+          console.log(data);
         this.setState({ features: data.features })
       })
   }
@@ -39,20 +40,18 @@ class MapPanel extends React.Component {
     return (
 
       <div>
-        <MapWithAMarker
-          selectedMarker={this.state.selectedMarker}
-          markers={this.state.features}
-          onClick={this.handleClick}
-        />
-
-        <MapWithASearchBox/>
+        {/*<MapWithAMarker*/}
+          {/*selectedMarker={this.state.selectedMarker}*/}
+          {/*markers={this.state.features}*/}
+          {/*onClick={this.handleClick}*/}
+        {/*/>*/}
+        <MapWithASearchBox selectedMarker={this.state.selectedMarker} markers={this.state.features} onClick={this.handleClick}/>
 
       </div>
 
     )
   }
 }
-
 const MapWithAMarker = compose(
   withProps({
     googleMapURL: "https://maps.googleapis.com/maps/api/js?key=AIzaSyByrMnwOjTCjDZFgw_P2VXJJo6qxOVseC0&v=3.exp&libraries=geometry,drawing,places",
@@ -61,8 +60,7 @@ const MapWithAMarker = compose(
     mapElement: <div style={{ height: `100%` }} />,
   }),
   withScriptjs,
-  withGoogleMap)
-  (props => {
+  withGoogleMap)(props => {
     return (
       <GoogleMap
         ref={props.onMapMounted}
@@ -92,7 +90,7 @@ const MapWithAMarker = compose(
         })}
       </GoogleMap>
   )
-})
+});
 
 
 const MapWithASearchBox = compose(
@@ -111,7 +109,6 @@ const MapWithASearchBox = compose(
         center: {
           lat: 52.210945, lng:  0.091719
         },
-        markers: [],
         onMapMounted: ref => {
           refs.map = ref;
         },
@@ -150,13 +147,34 @@ const MapWithASearchBox = compose(
   }),
   withScriptjs,
   withGoogleMap
-)(props =>
+)(props => {
+    return (
   <GoogleMap
     ref={props.onMapMounted}
     defaultZoom={8}
     center={props.center}
     onBoundsChanged={props.onBoundsChanged}
+    defaultCenter={{ lat: 0.8541553715898037, lng: 32.640380859375 }}
+
   >
+      {props.markers.map(marker => {
+          const onClick = props.onClick.bind(this, marker);
+          return (
+            <Marker
+              key={marker.id}
+              onClick={onClick}
+              position={{ lat: marker.latitude, lng: marker.longitude }}
+            >
+              {props.selectedMarker === marker &&
+                <InfoWindow>
+                  <div>
+                    {marker.name}
+                  </div>
+                </InfoWindow>
+              }
+            </Marker>
+          )
+        })}
     <SearchBox
       ref={props.onSearchBoxMounted}
       bounds={props.bounds}
@@ -185,6 +203,7 @@ const MapWithASearchBox = compose(
       <Marker key={index} position={marker.position} />
     )}
   </GoogleMap>
+    )}
 );
 
 export default MapPanel;
