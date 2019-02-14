@@ -50,6 +50,7 @@ public class RangeQuestion extends Question {
         rangeSeekBar.setMax(this.end);
         rangeSeekBar.setProgress(this.step);
 
+        setView(view);
         return view;
     }
 

@@ -8,7 +8,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
-import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -27,6 +26,7 @@ public class SelectQuestion extends Question implements CompoundButton.OnChecked
     }
 
     private List<Option> selected;
+    private List<SelectionChangedListener> listeners;
 
     /**
      * @param name is the name for storage
@@ -39,6 +39,7 @@ public class SelectQuestion extends Question implements CompoundButton.OnChecked
         this.multiple = multiple;
         this.options = options;
         selected = new LinkedList<>();
+        listeners = new LinkedList<>();
     }
 
     @RequiresApi(api = Build.VERSION_CODES.M)
@@ -55,14 +56,19 @@ public class SelectQuestion extends Question implements CompoundButton.OnChecked
         for (Option option : options) {
             if (multiple) {
                 CheckBox checkBox = new CheckBox(context);
+                checkBox.setChecked(false);
                 checkBox.setText(option.label);
+                checkBox.setOnCheckedChangeListener(this);
                 radioGroup.addView(checkBox);
             } else {
                 RadioButton radioButton = new RadioButton(context);
+                radioButton.setChecked(false);
                 radioButton.setText(option.label);
+                radioButton.setOnCheckedChangeListener(this);
                 radioGroup.addView(radioButton);
             }
         }
+        setView(view);
         return view;
     }
 
@@ -73,7 +79,7 @@ public class SelectQuestion extends Question implements CompoundButton.OnChecked
             for (Option option : options) {
                 if (buttonView.getText().equals(option.label)) {
                     selected.add(option);
-                    return;
+                    break;
                 }
             }
         } else {
@@ -83,5 +89,14 @@ public class SelectQuestion extends Question implements CompoundButton.OnChecked
                 }
             }
         }
+
+        //Notify the listeners
+        for (SelectionChangedListener listener : listeners) {
+            listener.onSelectionChanged(this);
+        }
+    }
+
+    public void addSelectionChangedListener(SelectionChangedListener listener) {
+        listeners.add(listener);
     }
 }

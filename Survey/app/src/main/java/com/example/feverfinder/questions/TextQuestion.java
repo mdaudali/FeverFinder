@@ -35,6 +35,7 @@ public class TextQuestion extends Question implements TextWatcher {
         editText.setText(content);
         editText.addTextChangedListener(this);
 
+        setView(view);
         return view;
     }
 
@@ -53,4 +54,6 @@ public class TextQuestion extends Question implements TextWatcher {
     public void afterTextChanged(Editable s) {
         content = s.toString();
     }
+
+
 }

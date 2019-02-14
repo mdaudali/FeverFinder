@@ -2,6 +2,7 @@ package com.example.feverfinder.questions;
 
 import android.os.Build;
 import android.support.annotation.RequiresApi;
+import android.util.Log;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -18,6 +19,8 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /* Converts JSON objects of questions into a Map<Question, Response>
 * Response has a type and if the type is of the form select_... response will also contain
@@ -53,30 +56,48 @@ public class QuestionParser {
                         String name = currentQ.get("name").toString();
                         String label = currentQ.get("label").toString();
                         String relevant = currentQ.get("relevant").toString();
+                        Question newQuestion = null;
 
                         if (type.equals("text")) {
-                            questions.add(new TextQuestion(name, label, relevant));
+                            newQuestion = new TextQuestion(name, label, relevant);
                         }
 
                         else if (type.startsWith("select")) {
-                            questions.add(new SelectQuestion(name, label, relevant,
-                                    type.startsWith("select_multiple"), responseChoices.get(name)));
+                            newQuestion = new SelectQuestion(name, label, relevant,
+                                    type.startsWith("select_multiple"), responseChoices.get(name));
                         }
 
                         else if (type.equals("integer")) {
-                            questions.add(new IntegerQuestion(name, label, relevant));
+                            newQuestion = new IntegerQuestion(name, label, relevant);
                         }
 
                         else if (type.equals("decimal")) {
-                            questions.add(new DecimalQuestion(name, label, relevant));
+                            newQuestion = new DecimalQuestion(name, label, relevant);
                         }
 
                         else if (type.equals("range")) {
                             try {
-                                questions.add(new RangeQuestion(name, label, relevant,
-                                        currentQ.get("parameters").toString()));
+                                newQuestion = new RangeQuestion(name, label, relevant,
+                                        currentQ.get("parameters").toString());
                             } catch (ParameterParseException e) {
                                 e.printStackTrace();
+                            }
+                        }
+
+                        if (newQuestion != null) {
+                            questions.add(newQuestion);
+
+                            //Find out if the question depends on anything - i.e. if it should
+                            // only be displayed based on other entries and if it does depend on
+                            //something register it so it can change based on the dependency.
+                            SelectQuestion dependency = getDependency(newQuestion, questions);
+                            if (dependency != null) {
+                                //TODO: remove this
+
+                                Log.d("DEPENDENT", newQuestion.getName());
+                                Log.d("DEPENDENCY", dependency.getName());
+
+                                dependency.addSelectionChangedListener(newQuestion);
                             }
                         }
                     }
@@ -88,6 +109,47 @@ public class QuestionParser {
         }
 
         return sections;
+    }
+
+    /**
+     * This finds the SelectQuestion which the Question provided is dependant on based on the
+     * relevancy String the question has
+     *
+     * @param question The question we are looking for the dependency of
+     * @param searchList The list of questions in which we should search
+     * @return The SelectQuestion which question is dependant on (null if no such exists)
+     */
+    private static SelectQuestion getDependency(Question question, List<Question> searchList){
+        String relevant = question.getRelevant();
+
+        if (!relevant.equals("")) {
+            // name of the question q depends on
+            String parentName = "";
+
+            // Pattern Matching over strings in relevant
+            Pattern p;
+            Matcher m;
+            if (relevant.startsWith("$")) { // select_one
+                p = Pattern.compile("\\$\\{([^}]+)\\} ?\\= ?\\'([^{]+)\\'"); // to match e.g. ${see_dump}='1'
+                m = p.matcher(relevant);
+                if (m.find()) {
+                    parentName = m.group(1);
+                }
+            } else { // select multiple
+                p = Pattern.compile("selected\\(\\$\\{([^}]+)\\} ?\\, ?\\'([^{]+)\\'\\)"); // to match e.g. selected(${contact}, '7')
+                m = p.matcher(relevant);
+                if (m.find()) {
+                    parentName = m.group(1);
+                }
+            }
+
+            for (Question q : searchList) {
+                if (q.getName().equals(parentName) && q.getClass() == SelectQuestion.class)
+                    return (SelectQuestion) q;
+            }
+        }
+
+        return null;
     }
 
 
@@ -118,7 +180,20 @@ public class QuestionParser {
                 JSONObject currentOption;
                 for (int j=0; j<optionsArray.size(); j++){
                     currentOption = (JSONObject) optionsArray.get(j);
-                    Option newOption = new Option(currentOption.get("name").toString(),  currentOption.get("label").toString());
+
+
+                    //TODO: fix this - in the JSON 9 is represented as "9.0"
+                    String name;
+                    if (currentOption.get("name").getClass() ==  Double.class) {
+                        name = String.valueOf(Math.round((Double) currentOption.get("name")));
+                    }
+                    else {
+                        name = (String) currentOption.get("name");
+                    }
+
+
+
+                    Option newOption = new Option(name,  currentOption.get("label").toString());
                     optionsList.add(newOption);
                 }
 

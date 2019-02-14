@@ -26,6 +26,8 @@ public class IntegerQuestion extends Question implements TextWatcher {
         View view = context.getSystemService(LayoutInflater.class).inflate(R.layout.integer_question, root, false);
         TextInputLayout editText = view.findViewById(R.id.editTextLayout);
         editText.setHint(getLabel());
+
+        setView(view);
         return view;
     }
 

@@ -76,7 +76,6 @@ public class SurveySection extends Fragment {
         if (getArguments() != null) {
             mTitle = getArguments().getString(ARG_TITLE);
         }
-        Log.d("CREATION", "onCreate() running in" + this.mTitle);
     }
 
     @Override
@@ -93,17 +92,14 @@ public class SurveySection extends Fragment {
         //Add the questions
         LinearLayout linearLayout = view.findViewById(R.id.question_container);
         for (Question q : mQuestions) {
-            //TODO: remove this once all generated views are not null
 
-            // display mandatory questions
-            if (q.getRelevant().equals("")) {
-                View child = q.generateView(getContext(), linearLayout);
-                if (child != null)
-                    linearLayout.addView(child);
-            } else {
-                // TODO WHAT TO do if q is not yet relevant??
-                // add name to list of strings of relevant qs to be asked
-                mRelevantQuestions.add(q);
+            View child = q.generateView(getContext(), linearLayout);
+            if (child != null)
+                linearLayout.addView(child);
+
+            // hide irrelevant questions
+            if (!q.getRelevant().equals("")) {
+                child.setVisibility(View.GONE);
             }
         }
 
