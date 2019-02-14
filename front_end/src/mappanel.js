@@ -2,6 +2,8 @@ import React from 'react';
 import { compose, withProps, lifecycle } from "recompose"
 import classNames from 'classnames';
 import {
+  activeMarker,
+  withHandlers,
   withScriptjs,
   withGoogleMap,
   GoogleMap,
@@ -14,6 +16,7 @@ const _ = require("lodash");
 const { SearchBox } = require("react-google-maps/lib/components/places/SearchBox");
 
 class MapPanel extends React.Component {
+
   constructor(props) {
     super(props)
     this.state = {
@@ -21,86 +24,45 @@ class MapPanel extends React.Component {
       selectedMarker: false
     }
   }
+
   componentDidMount() {
-    console.log("inside handleGetJson");
     // the link is just a JSON a hosting and storage service
     // which contains the same data as the people JSON
     fetch("https://api.myjson.com/bins/1bnvni")
       .then(r => r.json())
       .then(data => {
-          console.log(data);
         this.setState({ features: data.features })
       })
   }
-  handleClick = (marker, event) => {
-    console.log({ marker })
+
+  handleClick = (marker) => {
     this.setState({ selectedMarker: marker })
+    this.forceUpdate();
   }
   render() {
     return (
-
       <div>
-        {/*<MapWithAMarker*/}
-          {/*selectedMarker={this.state.selectedMarker}*/}
-          {/*markers={this.state.features}*/}
-          {/*onClick={this.handleClick}*/}
-        {/*/>*/}
-        <MapWithASearchBox selectedMarker={this.state.selectedMarker} markers={this.state.features} onClick={this.handleClick}/>
-
+        <MapWithASearchBox
+          selectedMarker={this.state.selectedMarker}
+          markers={this.state.features}
+          onClick={this.handleClick}
+        />
       </div>
 
     )
   }
 }
-const MapWithAMarker = compose(
-  withProps({
-    googleMapURL: "https://maps.googleapis.com/maps/api/js?key=AIzaSyByrMnwOjTCjDZFgw_P2VXJJo6qxOVseC0&v=3.exp&libraries=geometry,drawing,places",
-    loadingElement: <div style={{ height: `100%` }} />,
-    containerElement: <div style={{ height: `400px` }} />,
-    mapElement: <div style={{ height: `100%` }} />,
-  }),
-  withScriptjs,
-  withGoogleMap)(props => {
-    return (
-      <GoogleMap
-        ref={props.onMapMounted}
-        defaultZoom={8}
-
-        onBoundsChanged={props.onBoundsChanged}
-
-        defaultCenter={{ lat: 0.8541553715898037, lng: 32.640380859375 }}
-      >
-        {props.markers.map(marker => {
-          const onClick = props.onClick.bind(this, marker)
-          return (
-            <Marker
-              key={marker.id}
-              onClick={onClick}
-              position={{ lat: marker.latitude, lng: marker.longitude }}
-            >
-              {props.selectedMarker === marker &&
-                <InfoWindow>
-                  <div>
-                    {marker.name}
-                  </div>
-                </InfoWindow>
-              }
-            </Marker>
-          )
-        })}
-      </GoogleMap>
-  )
-});
-
 
 const MapWithASearchBox = compose(
   withProps({
     googleMapURL: "https://maps.googleapis.com/maps/api/js?key=AIzaSyByrMnwOjTCjDZFgw_P2VXJJo6qxOVseC0&v=3.exp&libraries=geometry,drawing,places",
     loadingElement: <div style={{ height: `100%` }} />,
-    containerElement: <div style={{ height: `400px` }} />,
+    containerElement: <div style={{ height: `850px` }} />,
     mapElement: <div style={{ height: `100%` }} />,
   }),
+
   lifecycle({
+
     componentWillMount() {
       const refs = {}
 
@@ -139,7 +101,6 @@ const MapWithASearchBox = compose(
 
           this.setState({
             center: nextCenter,
-            markers: nextMarkers,
           });
         },
       })
@@ -155,26 +116,26 @@ const MapWithASearchBox = compose(
     center={props.center}
     onBoundsChanged={props.onBoundsChanged}
     defaultCenter={{ lat: 0.8541553715898037, lng: 32.640380859375 }}
-
   >
-      {props.markers.map(marker => {
-          const onClick = props.onClick.bind(this, marker);
-          return (
-            <Marker
-              key={marker.id}
-              onClick={onClick}
-              position={{ lat: marker.latitude, lng: marker.longitude }}
-            >
-              {props.selectedMarker === marker &&
-                <InfoWindow>
-                  <div>
-                    {marker.name}
-                  </div>
-                </InfoWindow>
-              }
-            </Marker>
-          )
-        })}
+    {props.markers.map(marker => {
+      const onClick = props.onClick.bind(this, marker);
+      return (
+        <Marker
+          key={marker.id}
+          visible={true}
+          onClick={onClick}
+          position={{ lat: marker.latitude, lng: marker.longitude }}
+        >
+          {props.selectedMarker === marker &&
+            <InfoWindow>
+              <div>
+                {marker.name}
+              </div>
+            </InfoWindow>
+          }
+        </Marker>
+      )
+    })}
     <SearchBox
       ref={props.onSearchBoxMounted}
       bounds={props.bounds}
@@ -183,7 +144,7 @@ const MapWithASearchBox = compose(
     >
       <input
         type="text"
-        placeholder="Customized your placeholder"
+        placeholder="Customized placeholder"
         style={{
           boxSizing: `border-box`,
           border: `1px solid transparent`,
@@ -199,9 +160,13 @@ const MapWithASearchBox = compose(
         }}
       />
     </SearchBox>
+
     {props.markers.map((marker, index) =>
-      <Marker key={index} position={marker.position} />
+      <Marker
+        key={index}
+        position={marker.position} />
     )}
+
   </GoogleMap>
     )}
 );
