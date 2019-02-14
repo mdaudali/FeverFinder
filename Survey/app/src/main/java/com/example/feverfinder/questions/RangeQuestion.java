@@ -1,8 +1,15 @@
 package com.example.feverfinder.questions;
 
 import android.content.Context;
+import android.os.Build;
+import android.support.annotation.RequiresApi;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.SeekBar;
+import android.widget.TextView;
+
+import com.example.feverfinder.R;
 
 public class RangeQuestion extends Question {
     private int start;
@@ -29,9 +36,21 @@ public class RangeQuestion extends Question {
         }
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     public View generateView(Context context, ViewGroup root) {
-        return null;
+        // TODO add indicator numbers to slider
+        View view = context.getSystemService(LayoutInflater.class)
+                .inflate(R.layout.range_question, root, false);
+
+        TextView rangeTextView = view.findViewById(R.id.rangeTextView);
+        rangeTextView.setText(getLabel());
+
+        SeekBar rangeSeekBar = view.findViewById(R.id.rangeSeekBar);
+        rangeSeekBar.setMax(this.end);
+        rangeSeekBar.setProgress(this.step);
+
+        return view;
     }
 
 
