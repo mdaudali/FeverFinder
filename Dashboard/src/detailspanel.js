@@ -12,18 +12,18 @@ import PersonPanel from "./personpanel";
 
 class DetailsPanel extends React.Component {
   render() {
-    const personObj = {
-          name: "Mohammed Daudali",
-          age: 18,
-          other: {
-            "Hi": "Mohammed",
-            orderedValues: ["Hi", "hello"]
-          },
-          orderedValues: ["name", "age", "other"]
-        };
+    console.log(this.props.data);
     return (
-        <PersonPanel person={personObj}/>
-  )
+            this.props.data.map((obj) => {
+            if (!obj.hasOwnProperty("orderedKeys")) {
+                let orderedKeys = [];
+                Object.keys(obj).map(key => orderedKeys.push(key));
+                obj.orderedKeys = orderedKeys;
+            }
+            return <PersonPanel person={obj}/>;
+
+            })
+    )
   }
 }
 

@@ -37,7 +37,12 @@ class PersonPanel extends React.Component {
     }
 
     expandMap(map) {
-        return map.orderedValues.map((v) => {return this.createComponent(v, map[v])})
+            if (!map.hasOwnProperty("orderedKeys")) {
+                let orderedKeys = [];
+                Object.keys(map).map(key => orderedKeys.push(key));
+                map.orderedKeys = orderedKeys;
+            }
+        return map.orderedKeys.map((v) => {return this.createComponent(v, map[v])})
     }
 
     createComponent(key, value) {
