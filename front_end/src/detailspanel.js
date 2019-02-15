@@ -14,7 +14,7 @@ class DetailsPanel extends React.Component {
   render() {
     console.log(this.props.data);
     return (
-            this.props.data.map((obj) => {
+            this.props.selection.map((obj) => {
             if (!obj.hasOwnProperty("orderedKeys")) {
                 let orderedKeys = [];
                 Object.keys(obj).map(key => orderedKeys.push(key));
