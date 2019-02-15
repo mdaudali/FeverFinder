@@ -1,0 +1,40 @@
+{
+  "features": [
+    {
+      "id":111,
+      "name":"Person 1",
+      "longitude": 32.65411376953125,
+      "latitude": 1.2990219972826829
+    },
+    {
+      "id":112,
+      "name":"Person 2",
+      "longitude": 32.40692138671875,
+      "latitude":   1.4610232806227543
+    },
+    {
+      "id":113,
+      "name":"Person 3",
+      "longitude": 32.640380859375,
+      "latitude": 0.8541553715898037
+    },
+    {
+      "id":114,
+      "name":"Person 4",
+      "longitude": 32.46185302734374,
+      "latitude": 1.0271666545523288
+    },
+    {
+      "id":115,
+      "name":"Person 5",
+      "longitude": 32.18719482421875,
+      "latitude": 1.425329040790274
+    },
+    {
+      "id":116,
+      "name":"Person 6",
+      "longitude":31.868591308593746,
+      "latitude": 0.8459165322899798
+    }
+  ]
+}
