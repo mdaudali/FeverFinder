@@ -45,7 +45,6 @@ public class SurveyActivity extends AppCompatActivity
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        setTitle("Fever Finder");
 
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
@@ -68,6 +67,7 @@ public class SurveyActivity extends AppCompatActivity
 
             //If this is the default section
             if (firstId < 0) {
+                setTitle(s.getName());
                 firstId = id;
                 menuItem.setChecked(true);
             }
@@ -123,6 +123,8 @@ public class SurveyActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
+
+        setTitle(sectionMap.get(id).getName());
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);

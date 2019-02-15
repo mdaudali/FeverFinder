@@ -36,6 +36,7 @@ public class SurveySection extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // TODO: remove the parameters?????????????
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
+    //TODO: remove title
     public static final String ARG_TITLE = "title";
     //public static final String ARG_QUESTIONS = "questions";
 
@@ -86,8 +87,6 @@ public class SurveySection extends Fragment {
 
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_survey_section, container, false);
-        TextView title = view.findViewById(R.id.fragment_title);
-        title.setText(mTitle);
 
         //Add the questions
         LinearLayout linearLayout = view.findViewById(R.id.question_container);
