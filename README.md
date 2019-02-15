@@ -10,6 +10,7 @@ Setting up React development server should be easy provided you have NodeJS:
 ```
 cd front_end
 npm install
+npm install --save react-google-maps
 npm start
 ```
 
