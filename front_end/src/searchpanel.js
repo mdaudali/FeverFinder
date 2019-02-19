@@ -20,6 +20,15 @@ function dummySearchQuery(name, callback) {
   setTimeout(() => callback(results), 500);
 }
 
+function uuidSearchQuery(name, callback) {
+  var request = new XMLHttpRequest();
+  request.open('GET', 'http://127.0.0.1:8000/api/people/get_by_id/?id=7d516f50-02bf-40c3-8e83-5bc4321b8861', true);
+  request.onload = function() {
+    callback(JSON.parse(this.response));
+  }
+  request.send();
+}
+
 class SearchPanel extends React.Component {
 
   constructor(props) {
@@ -28,10 +37,10 @@ class SearchPanel extends React.Component {
       searchText: "",
       results: [],
     }
-    this.updateList(examplePeople);
   }
 
   updateList(people) {
+    console.log(people);
     this.setState({
       results: people.map(p => ({
         isSelected: this.props.selection.some(selected => selected.id === p.id),
@@ -41,7 +50,8 @@ class SearchPanel extends React.Component {
   }
 
   search(name) {
-    dummySearchQuery(name, this.updateList.bind(this));
+    console.log(name);
+    uuidSearchQuery(name, this.updateList.bind(this));
   }
 
   listItemFromPerson(entry) {
@@ -52,8 +62,8 @@ class SearchPanel extends React.Component {
           tabIndex={-1}
         />
         <ListItemText
-          primary={entry.person.name}
-          secondary={entry.person.moreInfo}
+          primary={entry.person.id}
+          secondary={entry.person.occupation[0] + ', ' + entry.person.gender + ', ' + entry.person.age}
         />
       </ListItem>
     );
@@ -76,8 +86,8 @@ class SearchPanel extends React.Component {
       <div>
         <Paper className={classNames(classes.searchBarRoot, classes.elements)} elevation={1}>
           <InputBase className={classes.searchBarInput} placeholder="Search patient name" />
-          <IconButton aria-label="Search">
-            <SearchIcon onClick={this.search.bind(this)} />
+          <IconButton aria-label="Search" onClick={this.search.bind(this)}>
+            <SearchIcon  />
           </IconButton>
         </Paper>
         <Paper className={classes.elements}>
