@@ -21,12 +21,6 @@ export function NavListItems(props) {
         </ListItemIcon>
         <ListItemText primary="Search patients" />
       </ListItem>
-      <ListItem button onClick = {() => props.clickHandler("details")}>
-        <ListItemIcon>
-          <BarChartIcon />
-        </ListItemIcon>
-        <ListItemText primary="Details" />
-      </ListItem>
     </div>
   );
 }

@@ -13,7 +13,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import Divider from '@material-ui/core/Divider';
 import PersonListItem from './personlistitem.js';
 import { styles } from './styles/searchPanelStyles.js';
-import { examplePeople } from './exampleData.js';
+import { examplePeople } from './fullpeopleexample.js';
 
 function dummySearchQuery(name, callback) {
   let results = examplePeople.filter((person, ind) => Math.random() > 0.5)
@@ -40,15 +40,13 @@ class SearchPanel extends React.Component {
   }
 
   updateList(people) {
-    console.log(people);
     this.setState({
       results: people
     });
   }
 
   search(name) {
-    console.log(name);
-    uuidSearchQuery(name, this.updateList.bind(this));
+    dummySearchQuery(name, this.updateList.bind(this));
   }
 
   listItemFromPerson(person) {

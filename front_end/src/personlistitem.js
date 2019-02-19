@@ -10,9 +10,6 @@ import Grid from "@material-ui/core/Grid";
 
 // TODO: In an internal map, provide components instead of text
 const styles = theme => ({
-    card: {
-        padding: 0
-    },
   root: {
     width: '100%',
     boxShadow: "None",
@@ -37,10 +34,6 @@ class PersonListItem extends React.Component {
         this.createComponent = this.createComponent.bind(this);
     }
 
-    makeGridItem(v) {
-
-    }
-
     expandMap(map) {
         if (!map.hasOwnProperty("orderedKeys")) {
             let orderedKeys = [];
@@ -51,41 +44,49 @@ class PersonListItem extends React.Component {
           <Grid container xs={12}>
             {map.orderedKeys.map((v) => (
               <Grid item xs={12}>
-                {this.createComponent(v, map[v])}
+                {this.createSubcomponent(v, map[v])}
               </Grid>
             ))}
           </Grid>
         );
     }
 
-    createComponent(key, value) {
-        const { classes, person } = this.props;
-        if (!(value instanceof Object)) {
-            return (
-                <ExpansionPanel expanded={false} className={classes.expansionPanel}>
-                 <ExpansionPanelSummary>
-                    <Typography className={classes.heading}>{key.charAt(0).toUpperCase() + key.substr(1)}</Typography>
-                    <Typography className={classes.secondaryHeading}>{value}</Typography>
-                  </ExpansionPanelSummary>
-                </ExpansionPanel>
-            )
-        }
-        else {
-            return (
-                <ExpansionPanel className={classes.expansionPanel}>
-                 <ExpansionPanelSummary expandIcon={<ExpandMoreIcon/>}>
-                    <Typography className={classes.heading}>{key.charAt(0).toUpperCase() + key.substr(1)}</Typography>
-                  </ExpansionPanelSummary>
-                    <ExpansionPanelDetails>
-                        {this.expandMap(value)}
-                    </ExpansionPanelDetails>
-                </ExpansionPanel>
-            )
-        }
-
+    createComponent(heading, subheading, contents) {
+      const { classes, person } = this.props;
+      if (!(contents instanceof Object)) {
+          return (
+              <ExpansionPanel square expanded={false} className={classes.expansionPanel}>
+               <ExpansionPanelSummary>
+                  <Typography className={classes.heading}>{heading.charAt(0).toUpperCase() + heading.substr(1)}</Typography>
+                  <Typography className={classes.secondaryHeading}>{contents}</Typography>
+                </ExpansionPanelSummary>
+              </ExpansionPanel>
+          )
+      }
+      else {
+          return (
+              <ExpansionPanel square className={classes.expansionPanel}>
+               <ExpansionPanelSummary expandIcon={<ExpandMoreIcon/>}>
+                  <Typography className={classes.heading}>{heading.charAt(0).toUpperCase() + heading.substr(1)}</Typography>
+                  <Typography className={classes.secondaryHeading}>{subheading}</Typography>
+                </ExpansionPanelSummary>
+                  <ExpansionPanelDetails>
+                      {this.expandMap(contents)}
+                  </ExpansionPanelDetails>
+              </ExpansionPanel>
+          )
+      }
     }
-  render() {
-      return this.createComponent("Some Guy", this.props.person);
+
+    createSubcomponent(key, value) {
+        return this.createComponent(key, "", value);
+    }
+
+    render() {
+        return this.createComponent(
+          this.props.person.name,
+          this.props.person.age + " years old " + this.props.person.gender + " from " + this.props.person.village_name,
+          this.props.person);
     }
 }
 

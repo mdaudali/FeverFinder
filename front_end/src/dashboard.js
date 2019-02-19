@@ -15,16 +15,13 @@ import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import { NavListItems } from './listItems.js';
-import { examplePeople } from './exampleData.js';
 import { styles } from './styles/dashboardStyles.js';
 import MapPanel from './mappanel.js';
 import SearchPanel from './searchpanel.js';
-import DetailsPanel from './detailspanel.js';
 
 class Dashboard extends React.Component {
   state = {
     open: true,
-    selectedData: examplePeople,
     activePanel: "map"
   };
 
@@ -38,10 +35,6 @@ class Dashboard extends React.Component {
 
   selectPanel(panel) {
     this.setState({ activePanel: panel });
-  }
-
-  setSelectedPeople(people) {
-    this.setState({ exampleData: people })
   }
 
   render() {
@@ -103,16 +96,10 @@ class Dashboard extends React.Component {
           <div className={classes.appBarSpacer} />
           {
             this.state.activePanel === "map" ? (
-              <MapPanel selection={this.state.selectedData}
-                selectionChange = {this.setSelectedPeople.bind(this)} />
+              <MapPanel />
             ) :
             this.state.activePanel === "search" ? (
-              <SearchPanel selection={this.state.selectedData}
-                selectionChange = {this.setSelectedPeople.bind(this)} />
-            ) :
-            this.state.activePanel === "details" ? (
-              <DetailsPanel selection={this.state.selectedData}
-                selectionChange = {this.setSelectedPeople.bind(this)} />
+              <SearchPanel />
             ) :
             null
           }
