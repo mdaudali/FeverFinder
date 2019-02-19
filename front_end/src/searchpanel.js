@@ -11,7 +11,7 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import Divider from '@material-ui/core/Divider';
-import Checkbox from '@material-ui/core/Checkbox';
+import PersonListItem from './personlistitem.js';
 import { styles } from './styles/searchPanelStyles.js';
 import { examplePeople } from './exampleData.js';
 
@@ -42,10 +42,7 @@ class SearchPanel extends React.Component {
   updateList(people) {
     console.log(people);
     this.setState({
-      results: people.map(p => ({
-        isSelected: this.props.selection.some(selected => selected.id === p.id),
-        person: p,
-      }))
+      results: people
     });
   }
 
@@ -54,27 +51,18 @@ class SearchPanel extends React.Component {
     uuidSearchQuery(name, this.updateList.bind(this));
   }
 
-  listItemFromPerson(entry) {
+  listItemFromPerson(person) {
     return (
-      <ListItem>
-        <Checkbox
-          checked={entry.isSelected}
-          tabIndex={-1}
-        />
-        <ListItemText
-          primary={entry.person.id}
-          secondary={entry.person.occupation[0] + ', ' + entry.person.gender + ', ' + entry.person.age}
-        />
-      </ListItem>
+        <PersonListItem person={person} />
     );
   }
 
   generateList() {
     let items = this.state.results.map(this.listItemFromPerson);
     return (
-      <List>
-        {[].concat(...items.map(e => [<Divider />, e])).slice(1)}
-      </List>
+      <div>
+        {items}
+      </div>
     );
   }
 
