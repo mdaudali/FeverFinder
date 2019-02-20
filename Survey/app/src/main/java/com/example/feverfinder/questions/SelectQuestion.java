@@ -16,6 +16,8 @@ import com.example.feverfinder.R;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 public class SelectQuestion extends Question implements CompoundButton.OnCheckedChangeListener {
     private List<Option> options;
@@ -75,6 +77,7 @@ public class SelectQuestion extends Question implements CompoundButton.OnChecked
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+        //Ensure there is no concurrent access to the list of options
         if (isChecked) {
             for (Option option : options) {
                 if (buttonView.getText().equals(option.label)) {
@@ -86,6 +89,7 @@ public class SelectQuestion extends Question implements CompoundButton.OnChecked
             for (Option option : selected) {
                 if (buttonView.getText().equals(option.label)) {
                     selected.remove(option);
+                    break;
                 }
             }
         }
@@ -93,8 +97,10 @@ public class SelectQuestion extends Question implements CompoundButton.OnChecked
         //Notify the listeners
         for (SelectionChangedListener listener : listeners) {
             listener.onSelectionChanged(this);
+
         }
     }
+
 
     public void addSelectionChangedListener(SelectionChangedListener listener) {
         listeners.add(listener);

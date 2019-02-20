@@ -14,7 +14,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onStartSurvey(View view) {
+        //Ensure you cannot spawn multiple surveys
+        findViewById(R.id.startBtn).setClickable(false);
         Intent intent = new Intent(this, SurveyActivity.class);
         startActivity(intent);
+        findViewById(R.id.startBtn).setClickable(true);
     }
 }
