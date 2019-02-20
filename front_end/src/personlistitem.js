@@ -9,7 +9,7 @@ import Card from "@material-ui/core/Card";
 import Grid from "@material-ui/core/Grid";
 
 // TODO: In an internal map, provide components instead of text
-const styles = theme => ({
+const localStyles = theme => ({
   root: {
     width: '100%',
     boxShadow: "None",
@@ -41,9 +41,9 @@ class PersonListItem extends React.Component {
             map.orderedKeys = orderedKeys;
         }
         return (
-          <Grid container xs={12}>
+          <Grid container>
             {map.orderedKeys.map((v) => (
-              <Grid item xs={12}>
+              <Grid item xs={12} key={v}>
                 {this.createSubcomponent(v, map[v])}
               </Grid>
             ))}
@@ -58,7 +58,7 @@ class PersonListItem extends React.Component {
               <ExpansionPanel square expanded={false} className={classes.expansionPanel}>
                <ExpansionPanelSummary>
                   <Typography className={classes.heading}>{heading.charAt(0).toUpperCase() + heading.substr(1)}</Typography>
-                  <Typography className={classes.secondaryHeading}>{contents}</Typography>
+                  <Typography className={classes.secondaryHeading}>{contents+''}</Typography>
                 </ExpansionPanelSummary>
               </ExpansionPanel>
           )
@@ -90,4 +90,4 @@ class PersonListItem extends React.Component {
     }
 }
 
-export default withStyles(styles)(PersonListItem);
+export default withStyles(localStyles)(PersonListItem);

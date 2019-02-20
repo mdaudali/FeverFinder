@@ -16,7 +16,7 @@ import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import { NavListItems } from './listItems.js';
 import { styles } from './styles/dashboardStyles.js';
-import MapPanel from './mappanel.js';
+//import MapPanel from './mappanel.js';
 import SearchPanel from './searchpanel.js';
 
 class Dashboard extends React.Component {
@@ -96,7 +96,7 @@ class Dashboard extends React.Component {
           <div className={classes.appBarSpacer} />
           {
             this.state.activePanel === "map" ? (
-              <MapPanel />
+              null
             ) :
             this.state.activePanel === "search" ? (
               <SearchPanel />

@@ -1,5 +1,6 @@
 export const styles = theme => ({
   searchBarRoot: {
+    height: 50,
     padding: '2px 4px',
     display: 'flex',
     alignItems: 'center',
