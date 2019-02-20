@@ -37,7 +37,7 @@ class SearchPanel extends React.Component {
     const { classes } = this.props;
 
     return (
-      <div>
+      <div className={classes.elements}>
         <SearchInput updateList={this.updateList.bind(this)} />
         <PersonList items={this.state.results}/>
       </div>

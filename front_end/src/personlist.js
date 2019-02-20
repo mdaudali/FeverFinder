@@ -20,9 +20,8 @@ class PersonList extends React.Component {
 
     render() {
       const { classes } = this.props;
-      console.log('wuut');
       return (
-          <div className={classes.elements}>
+          <div>
               {this.props.items.map(this.listItemFromPerson)}
           </div>
       );
