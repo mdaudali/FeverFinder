@@ -1,8 +1,8 @@
 package com.example.feverfinder;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
 
@@ -14,7 +14,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onStartSurvey(View view) {
+        //Ensure you cannot spawn multiple surveys
+        findViewById(R.id.startBtn).setClickable(false);
         Intent intent = new Intent(this, SurveyActivity.class);
         startActivity(intent);
+        findViewById(R.id.startBtn).setClickable(true);
     }
 }

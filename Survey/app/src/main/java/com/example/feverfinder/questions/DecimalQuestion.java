@@ -1,8 +1,6 @@
 package com.example.feverfinder.questions;
 
 import android.content.Context;
-import android.os.Build;
-import android.support.annotation.RequiresApi;
 import android.support.design.widget.TextInputLayout;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -13,17 +11,18 @@ import android.widget.EditText;
 
 import com.example.feverfinder.R;
 
+import java.util.List;
+
 public class DecimalQuestion extends Question implements TextWatcher {
     Float content;
 
-    public DecimalQuestion(String name, String label, String relevant) {
+    public DecimalQuestion(String name, String label, List<Relevancy> relevant) {
         super(name, label, relevant);
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     public View generateView(Context context, ViewGroup root) {
-        View view = context.getSystemService(LayoutInflater.class)
+        View view = LayoutInflater.from(context)
                 .inflate(R.layout.decimal_question, root, false);
         TextInputLayout textInputLayout = view.findViewById(R.id.editTextLayout);
         textInputLayout.setHint(getLabel());

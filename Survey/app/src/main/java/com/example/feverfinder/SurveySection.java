@@ -3,25 +3,16 @@ package com.example.feverfinder;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
-import com.example.feverfinder.questions.Option;
 import com.example.feverfinder.questions.Question;
-import com.example.feverfinder.questions.SelectQuestion;
 
-import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 
 /**
@@ -47,10 +38,6 @@ public class SurveySection extends Fragment {
 
     private List<Question> mRelevantQuestions;
 
-    public void setmQuestions(List<Question> mQuestions) {
-        this.mQuestions = mQuestions;
-    }
-
     public SurveySection() {
         // Required empty public constructor
     }
@@ -59,7 +46,7 @@ public class SurveySection extends Fragment {
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
      *
-     * @param title Title of the survey section.
+     * @param title     Title of the survey section.
      * @param questions List of the questions for this section to display.
      * @return A new instance of fragment SurveySection.
      */
@@ -69,6 +56,10 @@ public class SurveySection extends Fragment {
         args.putString(ARG_TITLE, title);
         fragment.setArguments(args);
         return fragment;
+    }
+
+    public void setmQuestions(List<Question> mQuestions) {
+        this.mQuestions = mQuestions;
     }
 
     @Override
@@ -97,7 +88,7 @@ public class SurveySection extends Fragment {
                 linearLayout.addView(child);
 
             // hide irrelevant questions
-            if (!q.getRelevant().equals("")) {
+            if (q.getRelevancies().size() > 0) {
                 child.setVisibility(View.GONE);
             }
         }
