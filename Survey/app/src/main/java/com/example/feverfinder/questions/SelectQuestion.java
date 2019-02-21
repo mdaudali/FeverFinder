@@ -15,6 +15,7 @@ import com.example.feverfinder.R;
 import java.util.LinkedList;
 import java.util.List;
 
+
 public class SelectQuestion extends Question implements CompoundButton.OnCheckedChangeListener {
     private List<Option> options;
     private boolean multiple;
@@ -53,12 +54,18 @@ public class SelectQuestion extends Question implements CompoundButton.OnChecked
                 CheckBox checkBox = new CheckBox(context);
                 checkBox.setChecked(false);
                 checkBox.setText(option.label);
+                checkBox.setLayoutParams(new ViewGroup.LayoutParams(
+                        ViewGroup.LayoutParams.MATCH_PARENT,
+                        ViewGroup.LayoutParams.WRAP_CONTENT));
                 checkBox.setOnCheckedChangeListener(this);
                 radioGroup.addView(checkBox);
             } else {
                 RadioButton radioButton = new RadioButton(context);
                 radioButton.setChecked(false);
                 radioButton.setText(option.label);
+                radioButton.setLayoutParams(new ViewGroup.LayoutParams(
+                        ViewGroup.LayoutParams.MATCH_PARENT,
+                        ViewGroup.LayoutParams.WRAP_CONTENT));
                 radioButton.setOnCheckedChangeListener(this);
                 radioGroup.addView(radioButton);
             }
