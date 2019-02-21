@@ -1,1 +1,995 @@
-[{"list_name": "gender", "options": [{"name": 2.0, "label": "Female"}, {"name": 1.0, "label": "Male"}]}, {"list_name": "GPS_ID", "options": [{"name": "community", "label": "Community"}, {"name": "household", "label": "Household"}, {"name": "nearest hospital", "label": "Nearest hospital"}, {"name": "dumpsite", "label": "Dumpsite"}, {"name": "traps", "label": "Traps"}, {"name": "rice or other farm", "label": "Rice or other farm"}, {"name": "garri, rice or grain drying spot", "label": "Garri, rice or grain drying spot"}]}, {"list_name": "occupation", "options": [{"name": 1.0, "label": "Farmer"}, {"name": 2.0, "label": "Trader"}, {"name": 3.0, "label": "Government worker"}, {"name": 4.0, "label": "Driver (okada, keke, bus, taxi, e tc)"}, {"name": 5.0, "label": "Student"}, {"name": 6.0, "label": "Artisan (mason, mechanic, artist, carpenter)"}, {"name": 7.0, "label": "Teacher"}, {"name": 8.0, "label": "Housewife"}, {"name": 9.0, "label": "Other"}]}, {"list_name": "farmer_type", "options": [{"name": 1.0, "label": "Cassava"}, {"name": 2.0, "label": "Maize"}, {"name": 3.0, "label": "Rice"}, {"name": 4.0, "label": "Others (specify)"}]}, {"list_name": "education", "options": [{"name": 1.0, "label": "No formal education"}, {"name": 2.0, "label": "Primary education"}, {"name": 3.0, "label": "Secondary education"}, {"name": 4.0, "label": "Tertiary education"}]}, {"list_name": "knowsOfLassa", "options": [{"name": 1.0, "label": "Yes"}, {"name": 2.0, "label": "No"}]}, {"list_name": "infoOnLassa", "options": [{"name": "radio", "label": "Radio"}, {"name": "television", "label": "Television "}, {"name": "meeting", "label": "Meeting "}, {"name": "hospital", "label": "Hospital "}, {"name": "friend", "label": "A friend "}, {"name": "sensitization", "label": "Sensitization activity "}, {"name": "others", "label": "Others (specify)"}]}, {"list_name": "if_local_name", "options": [{"name": 1.0, "label": "Yes"}, {"name": 2.0, "label": "No"}, {"name": 3.0, "label": "I don't know"}]}, {"list_name": "take_vaccine", "options": [{"name": 1.0, "label": "Yes"}, {"name": 2.0, "label": "No"}]}, {"list_name": "cause", "options": [{"name": 1.0, "label": "Germs/virus  "}, {"name": 2.0, "label": "Malaria"}, {"name": 3.0, "label": "Spiritual attack"}, {"name": 4.0, "label": "I don't know"}]}, {"list_name": "know_contact", "options": [{"name": 1.0, "label": "Yes"}, {"name": 2.0, "label": "No"}]}, {"list_name": "contact", "options": [{"name": 1.0, "label": "Staying with sick person  "}, {"name": 2.0, "label": "Eating spoilt food"}, {"name": 3.0, "label": "Sexual intercourse "}, {"name": 4.0, "label": "Eating rats"}, {"name": 5.0, "label": "Eating food contaminated with rodent droppings"}, {"name": 6.0, "label": "Attending burial "}, {"name": 7.0, "label": "Others (specify)"}]}, {"list_name": "fear", "options": [{"name": 1.0, "label": "Yes"}, {"name": 2.0, "label": "No"}]}, {"list_name": "signs", "options": [{"name": 1.0, "label": "Fever"}, {"name": 2.0, "label": "Bleeding"}, {"name": 3.0, "label": "Vomited"}, {"name": 4.0, "label": "Headache"}, {"name": 5.0, "label": "Others"}]}, {"list_name": "can_kill", "options": [{"name": 1.0, "label": "Yes"}, {"name": 2.0, "label": "No"}, {"name": 3.0, "label": "I don't know"}]}, {"list_name": "can_treat", "options": [{"name": 1.0, "label": "Yes"}, {"name": 2.0, "label": "No"}, {"name": 3.0, "label": "I don't know"}]}, {"list_name": "what_treat", "options": [{"name": 1.0, "label": "Drugs"}, {"name": 2.0, "label": "Herbs"}, {"name": 3.0, "label": "Prayers"}]}, {"list_name": "can_prevent", "options": [{"name": 1.0, "label": "Yes"}, {"name": 2.0, "label": "No"}, {"name": 3.0, "label": "I don't know"}]}, {"list_name": "how_prevent", "options": [{"name": 1.0, "label": "Keep rats away"}, {"name": 2.0, "label": "Personal hygiene "}, {"name": 3.0, "label": "Vaccine "}, {"name": 4.0, "label": "Prayers "}, {"name": 5.0, "label": "Not eating bush meat "}, {"name": 6.0, "label": "I don\u2019t know"}]}, {"list_name": "know_LF_patient", "options": [{"name": 1.0, "label": "Yes"}, {"name": 2.0, "label": "No"}]}, {"list_name": "relationship", "options": [{"name": 1.0, "label": "A household member "}, {"name": 2.0, "label": "Neighbour"}, {"name": 3.0, "label": "Friend"}, {"name": 4.0, "label": "Community member"}, {"name": 5.0, "label": "Church member"}, {"name": 6.0, "label": "Stranger"}, {"name": 7.0, "label": "Other"}]}, {"list_name": "care", "options": [{"name": 1.0, "label": "Yes"}, {"name": 2.0, "label": "No"}]}, {"list_name": "seek_treatment", "options": [{"name": 1.0, "label": "Yes"}, {"name": 2.0, "label": "No"}, {"name": 3.0, "label": "I don't know"}]}, {"list_name": "where_seek_treatment", "options": [{"name": 1.0, "label": "Government hospital"}, {"name": 2.0, "label": "Mission hospital"}, {"name": 3.0, "label": "Private hospital"}, {"name": 4.0, "label": "Traditional healer"}, {"name": 5.0, "label": "At home"}, {"name": 6.0, "label": "Church"}]}, {"list_name": "distance_treatment", "options": [{"name": 1.0, "label": "<1 km"}, {"name": 2.0, "label": "2-10 km"}, {"name": 3.0, "label": ">10 km"}]}, {"list_name": "early_treatment", "options": [{"name": 1.0, "label": "Yes"}, {"name": 2.0, "label": "No"}, {"name": 3.0, "label": "I don't know"}]}, {"list_name": "last_fever", "options": [{"name": 1.0, "label": "< 1 month ago"}, {"name": 2.0, "label": "About 1-12 months ago"}, {"name": 3.0, "label": "Can\u2019t remember"}]}, {"list_name": "fever_intensity", "options": [{"name": 1.0, "label": "Very intense"}, {"name": 2.0, "label": "Mild"}]}, {"list_name": "fever_treatment", "options": [{"name": 1.0, "label": "Yes"}, {"name": 2.0, "label": "No"}]}, {"list_name": "where_fever_treatment", "options": [{"name": 1.0, "label": "Hospital"}, {"name": 2.0, "label": "Traditional healer"}, {"name": 3.0, "label": "At home"}, {"name": 4.0, "label": "Church"}]}, {"list_name": "tell_treatment_type", "options": [{"name": 1.0, "label": "Yes"}, {"name": 2.0, "label": "No"}]}, {"list_name": "know_fever_cause", "options": [{"name": 1.0, "label": "Yes"}, {"name": 2.0, "label": "No"}]}, {"list_name": "fever_cause", "options": [{"name": 1.0, "label": "Malaria"}, {"name": 2.0, "label": "Typhoid"}, {"name": 3.0, "label": "Lassa fever"}, {"name": 4.0, "label": "Other"}]}, {"list_name": "care_by_family", "options": [{"name": 1.0, "label": "Yes"}, {"name": 2.0, "label": "No"}]}, {"list_name": "family_get_fever", "options": [{"name": 1.0, "label": "Yes"}, {"name": 2.0, "label": "No"}, {"name": 3.0, "label": "I don't know"}]}, {"list_name": "family_fever_recovery", "options": [{"name": 1.0, "label": "Yes"}, {"name": 2.0, "label": "No"}]}, {"list_name": "rats_present", "options": [{"name": 1.0, "label": "Yes"}, {"name": 2.0, "label": "No"}]}, {"list_name": "mastomys", "options": [{"name": 1.0, "label": "Yes"}, {"name": 2.0, "label": "No"}]}, {"list_name": "where_rat", "options": [{"name": 1.0, "label": "Home"}, {"name": 2.0, "label": "Farm"}, {"name": 3.0, "label": "Workplace"}, {"name": 4.0, "label": "Others (specify)"}]}, {"list_name": "rat_often", "options": [{"name": 1.0, "label": "Yes"}, {"name": 2.0, "label": "No"}]}, {"list_name": "rat_time", "options": [{"name": 1.0, "label": "Rainy season"}, {"name": 2.0, "label": "Dry season"}, {"name": 3.0, "label": "All year round"}, {"name": 4.0, "label": "A particular month (specify)"}, {"name": 5.0, "label": "Doesn't know"}]}, {"list_name": "rat_month", "options": [{"name": 1.0, "label": "January"}, {"name": 2.0, "label": "February"}, {"name": 3.0, "label": "March"}, {"name": 4.0, "label": "April"}, {"name": 5.0, "label": "May"}, {"name": 6.0, "label": "June"}, {"name": 7.0, "label": "July"}, {"name": 8.0, "label": "August"}, {"name": 9.0, "label": "September"}, {"name": 10.0, "label": "October"}, {"name": 11.0, "label": "November"}, {"name": 12.0, "label": "December"}]}, {"list_name": "kill_rat", "options": [{"name": 1.0, "label": "Yes"}, {"name": 2.0, "label": "No"}]}, {"list_name": "how_kill_rat", "options": [{"name": 1.0, "label": "Setting traps"}, {"name": 2.0, "label": "Using poison"}, {"name": 3.0, "label": "Hunt with dogs or cats"}]}, {"list_name": "eat_rat", "options": [{"name": 1.0, "label": "Yes"}, {"name": 2.0, "label": "No"}]}, {"list_name": "farm", "options": [{"name": 1.0, "label": "Yes"}, {"name": 2.0, "label": "No"}]}, {"list_name": "farm_type", "options": [{"name": 1.0, "label": "Cassava"}, {"name": 2.0, "label": "Maize"}, {"name": 3.0, "label": "Rice"}, {"name": 4.0, "label": "Others (specify)"}]}, {"list_name": "food_to_farm", "options": [{"name": 1.0, "label": "Yes"}, {"name": 2.0, "label": "No"}]}, {"list_name": "eat_rice", "options": [{"name": 1.0, "label": "Yes"}, {"name": 2.0, "label": "No"}]}, {"list_name": "drink_garri", "options": [{"name": 1.0, "label": "Yes"}, {"name": 2.0, "label": "No"}]}, {"list_name": "eat_maize", "options": [{"name": 1.0, "label": "Yes"}, {"name": 2.0, "label": "No"}]}, {"list_name": "sell", "options": [{"name": 1.0, "label": "Yes"}, {"name": 2.0, "label": "No"}]}, {"list_name": "see_dump", "options": [{"name": 1.0, "label": "Yes"}, {"name": 2.0, "label": "No"}]}]
+[
+  {
+    "list_name": "gender",
+    "options": [
+      {
+        "name": 2.0,
+        "label": "Female"
+      },
+      {
+        "name": 1.0,
+        "label": "Male"
+      }
+    ]
+  },
+  {
+    "list_name": "GPS_ID",
+    "options": [
+      {
+        "name": "community",
+        "label": "Community"
+      },
+      {
+        "name": "household",
+        "label": "Household"
+      },
+      {
+        "name": "nearest hospital",
+        "label": "Nearest hospital"
+      },
+      {
+        "name": "dumpsite",
+        "label": "Dumpsite"
+      },
+      {
+        "name": "traps",
+        "label": "Traps"
+      },
+      {
+        "name": "rice or other farm",
+        "label": "Rice or other farm"
+      },
+      {
+        "name": "garri, rice or grain drying spot",
+        "label": "Garri, rice or grain drying spot"
+      }
+    ]
+  },
+  {
+    "list_name": "occupation",
+    "options": [
+      {
+        "name": 1.0,
+        "label": "Farmer"
+      },
+      {
+        "name": 2.0,
+        "label": "Trader"
+      },
+      {
+        "name": 3.0,
+        "label": "Government worker"
+      },
+      {
+        "name": 4.0,
+        "label": "Driver (okada, keke, bus, taxi, e tc)"
+      },
+      {
+        "name": 5.0,
+        "label": "Student"
+      },
+      {
+        "name": 6.0,
+        "label": "Artisan (mason, mechanic, artist, carpenter)"
+      },
+      {
+        "name": 7.0,
+        "label": "Teacher"
+      },
+      {
+        "name": 8.0,
+        "label": "Housewife"
+      },
+      {
+        "name": 9.0,
+        "label": "Other"
+      }
+    ]
+  },
+  {
+    "list_name": "farmer_type",
+    "options": [
+      {
+        "name": 1.0,
+        "label": "Cassava"
+      },
+      {
+        "name": 2.0,
+        "label": "Maize"
+      },
+      {
+        "name": 3.0,
+        "label": "Rice"
+      },
+      {
+        "name": 4.0,
+        "label": "Others (specify)"
+      }
+    ]
+  },
+  {
+    "list_name": "education",
+    "options": [
+      {
+        "name": 1.0,
+        "label": "No formal education"
+      },
+      {
+        "name": 2.0,
+        "label": "Primary education"
+      },
+      {
+        "name": 3.0,
+        "label": "Secondary education"
+      },
+      {
+        "name": 4.0,
+        "label": "Tertiary education"
+      }
+    ]
+  },
+  {
+    "list_name": "knowsOfLassa",
+    "options": [
+      {
+        "name": 1.0,
+        "label": "Yes"
+      },
+      {
+        "name": 2.0,
+        "label": "No"
+      }
+    ]
+  },
+  {
+    "list_name": "infoOnLassa",
+    "options": [
+      {
+        "name": "radio",
+        "label": "Radio"
+      },
+      {
+        "name": "television",
+        "label": "Television "
+      },
+      {
+        "name": "meeting",
+        "label": "Meeting "
+      },
+      {
+        "name": "hospital",
+        "label": "Hospital "
+      },
+      {
+        "name": "friend",
+        "label": "A friend "
+      },
+      {
+        "name": "sensitization",
+        "label": "Sensitization activity "
+      },
+      {
+        "name": "others",
+        "label": "Others (specify)"
+      }
+    ]
+  },
+  {
+    "list_name": "if_local_name",
+    "options": [
+      {
+        "name": 1.0,
+        "label": "Yes"
+      },
+      {
+        "name": 2.0,
+        "label": "No"
+      },
+      {
+        "name": 3.0,
+        "label": "I don't know"
+      }
+    ]
+  },
+  {
+    "list_name": "take_vaccine",
+    "options": [
+      {
+        "name": 1.0,
+        "label": "Yes"
+      },
+      {
+        "name": 2.0,
+        "label": "No"
+      }
+    ]
+  },
+  {
+    "list_name": "cause",
+    "options": [
+      {
+        "name": 1.0,
+        "label": "Germs/virus  "
+      },
+      {
+        "name": 2.0,
+        "label": "Malaria"
+      },
+      {
+        "name": 3.0,
+        "label": "Spiritual attack"
+      },
+      {
+        "name": 4.0,
+        "label": "I don't know"
+      }
+    ]
+  },
+  {
+    "list_name": "know_contact",
+    "options": [
+      {
+        "name": 1.0,
+        "label": "Yes"
+      },
+      {
+        "name": 2.0,
+        "label": "No"
+      }
+    ]
+  },
+  {
+    "list_name": "contact",
+    "options": [
+      {
+        "name": 1.0,
+        "label": "Staying with sick person  "
+      },
+      {
+        "name": 2.0,
+        "label": "Eating spoilt food"
+      },
+      {
+        "name": 3.0,
+        "label": "Sexual intercourse "
+      },
+      {
+        "name": 4.0,
+        "label": "Eating rats"
+      },
+      {
+        "name": 5.0,
+        "label": "Eating food contaminated with rodent droppings"
+      },
+      {
+        "name": 6.0,
+        "label": "Attending burial "
+      },
+      {
+        "name": 7.0,
+        "label": "Others (specify)"
+      }
+    ]
+  },
+  {
+    "list_name": "fear",
+    "options": [
+      {
+        "name": 1.0,
+        "label": "Yes"
+      },
+      {
+        "name": 2.0,
+        "label": "No"
+      }
+    ]
+  },
+  {
+    "list_name": "signs",
+    "options": [
+      {
+        "name": 1.0,
+        "label": "Fever"
+      },
+      {
+        "name": 2.0,
+        "label": "Bleeding"
+      },
+      {
+        "name": 3.0,
+        "label": "Vomited"
+      },
+      {
+        "name": 4.0,
+        "label": "Headache"
+      },
+      {
+        "name": 5.0,
+        "label": "Others"
+      }
+    ]
+  },
+  {
+    "list_name": "can_kill",
+    "options": [
+      {
+        "name": 1.0,
+        "label": "Yes"
+      },
+      {
+        "name": 2.0,
+        "label": "No"
+      },
+      {
+        "name": 3.0,
+        "label": "I don't know"
+      }
+    ]
+  },
+  {
+    "list_name": "can_treat",
+    "options": [
+      {
+        "name": 1.0,
+        "label": "Yes"
+      },
+      {
+        "name": 2.0,
+        "label": "No"
+      },
+      {
+        "name": 3.0,
+        "label": "I don't know"
+      }
+    ]
+  },
+  {
+    "list_name": "what_treat",
+    "options": [
+      {
+        "name": 1.0,
+        "label": "Drugs"
+      },
+      {
+        "name": 2.0,
+        "label": "Herbs"
+      },
+      {
+        "name": 3.0,
+        "label": "Prayers"
+      }
+    ]
+  },
+  {
+    "list_name": "can_prevent",
+    "options": [
+      {
+        "name": 1.0,
+        "label": "Yes"
+      },
+      {
+        "name": 2.0,
+        "label": "No"
+      },
+      {
+        "name": 3.0,
+        "label": "I don't know"
+      }
+    ]
+  },
+  {
+    "list_name": "how_prevent",
+    "options": [
+      {
+        "name": 1.0,
+        "label": "Keep rats away"
+      },
+      {
+        "name": 2.0,
+        "label": "Personal hygiene "
+      },
+      {
+        "name": 3.0,
+        "label": "Vaccine "
+      },
+      {
+        "name": 4.0,
+        "label": "Prayers "
+      },
+      {
+        "name": 5.0,
+        "label": "Not eating bush meat "
+      },
+      {
+        "name": 6.0,
+        "label": "I don\u2019t know"
+      }
+    ]
+  },
+  {
+    "list_name": "know_LF_patient",
+    "options": [
+      {
+        "name": 1.0,
+        "label": "Yes"
+      },
+      {
+        "name": 2.0,
+        "label": "No"
+      }
+    ]
+  },
+  {
+    "list_name": "relationship",
+    "options": [
+      {
+        "name": 1.0,
+        "label": "A household member "
+      },
+      {
+        "name": 2.0,
+        "label": "Neighbour"
+      },
+      {
+        "name": 3.0,
+        "label": "Friend"
+      },
+      {
+        "name": 4.0,
+        "label": "Community member"
+      },
+      {
+        "name": 5.0,
+        "label": "Church member"
+      },
+      {
+        "name": 6.0,
+        "label": "Stranger"
+      },
+      {
+        "name": 7.0,
+        "label": "Other"
+      }
+    ]
+  },
+  {
+    "list_name": "care",
+    "options": [
+      {
+        "name": 1.0,
+        "label": "Yes"
+      },
+      {
+        "name": 2.0,
+        "label": "No"
+      }
+    ]
+  },
+  {
+    "list_name": "seek_treatment",
+    "options": [
+      {
+        "name": 1.0,
+        "label": "Yes"
+      },
+      {
+        "name": 2.0,
+        "label": "No"
+      },
+      {
+        "name": 3.0,
+        "label": "I don't know"
+      }
+    ]
+  },
+  {
+    "list_name": "where_seek_treatment",
+    "options": [
+      {
+        "name": 1.0,
+        "label": "Government hospital"
+      },
+      {
+        "name": 2.0,
+        "label": "Mission hospital"
+      },
+      {
+        "name": 3.0,
+        "label": "Private hospital"
+      },
+      {
+        "name": 4.0,
+        "label": "Traditional healer"
+      },
+      {
+        "name": 5.0,
+        "label": "At home"
+      },
+      {
+        "name": 6.0,
+        "label": "Church"
+      }
+    ]
+  },
+  {
+    "list_name": "distance_treatment",
+    "options": [
+      {
+        "name": 1.0,
+        "label": "<1 km"
+      },
+      {
+        "name": 2.0,
+        "label": "2-10 km"
+      },
+      {
+        "name": 3.0,
+        "label": ">10 km"
+      }
+    ]
+  },
+  {
+    "list_name": "early_treatment",
+    "options": [
+      {
+        "name": 1.0,
+        "label": "Yes"
+      },
+      {
+        "name": 2.0,
+        "label": "No"
+      },
+      {
+        "name": 3.0,
+        "label": "I don't know"
+      }
+    ]
+  },
+  {
+    "list_name": "last_fever",
+    "options": [
+      {
+        "name": 1.0,
+        "label": "< 1 month ago"
+      },
+      {
+        "name": 2.0,
+        "label": "About 1-12 months ago"
+      },
+      {
+        "name": 3.0,
+        "label": "Can\u2019t remember"
+      }
+    ]
+  },
+  {
+    "list_name": "fever_intensity",
+    "options": [
+      {
+        "name": 1.0,
+        "label": "Very intense"
+      },
+      {
+        "name": 2.0,
+        "label": "Mild"
+      }
+    ]
+  },
+  {
+    "list_name": "fever_treatment",
+    "options": [
+      {
+        "name": 1.0,
+        "label": "Yes"
+      },
+      {
+        "name": 2.0,
+        "label": "No"
+      }
+    ]
+  },
+  {
+    "list_name": "where_fever_treatment",
+    "options": [
+      {
+        "name": 1.0,
+        "label": "Hospital"
+      },
+      {
+        "name": 2.0,
+        "label": "Traditional healer"
+      },
+      {
+        "name": 3.0,
+        "label": "At home"
+      },
+      {
+        "name": 4.0,
+        "label": "Church"
+      }
+    ]
+  },
+  {
+    "list_name": "tell_treatment_type",
+    "options": [
+      {
+        "name": 1.0,
+        "label": "Yes"
+      },
+      {
+        "name": 2.0,
+        "label": "No"
+      }
+    ]
+  },
+  {
+    "list_name": "know_fever_cause",
+    "options": [
+      {
+        "name": 1.0,
+        "label": "Yes"
+      },
+      {
+        "name": 2.0,
+        "label": "No"
+      }
+    ]
+  },
+  {
+    "list_name": "fever_cause",
+    "options": [
+      {
+        "name": 1.0,
+        "label": "Malaria"
+      },
+      {
+        "name": 2.0,
+        "label": "Typhoid"
+      },
+      {
+        "name": 3.0,
+        "label": "Lassa fever"
+      },
+      {
+        "name": 4.0,
+        "label": "Other"
+      }
+    ]
+  },
+  {
+    "list_name": "care_by_family",
+    "options": [
+      {
+        "name": 1.0,
+        "label": "Yes"
+      },
+      {
+        "name": 2.0,
+        "label": "No"
+      }
+    ]
+  },
+  {
+    "list_name": "family_get_fever",
+    "options": [
+      {
+        "name": 1.0,
+        "label": "Yes"
+      },
+      {
+        "name": 2.0,
+        "label": "No"
+      },
+      {
+        "name": 3.0,
+        "label": "I don't know"
+      }
+    ]
+  },
+  {
+    "list_name": "family_fever_recovery",
+    "options": [
+      {
+        "name": 1.0,
+        "label": "Yes"
+      },
+      {
+        "name": 2.0,
+        "label": "No"
+      }
+    ]
+  },
+  {
+    "list_name": "rats_present",
+    "options": [
+      {
+        "name": 1.0,
+        "label": "Yes"
+      },
+      {
+        "name": 2.0,
+        "label": "No"
+      }
+    ]
+  },
+  {
+    "list_name": "mastomys",
+    "options": [
+      {
+        "name": 1.0,
+        "label": "Yes"
+      },
+      {
+        "name": 2.0,
+        "label": "No"
+      }
+    ]
+  },
+  {
+    "list_name": "where_rat",
+    "options": [
+      {
+        "name": 1.0,
+        "label": "Home"
+      },
+      {
+        "name": 2.0,
+        "label": "Farm"
+      },
+      {
+        "name": 3.0,
+        "label": "Workplace"
+      },
+      {
+        "name": 4.0,
+        "label": "Others (specify)"
+      }
+    ]
+  },
+  {
+    "list_name": "rat_often",
+    "options": [
+      {
+        "name": 1.0,
+        "label": "Yes"
+      },
+      {
+        "name": 2.0,
+        "label": "No"
+      }
+    ]
+  },
+  {
+    "list_name": "rat_time",
+    "options": [
+      {
+        "name": 1.0,
+        "label": "Rainy season"
+      },
+      {
+        "name": 2.0,
+        "label": "Dry season"
+      },
+      {
+        "name": 3.0,
+        "label": "All year round"
+      },
+      {
+        "name": 4.0,
+        "label": "A particular month (specify)"
+      },
+      {
+        "name": 5.0,
+        "label": "Doesn't know"
+      }
+    ]
+  },
+  {
+    "list_name": "rat_month",
+    "options": [
+      {
+        "name": 1.0,
+        "label": "January"
+      },
+      {
+        "name": 2.0,
+        "label": "February"
+      },
+      {
+        "name": 3.0,
+        "label": "March"
+      },
+      {
+        "name": 4.0,
+        "label": "April"
+      },
+      {
+        "name": 5.0,
+        "label": "May"
+      },
+      {
+        "name": 6.0,
+        "label": "June"
+      },
+      {
+        "name": 7.0,
+        "label": "July"
+      },
+      {
+        "name": 8.0,
+        "label": "August"
+      },
+      {
+        "name": 9.0,
+        "label": "September"
+      },
+      {
+        "name": 10.0,
+        "label": "October"
+      },
+      {
+        "name": 11.0,
+        "label": "November"
+      },
+      {
+        "name": 12.0,
+        "label": "December"
+      }
+    ]
+  },
+  {
+    "list_name": "kill_rat",
+    "options": [
+      {
+        "name": 1.0,
+        "label": "Yes"
+      },
+      {
+        "name": 2.0,
+        "label": "No"
+      }
+    ]
+  },
+  {
+    "list_name": "how_kill_rat",
+    "options": [
+      {
+        "name": 1.0,
+        "label": "Setting traps"
+      },
+      {
+        "name": 2.0,
+        "label": "Using poison"
+      },
+      {
+        "name": 3.0,
+        "label": "Hunt with dogs or cats"
+      }
+    ]
+  },
+  {
+    "list_name": "eat_rat",
+    "options": [
+      {
+        "name": 1.0,
+        "label": "Yes"
+      },
+      {
+        "name": 2.0,
+        "label": "No"
+      }
+    ]
+  },
+  {
+    "list_name": "farm",
+    "options": [
+      {
+        "name": 1.0,
+        "label": "Yes"
+      },
+      {
+        "name": 2.0,
+        "label": "No"
+      }
+    ]
+  },
+  {
+    "list_name": "farm_type",
+    "options": [
+      {
+        "name": 1.0,
+        "label": "Cassava"
+      },
+      {
+        "name": 2.0,
+        "label": "Maize"
+      },
+      {
+        "name": 3.0,
+        "label": "Rice"
+      },
+      {
+        "name": 4.0,
+        "label": "Others (specify)"
+      }
+    ]
+  },
+  {
+    "list_name": "food_to_farm",
+    "options": [
+      {
+        "name": 1.0,
+        "label": "Yes"
+      },
+      {
+        "name": 2.0,
+        "label": "No"
+      }
+    ]
+  },
+  {
+    "list_name": "eat_rice",
+    "options": [
+      {
+        "name": 1.0,
+        "label": "Yes"
+      },
+      {
+        "name": 2.0,
+        "label": "No"
+      }
+    ]
+  },
+  {
+    "list_name": "drink_garri",
+    "options": [
+      {
+        "name": 1.0,
+        "label": "Yes"
+      },
+      {
+        "name": 2.0,
+        "label": "No"
+      }
+    ]
+  },
+  {
+    "list_name": "eat_maize",
+    "options": [
+      {
+        "name": 1.0,
+        "label": "Yes"
+      },
+      {
+        "name": 2.0,
+        "label": "No"
+      }
+    ]
+  },
+  {
+    "list_name": "sell",
+    "options": [
+      {
+        "name": 1.0,
+        "label": "Yes"
+      },
+      {
+        "name": 2.0,
+        "label": "No"
+      }
+    ]
+  },
+  {
+    "list_name": "see_dump",
+    "options": [
+      {
+        "name": 1.0,
+        "label": "Yes"
+      },
+      {
+        "name": 2.0,
+        "label": "No"
+      }
+    ]
+  }
+]

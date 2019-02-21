@@ -1,29 +1,28 @@
 package com.example.feverfinder.questions;
 
 import android.content.Context;
-import android.os.Build;
-import android.support.annotation.RequiresApi;
 import android.support.design.widget.TextInputLayout;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 
 import com.example.feverfinder.R;
+
+import java.util.List;
 
 public class IntegerQuestion extends Question implements TextWatcher {
     private int content;
 
-    public IntegerQuestion(String name, String label, String relevant) {
+    public IntegerQuestion(String name, String label, List<Relevancy> relevant) {
         super(name, label, relevant);
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     public View generateView(Context context, ViewGroup root) {
-        View view = context.getSystemService(LayoutInflater.class).inflate(R.layout.integer_question, root, false);
+        View view = LayoutInflater.from(context)
+                .inflate(R.layout.integer_question, root, false);
         TextInputLayout editText = view.findViewById(R.id.editTextLayout);
         editText.setHint(getLabel());
 

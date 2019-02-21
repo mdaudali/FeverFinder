@@ -8,7 +8,7 @@ public class Response {
     String type;
     List<Option> options;
 
-    public Response(String type, List<Option> options){
+    public Response(String type, List<Option> options) {
         this.type = type;
         this.options = options;
     }

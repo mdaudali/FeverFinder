@@ -1,30 +1,24 @@
 package com.example.feverfinder;
 
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.RequiresApi;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
+import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.util.SparseArray;
-import android.view.View;
-import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.SparseArray;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.example.feverfinder.questions.QuestionParser;
 import com.example.feverfinder.questions.Section;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class SurveyActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, SurveySection.OnFragmentInteractionListener {
@@ -33,7 +27,6 @@ public class SurveyActivity extends AppCompatActivity
     private int currentFragment;
 
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,7 +37,6 @@ public class SurveyActivity extends AppCompatActivity
         setContentView(R.layout.activity_survey);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
 
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
@@ -60,7 +52,7 @@ public class SurveyActivity extends AppCompatActivity
         Menu m = navigationView.getMenu();
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         int firstId = -1;
-        for (Section s: sections) {
+        for (Section s : sections) {
             int id = View.generateViewId();
             MenuItem menuItem = m.add(Menu.NONE, id, Menu.NONE, s.getName());
             menuItem.setCheckable(true);

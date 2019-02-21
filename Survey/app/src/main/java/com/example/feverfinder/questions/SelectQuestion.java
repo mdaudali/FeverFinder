@@ -1,8 +1,6 @@
 package com.example.feverfinder.questions;
 
 import android.content.Context;
-import android.os.Build;
-import android.support.annotation.RequiresApi;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,27 +14,19 @@ import com.example.feverfinder.R;
 
 import java.util.LinkedList;
 import java.util.List;
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReentrantLock;
 
 public class SelectQuestion extends Question implements CompoundButton.OnCheckedChangeListener {
     private List<Option> options;
     private boolean multiple;
-
-    public List<Option> getSelected() {
-        return selected;
-    }
-
     private List<Option> selected;
     private List<SelectionChangedListener> listeners;
-
     /**
-     * @param name is the name for storage
-     * @param label is the label for display
+     * @param name     is the name for storage
+     * @param label    is the label for display
      * @param multiple is whether you can select multiple options
-     * @param options is the list of options
+     * @param options  is the list of options
      */
-    public SelectQuestion(String name, String label, String relevant, boolean multiple, List<Option> options) {
+    public SelectQuestion(String name, String label, List<Relevancy> relevant, boolean multiple, List<Option> options) {
         super(name, label, relevant);
         this.multiple = multiple;
         this.options = options;
@@ -44,11 +34,14 @@ public class SelectQuestion extends Question implements CompoundButton.OnChecked
         listeners = new LinkedList<>();
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.M)
+    public List<Option> getSelected() {
+        return selected;
+    }
+
     @Override
     public View generateView(Context context, ViewGroup root) {
         View view;
-        view = context.getSystemService(LayoutInflater.class)
+        view = LayoutInflater.from(context)
                 .inflate(R.layout.select_question, root, false);
 
         TextView textView = view.findViewById(R.id.text_label);
@@ -74,7 +67,6 @@ public class SelectQuestion extends Question implements CompoundButton.OnChecked
         return view;
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
         //Ensure there is no concurrent access to the list of options

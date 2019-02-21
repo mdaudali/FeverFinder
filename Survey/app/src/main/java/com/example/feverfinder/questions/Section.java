@@ -4,8 +4,6 @@ import android.os.Bundle;
 
 import com.example.feverfinder.SurveySection;
 
-import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 
 public class Section {
@@ -15,7 +13,8 @@ public class Section {
 
     /**
      * Section constructor
-     * @param name Name of this section
+     *
+     * @param name      Name of this section
      * @param questions List of the questions within the section
      */
     public Section(String name, List<Question> questions) {
