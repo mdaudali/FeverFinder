@@ -22,7 +22,7 @@ class Example(tkinter.Frame):
 
         # under "File"
         fileMenu = tkinter.Menu(menubar, tearoff=0)
-        fileMenu.add_command(label="New Question", command=self.displayQuestionTypes)  # form to add new question
+        fileMenu.add_command(label="New Question", command=self.displayQuestionMenu)  # form to add new question
         fileMenu.add_command(label="Save", command=self.save)  # save changes
         fileMenu.add_separator()
         fileMenu.add_command(label="Quit", command=self.onExit)  # close window
@@ -42,7 +42,7 @@ class Example(tkinter.Frame):
         label.pack(side="top", fill="x", pady=10)
         helpPopup.mainloop()
 
-    def displayQuestionTypes(self):
+    def displayQuestionMenu(self):
         frameQType = tkinter.Frame(self.master)
         frameQType.pack(fill=tkinter.X)
 
@@ -59,20 +59,19 @@ class Example(tkinter.Frame):
 
         # track type of question chosen and display format of question
         typeOptionChosen.trace("w", lambda name, index, mode,
-                                           typeOptionChosen=typeOptionChosen: self.checkTypeOptionChosen(
-            typeOptionChosen))
+                                           typeOptionChosen=typeOptionChosen: self.checkTypeOptionChosen(typeOptionChosen))
 
     def checkTypeOptionChosen(self, typeOptionChosen):
         """ tracks the typeOptionChosen and displays form accordingly """
         typeOption = typeOptionChosen.get()
 
-        # TODO sort out which this makes so much blank space!!!
         for widget in self.master.winfo_children():
             if isinstance(widget, tk.Frame):
                 for frame in widget.winfo_children():
                     if not (str(frame).startswith('.!frame.')):
                         frame.pack_forget()
                         frame.destroy()
+                        widget.destroy()
 
         questionFrame = tkinter.Frame(self.master)
         questionFrame.pack(fill=tkinter.X, side=tkinter.TOP)
@@ -110,11 +109,6 @@ class Example(tkinter.Frame):
                                        command=lambda: self.btnAddQuestion(
                                            typeOption, entryQuestionName.get(), entryQuestionLabel.get(), "", "", ""))
             addButton.pack(side=tkinter.RIGHT, padx=5, pady=5)
-
-        # for widget in self.master.winfo_children():
-        #     if isinstance(widget, tk.Frame):
-        #         for frame in widget.winfo_children():
-        #             print(str(frame))
 
     def displayRangeOptions(self, questionFrame, entryQuestionName, entryQuestionLabel):
         # user must enter "start" "end" "step" parameters for range
@@ -158,8 +152,17 @@ class Example(tkinter.Frame):
         addButton.pack(side=tkinter.RIGHT, padx=5, pady=5)
 
     def addChoiceDisplay(self, choiceFrame):
-        choiceEntry = tkinter.Entry(choiceFrame)
-        choiceEntry.pack(padx=5, pady=5)
+        # add choice and option of follow up question if that choice picked
+        choiceOptFrame = tkinter.Frame(choiceFrame)
+        choiceOptFrame.pack(fill=tkinter.X)
+
+        addFollowUpQuestion = tkinter.IntVar()
+        followUp = tkinter.Checkbutton(choiceOptFrame, text="Follow Up Question", variable=addFollowUpQuestion,
+                                       onvalue=1, offvalue=0)
+        followUp.pack(side=tkinter.RIGHT, padx=5, pady=5)
+
+        choiceEntry = tkinter.Entry(choiceOptFrame)
+        choiceEntry.pack(fill=tkinter.X, padx=5, pady=5)
 
     def displaySelectOptions(self, questionFrame, entryQuestionName, entryQuestionLabel):
         """ Displays follow up questions for select_ types allowing user to add choices for questions.
@@ -203,11 +206,7 @@ class Example(tkinter.Frame):
 
 
     def btnAddChoices(self, choicesFrame, questionFrame):
-        # TODO connect to choices sheet and add new choices
-        wb = load_workbook(filename)
-
         questionName, questionLabel = self.getQuestionNameandLabel(questionFrame)
-
 
         # list of rows to add to choices sheet
         choiceOptionRows = []
@@ -218,6 +217,7 @@ class Example(tkinter.Frame):
             rowCount += 1
 
 
+        # TODO APPEND SURVEY SHEET HERE
         # append survey sheet
         surveySheet = wb.get_sheet_by_name(wb.get_sheet_names()[0])
 
@@ -227,9 +227,9 @@ class Example(tkinter.Frame):
 
         # number of rows/columns in original worksheet
         nRows = choiceSheet.max_row
-        nCols = choiceSheet.max_column
 
-        r = nRows + 2
+        # edit excel sheet
+        r = nRows + 2   # leave a gap between different lists
         for row in choiceOptionRows:
             c = 1
             for choiceOption in row:
@@ -237,7 +237,6 @@ class Example(tkinter.Frame):
                 c += 1
             r += 1
 
-        # choiceSheet.insert_rows(nRows+1, amount=1)
 
         # save changes
         wb.save('survey-choices-update.xlsx')
@@ -247,7 +246,6 @@ class Example(tkinter.Frame):
 
     def btnAddQuestion(self, type, questionName, questionLabel, parameters, relevant, media):
         rowValues = [type, questionName, questionLabel, relevant, parameters, media]
-        # add question to excel file
 
         # Load in the workbook
         wb = load_workbook(filename)
@@ -269,7 +267,9 @@ class Example(tkinter.Frame):
     def onExit(self):
         self.quit()
 
+# survey file editing
 filename = 'survey-choices-update.xlsx'
+wb = load_workbook(filename)
 
 def main():
     root = tkinter.Tk()
