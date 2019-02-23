@@ -101,9 +101,8 @@ class Example(tkinter.Frame):
             self.displayRangeOptions(questionFrame, entryQuestionName, entryQuestionLabel)
         # INPUT select_ choice parameters
         elif (typeOption.startswith('select_')):
-            self.displaySelectOptions(questionFrame)
-        else:
-            # Button to add normal question
+            self.displaySelectOptions(questionFrame, entryQuestionName, entryQuestionLabel)
+        else:   # add question
             buttonFrame = tkinter.Frame(questionFrame)
             buttonFrame.pack()
             addButton = tkinter.Button(buttonFrame, text="Add Question",
@@ -158,17 +157,35 @@ class Example(tkinter.Frame):
                                        ""))
         addButton.pack(side=tkinter.RIGHT, padx=5, pady=5)
 
-    def addChoiceDisplay(self, questionFrame):
-        tkinter.Label(questionFrame, text="addchoice stuff here", width=20).pack()
+    def addChoiceDisplay(self, choiceFrame):
+        choiceEntry = tkinter.Entry(choiceFrame)
+        choiceEntry.pack(padx=5, pady=5)
 
-    def displaySelectOptions(self, questionFrame):
+    def displaySelectOptions(self, questionFrame,  entryQuestionName, entryQuestionLabel):
         """ Displays follow up questions for select_ types allowing user to add choices for questions.
             can add as many choices as needed """
-        choiceFrame = tkinter.Frame(questionFrame)
-        choiceFrame.pack(fill=tkinter.X)
-        tkinter.Label(choiceFrame, text="Enter choice options", width=20).pack(side=tkinter.LEFT, padx=5, pady=5)
-        addButton = tkinter.Button(choiceFrame, text="add choice", command= lambda: self.addChoiceDisplay(questionFrame))
+        choiceOptionFrame = tkinter.Frame(questionFrame)
+        choiceOptionFrame.pack(fill=tkinter.X)
+        tkinter.Label(choiceOptionFrame, text="Enter choice options", width=20).pack(side=tkinter.LEFT, padx=5, pady=5)
+
+        # user enters as many choices as would like here
+        choicesFrame = tkinter.Frame(questionFrame)
+        choicesFrame.pack(fill=tkinter.X)
+        addButton = tkinter.Button(choiceOptionFrame, text="add choice", command= lambda: self.addChoiceDisplay(choicesFrame))
         addButton.pack(side=tkinter.RIGHT, padx=5, pady=5)
+
+        # button to add select question
+        # TODO Add Choices to choice sheet in survey
+        # TODO add relevancy options
+        # TODO select one or select multiple + <choice-name>
+        # TODO add option to name choices and so
+        buttonFrame = tkinter.Frame(questionFrame)
+        buttonFrame.pack()
+        addButton = tkinter.Button(buttonFrame, text="Add Question",
+                                   command=lambda: self.btnAddQuestion(
+                                       'select', entryQuestionName.get(), entryQuestionLabel.get(), "",
+                                       "", ""))
+        addButton.pack(side=tkinter.BOTTOM, padx=5, pady=5)
 
     def btnAddQuestion(self, type, questionName, questionLabel, parameters, relevant, media):
         # for now add just adds the question to the survey
