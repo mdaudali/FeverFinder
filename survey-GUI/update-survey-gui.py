@@ -4,6 +4,10 @@ from tkinter import Tk, Frame, Menu, ttk
 import tkinter
 import tkinter as tk
 
+from openpyxl import load_workbook
+from openpyxl.utils.dataframe import dataframe_to_rows
+
+
 class Example(tkinter.Frame):
     def __init__(self):
         """ initialise UI with menu bar upon opening """
@@ -61,14 +65,16 @@ class Example(tkinter.Frame):
         """ tracks the typeOptionChosen and displays form accordingly """
         typeOption = typeOptionChosen.get()
 
+        # TODO sort out which this makes so much blank space!!!
         for widget in self.master.winfo_children():
             if isinstance(widget, tk.Frame):
                 for frame in widget.winfo_children():
                     if not(str(frame).startswith('.!frame.')):
+                        frame.pack_forget()
                         frame.destroy()
 
         questionFrame = tkinter.Frame(self.master)
-        questionFrame.pack(fill=tkinter.X)
+        questionFrame.pack(fill=tkinter.X, side=tkinter.TOP)
 
         # INPUT questionName
         questionNameFrame = tkinter.Frame(questionFrame)
@@ -101,11 +107,13 @@ class Example(tkinter.Frame):
         # Button to add question
         buttonFrame = tkinter.Frame(questionFrame)
         buttonFrame.pack()
-        addButton = tkinter.Button(buttonFrame, text="Add")
+        addButton = tkinter.Button(buttonFrame, text="Add",
+                                   command=lambda : self.btnAddQuestion(
+                                       typeOption, entryQuestionName.get(),entryQuestionLabel.get(),"","",""))
         addButton.pack(side=tkinter.RIGHT, padx=5, pady=5)
 
-        # print()
-        # print()
+
+
         # for widget in self.master.winfo_children():
         #     if isinstance(widget, tk.Frame):
         #         for frame in widget.winfo_children():
@@ -153,8 +161,30 @@ class Example(tkinter.Frame):
         addButton = tkinter.Button(choiceFrame, text="add choice", command= lambda: self.addChoiceDisplay(questionFrame))
         addButton.pack(side=tkinter.RIGHT, padx=5, pady=5)
 
+    def btnAddQuestion(self, type, questionName, questionLabel, parameters, relevant, media):
+        # for now add just adds the question to the survey
+        rowValues = [type,
+                     questionName,
+                     questionLabel,
+                     relevant,
+                     parameters,
+                     media]
 
+        filename = 'survey-choices.xlsx'
 
+        # Load in the workbook
+        wb = load_workbook(filename)
+        surveySheet = wb.get_sheet_by_name(wb.get_sheet_names()[0])
+
+        # number of rows/columns in original worksheet
+        nRows = surveySheet.max_row
+        nCols = surveySheet.max_column
+
+        for index in range(0, nCols):
+            surveySheet.cell(row=nRows+1, column=index+1).value = rowValues[index]
+
+        # save changes
+        wb.save('survey-choices-update.xlsx')
 
 
     def save(self):
