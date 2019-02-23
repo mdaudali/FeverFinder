@@ -28,6 +28,8 @@ front_end/yarn-error.log*
 **/__pycache__
 QuestionToJSON/.idea/**/*
 QuestionToJSON/venv/**/*
+survey-GUI/.idea/**/*
+survey-GUI/venv/**/*
 fever_finder/frontend/static/**/*
 fever_finder/db.sqlite3
 
