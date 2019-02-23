@@ -98,19 +98,18 @@ class Example(tkinter.Frame):
 
         # INPUT range parameters
         if (typeOption == 'range'):
-            self.displayRangeOptions(questionFrame)
+            self.displayRangeOptions(questionFrame, entryQuestionName, entryQuestionLabel)
         # INPUT select_ choice parameters
         elif (typeOption.startswith('select_')):
             self.displaySelectOptions(questionFrame)
-
-
-        # Button to add question
-        buttonFrame = tkinter.Frame(questionFrame)
-        buttonFrame.pack()
-        addButton = tkinter.Button(buttonFrame, text="Add",
-                                   command=lambda : self.btnAddQuestion(
-                                       typeOption, entryQuestionName.get(),entryQuestionLabel.get(),"","",""))
-        addButton.pack(side=tkinter.RIGHT, padx=5, pady=5)
+        else:
+            # Button to add normal question
+            buttonFrame = tkinter.Frame(questionFrame)
+            buttonFrame.pack()
+            addButton = tkinter.Button(buttonFrame, text="Add Question",
+                                       command=lambda : self.btnAddQuestion(
+                                           typeOption, entryQuestionName.get(),entryQuestionLabel.get(),"","",""))
+            addButton.pack(side=tkinter.RIGHT, padx=5, pady=5)
 
 
 
@@ -119,7 +118,7 @@ class Example(tkinter.Frame):
         #         for frame in widget.winfo_children():
         #             print(str(frame))
 
-    def displayRangeOptions(self, questionFrame):
+    def displayRangeOptions(self, questionFrame, entryQuestionName, entryQuestionLabel):
         # user must enter "start" "end" "step" parameters for range
         rangeFrame = tkinter.Frame(questionFrame)
         rangeFrame.pack(fill=tkinter.X)
@@ -148,6 +147,16 @@ class Example(tkinter.Frame):
         # Add input for question label
         entryStep = tkinter.Entry(stepFrame)
         entryStep.pack(fill=tkinter.X, padx=5, expand=True)
+
+        # button to add range question
+        buttonFrame = tkinter.Frame(questionFrame)
+        buttonFrame.pack()
+        addButton = tkinter.Button(buttonFrame, text="Add Question",
+                                   command=lambda: self.btnAddQuestion(
+                                       'range', entryQuestionName.get(), entryQuestionLabel.get(), "",
+                                       ("start={} end={} step={}".format(entryStart.get(), entryEnd.get(), entryStep.get())), # add parameters in
+                                       ""))
+        addButton.pack(side=tkinter.RIGHT, padx=5, pady=5)
 
     def addChoiceDisplay(self, questionFrame):
         tkinter.Label(questionFrame, text="addchoice stuff here", width=20).pack()
