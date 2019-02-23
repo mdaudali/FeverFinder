@@ -15,29 +15,29 @@ class Example(tkinter.Frame):
         self.initUI()
 
     def initUI(self):
-        self.master.title("Survey") # set window title
+        self.master.title("Survey")  # set window title
 
-        menubar = tkinter.Menu(self.master) # add menu bar
+        menubar = tkinter.Menu(self.master)  # add menu bar
         self.master.config(menu=menubar)
 
         # under "File"
         fileMenu = tkinter.Menu(menubar, tearoff=0)
-        fileMenu.add_command(label="New Question", command=self.displayQuestionTypes)   # form to add new question
-        fileMenu.add_command(label="Save", command=self.save)                           # save changes
+        fileMenu.add_command(label="New Question", command=self.displayQuestionTypes)  # form to add new question
+        fileMenu.add_command(label="Save", command=self.save)  # save changes
         fileMenu.add_separator()
-        fileMenu.add_command(label="Quit", command=self.onExit)                         # close window
+        fileMenu.add_command(label="Quit", command=self.onExit)  # close window
         menubar.add_cascade(label="File", menu=fileMenu)
 
         # under "Help"
         helpMenu = tkinter.Menu(menubar, tearoff=0)
-        helpMenu.add_command(label="About...", command=self.displayHelpMenu)            # display help popup
+        helpMenu.add_command(label="About...", command=self.displayHelpMenu)  # display help popup
         menubar.add_cascade(label="Help", menu=helpMenu)
 
     def displayHelpMenu(self):
         """ When click about... pop up menu explaining survey format """
         helpPopup = tk.Tk()
         helpPopup.wm_title("About...")  # TODO wrap text
-        label = ttk.Label(helpPopup,    # TODO seperate how to do/about??
+        label = ttk.Label(helpPopup,  # TODO seperate how to do/about??
                           text="add stuff into a textfile explaining the excel survey and maybe about the project too?")
         label.pack(side="top", fill="x", pady=10)
         helpPopup.mainloop()
@@ -59,7 +59,8 @@ class Example(tkinter.Frame):
 
         # track type of question chosen and display format of question
         typeOptionChosen.trace("w", lambda name, index, mode,
-                                           typeOptionChosen=typeOptionChosen: self.checkTypeOptionChosen(typeOptionChosen))
+                                           typeOptionChosen=typeOptionChosen: self.checkTypeOptionChosen(
+            typeOptionChosen))
 
     def checkTypeOptionChosen(self, typeOptionChosen):
         """ tracks the typeOptionChosen and displays form accordingly """
@@ -69,7 +70,7 @@ class Example(tkinter.Frame):
         for widget in self.master.winfo_children():
             if isinstance(widget, tk.Frame):
                 for frame in widget.winfo_children():
-                    if not(str(frame).startswith('.!frame.')):
+                    if not (str(frame).startswith('.!frame.')):
                         frame.pack_forget()
                         frame.destroy()
 
@@ -102,15 +103,13 @@ class Example(tkinter.Frame):
         # INPUT select_ choice parameters
         elif (typeOption.startswith('select_')):
             self.displaySelectOptions(questionFrame, entryQuestionName, entryQuestionLabel)
-        else:   # add question
+        else:  # add question
             buttonFrame = tkinter.Frame(questionFrame)
             buttonFrame.pack()
             addButton = tkinter.Button(buttonFrame, text="Add Question",
-                                       command=lambda : self.btnAddQuestion(
-                                           typeOption, entryQuestionName.get(),entryQuestionLabel.get(),"","",""))
+                                       command=lambda: self.btnAddQuestion(
+                                           typeOption, entryQuestionName.get(), entryQuestionLabel.get(), "", "", ""))
             addButton.pack(side=tkinter.RIGHT, padx=5, pady=5)
-
-
 
         # for widget in self.master.winfo_children():
         #     if isinstance(widget, tk.Frame):
@@ -153,7 +152,8 @@ class Example(tkinter.Frame):
         addButton = tkinter.Button(buttonFrame, text="Add Question",
                                    command=lambda: self.btnAddQuestion(
                                        'range', entryQuestionName.get(), entryQuestionLabel.get(), "",
-                                       ("start={} end={} step={}".format(entryStart.get(), entryEnd.get(), entryStep.get())), # add parameters in
+                                       ("start={} end={} step={}".format(entryStart.get(), entryEnd.get(),
+                                                                         entryStep.get())),  # add parameters in
                                        ""))
         addButton.pack(side=tkinter.RIGHT, padx=5, pady=5)
 
@@ -161,7 +161,7 @@ class Example(tkinter.Frame):
         choiceEntry = tkinter.Entry(choiceFrame)
         choiceEntry.pack(padx=5, pady=5)
 
-    def displaySelectOptions(self, questionFrame,  entryQuestionName, entryQuestionLabel):
+    def displaySelectOptions(self, questionFrame, entryQuestionName, entryQuestionLabel):
         """ Displays follow up questions for select_ types allowing user to add choices for questions.
             can add as many choices as needed """
         choiceOptionFrame = tkinter.Frame(questionFrame)
@@ -171,7 +171,8 @@ class Example(tkinter.Frame):
         # user enters as many choices as would like here
         choicesFrame = tkinter.Frame(questionFrame)
         choicesFrame.pack(fill=tkinter.X)
-        addButton = tkinter.Button(choiceOptionFrame, text="add choice", command= lambda: self.addChoiceDisplay(choicesFrame))
+        addButton = tkinter.Button(choiceOptionFrame, text="add choice",
+                                   command=lambda: self.addChoiceDisplay(choicesFrame))
         addButton.pack(side=tkinter.RIGHT, padx=5, pady=5)
 
         # button to add select question
@@ -182,21 +183,71 @@ class Example(tkinter.Frame):
         buttonFrame = tkinter.Frame(questionFrame)
         buttonFrame.pack()
         addButton = tkinter.Button(buttonFrame, text="Add Question",
-                                   command=lambda: self.btnAddQuestion(
-                                       'select', entryQuestionName.get(), entryQuestionLabel.get(), "",
-                                       "", ""))
+                                   command=lambda: self.btnAddChoices(choicesFrame, questionFrame))
         addButton.pack(side=tkinter.BOTTOM, padx=5, pady=5)
 
-    def btnAddQuestion(self, type, questionName, questionLabel, parameters, relevant, media):
-        # for now add just adds the question to the survey
-        rowValues = [type,
-                     questionName,
-                     questionLabel,
-                     relevant,
-                     parameters,
-                     media]
+    def getQuestionNameandLabel(self, questionFrame): # get question name and label from frame
+        questionName = questionLabel = ""
+        count = 1
+        for frame in questionFrame.winfo_children():
+            for widget in frame.winfo_children():
+                if isinstance(widget, tk.Entry):
+                    if count:
+                        questionName += str(widget.get())  # first input is questionName
+                        count -= 1
+                    else:
+                        questionLabel += str(widget.get())  # second input is questionLabel
 
-        filename = 'survey-choices.xlsx'
+        return questionName, questionLabel
+
+
+
+    def btnAddChoices(self, choicesFrame, questionFrame):
+        # TODO connect to choices sheet and add new choices
+        wb = load_workbook(filename)
+
+        questionName, questionLabel = self.getQuestionNameandLabel(questionFrame)
+
+
+        # list of rows to add to choices sheet
+        choiceOptionRows = []
+        rowCount = 1
+        for widget in choicesFrame.winfo_children():
+            if isinstance(widget, tk.Entry):    # choiceOptionRows = [[listName, name, label]....]
+                choiceOptionRows.append([questionName, rowCount, widget.get()])
+            rowCount += 1
+
+
+        # append survey sheet
+        surveySheet = wb.get_sheet_by_name(wb.get_sheet_names()[0])
+
+
+        # append choices sheet
+        choiceSheet = wb.get_sheet_by_name(wb.get_sheet_names()[1])
+
+        # number of rows/columns in original worksheet
+        nRows = choiceSheet.max_row
+        nCols = choiceSheet.max_column
+
+        r = nRows + 2
+        for row in choiceOptionRows:
+            c = 1
+            for choiceOption in row:
+                choiceSheet.cell(row=r, column=c).value = choiceOption
+                c += 1
+            r += 1
+
+        # choiceSheet.insert_rows(nRows+1, amount=1)
+
+        # save changes
+        wb.save('survey-choices-update.xlsx')
+
+
+
+
+    def btnAddQuestion(self, type, questionName, questionLabel, parameters, relevant, media):
+        rowValues = [type, questionName, questionLabel, relevant, parameters, media]
+        # add question to excel file
 
         # Load in the workbook
         wb = load_workbook(filename)
@@ -207,11 +258,10 @@ class Example(tkinter.Frame):
         nCols = surveySheet.max_column
 
         for index in range(0, nCols):
-            surveySheet.cell(row=nRows+1, column=index+1).value = rowValues[index]
+            surveySheet.cell(row=nRows + 1, column=index + 1).value = rowValues[index]
 
         # save changes
         wb.save('survey-choices-update.xlsx')
-
 
     def save(self):
         pass
@@ -219,6 +269,7 @@ class Example(tkinter.Frame):
     def onExit(self):
         self.quit()
 
+filename = 'survey-choices-update.xlsx'
 
 def main():
     root = tkinter.Tk()
@@ -228,3 +279,4 @@ def main():
 
 if __name__ == '__main__':
     main()
+
