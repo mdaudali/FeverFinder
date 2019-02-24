@@ -30,5 +30,6 @@ QuestionToJSON/.idea/**/*
 QuestionToJSON/venv/**/*
 fever_finder/frontend/static/**/*
 fever_finder/db.sqlite3
+fever_finder/.idea
 
 env/**/*

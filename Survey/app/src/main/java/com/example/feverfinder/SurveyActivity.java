@@ -1,5 +1,7 @@
 package com.example.feverfinder;
 
+import android.content.Context;
+import android.icu.util.Output;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -18,13 +20,21 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
+import com.example.feverfinder.questions.Question;
 import com.example.feverfinder.questions.QuestionParser;
 import com.example.feverfinder.questions.Section;
 
-import java.util.HashMap;
+import org.json.JSONObject;
+
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.List;
-import java.util.Map;
 
 public class SurveyActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, SurveySection.OnFragmentInteractionListener {
@@ -46,7 +56,6 @@ public class SurveyActivity extends AppCompatActivity
         setSupportActionBar(toolbar);
 
         setTitle("Fever Finder");
-
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -111,8 +120,21 @@ public class SurveyActivity extends AppCompatActivity
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        switch (id) {
+            case R.id.action_settings:
+                return true;
+            case R.id.action_save:
+                Context context = getApplicationContext();
+
+                Toast.makeText(context, "Saving survey...", Toast.LENGTH_SHORT).show();
+
+                try {
+                    saveAnswers();
+                    return true;
+                } catch (Exception e) {
+                    Toast.makeText(context, "Something bad happened.", Toast.LENGTH_LONG).show();
+                    return false;
+                }
         }
 
         return super.onOptionsItemSelected(item);
@@ -143,5 +165,43 @@ public class SurveyActivity extends AppCompatActivity
     @Override
     public void onFragmentInteraction(Uri uri) {
 
+    }
+
+    private void saveAnswers() throws Exception {
+        // TODO: test for internet connection; if there isn't one, save to file
+
+        // Create JSON object to send
+        JSONObject obj = new JSONObject();
+
+        // Iterate through all questions and get their content
+        for(int i = 0; i < sectionMap.size(); ++i) {
+            Section s = sectionMap.valueAt(i);
+            for(Question q : s.getQuestions()) {
+                obj.put(q.getName(), 1);
+            }
+        }
+
+        // Create string to send
+        String strToSend = obj.toString();
+
+        // Set up streams for sending:
+        // IP is corresponding to 'localhost'
+        // see here: https://developer.android.com/studio/run/emulator-networking
+        URL url = new URL("http://10.0.2.2:8000/api/people");
+        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+        conn.setRequestMethod("POST");
+        conn.setRequestProperty("Content-Type", "application/json; charset=utf-8");
+        OutputStream os = conn.getOutputStream();
+        BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(os, "UTF-8"));
+
+        // Send
+        writer.write(strToSend);
+        System.out.println("Trying to send this:");
+        System.out.println(strToSend);
+
+        // Close things
+        writer.flush();
+        writer.close();
+        os.close();
     }
 }

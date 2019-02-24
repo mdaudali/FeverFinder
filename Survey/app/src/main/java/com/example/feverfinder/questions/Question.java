@@ -11,6 +11,7 @@ import java.io.Serializable;
 abstract public class Question implements Serializable {
     private String name;
     private String label;
+    protected Object content;
 
     public Question(String name, String label){
         this.name = name;
@@ -23,6 +24,10 @@ abstract public class Question implements Serializable {
 
     public String getLabel() {
         return label;
+    }
+
+    public Object getContent() {
+        return content;
     }
 
     public abstract View generateView(Context context, ViewGroup root);
