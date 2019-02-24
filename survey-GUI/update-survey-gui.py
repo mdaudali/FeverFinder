@@ -16,6 +16,7 @@ class Example(tkinter.Frame):
         self.QuestionRowsToAdd = [] # accumulate rows of questions to add to the survey sheet
         self.ChoiceRowsToAdd = [] # accumulate list of choice options to add to choices sheet
         self.menubar = tkinter.Menu() # add menu bar to main window
+
         self.initUI()
 
     def initUI(self):
@@ -95,7 +96,7 @@ class Example(tkinter.Frame):
         # Display options for different types of question
         QuestionTypes = {'text', 'decimal', 'integer', 'select_one', 'select_multiple', 'range'}
         tkinter.Label(frameQType, text="Question Type", width=20).pack(side=tkinter.LEFT, padx=5, pady=5)
-        typeOptionChosen = tkinter.StringVar(qFrame)   # typeOptionChosen.get() retrieves chosen option
+        typeOptionChosen = tkinter.StringVar(frameQType)   # typeOptionChosen.get() retrieves chosen option
         typeOptionChosen.set('text')                        # default type
         tkinter.OptionMenu(frameQType, typeOptionChosen, *QuestionTypes).pack(fill=tkinter.X, padx=5, expand=True)
 
@@ -108,8 +109,7 @@ class Example(tkinter.Frame):
         buttonFrame.pack()
 
         addButton = tkinter.Button(buttonFrame, text="Add Question",
-                                   command=lambda: self.btnAddQuestion(
-                                       "blah", "blah", "blah", "blh", "", ""))
+                                   command=lambda: self.btnAddQuestion(qFrame, typeOptionChosen))
         addButton.pack(side=tkinter.RIGHT, padx=5, pady=5)
 
         # # button to add range question
@@ -129,18 +129,32 @@ class Example(tkinter.Frame):
         #                            command=lambda: self.btnAddChoices(choicesFrame, questionFrame, typeChosen))
         # addButton.pack(side=tkinter.BOTTOM, padx=5, pady=5)
 
+    def clearFrame(self, qFrame):
+        # clears frame contents except question_type selector and final end button
+        flag = False
+        for widget in qFrame.winfo_children():
+            if (isinstance(widget, tkinter.Frame)):
+                for frame in widget.winfo_children():
+                    if qFrame.master is None:   # main question
+                        if not (str(frame).startswith('.!frame.') or (isinstance(frame, tkinter.Button))):
+                            frame.pack_forget()
+                            frame.destroy()
+                            widget.destroy()
+                    else:                       #follow up question
+                        for f in frame.winfo_children():
+                            # TODO GET RID OF WEIRD WHITE SPACE
+                            if flag:
+                                f.destroy()
+                                frame.pack_forget()
+                            if (isinstance(f, tkinter.Menu)):
+                                flag = True
+
+
     def checkTypeOptionChosen(self, typeOptionChosen, qFrame):
         """ Tracks the typeOptionChosen and displays form accordingly """
         typeOption = typeOptionChosen.get()
 
-        # clears frame contents except question_type selector and final end button
-        for widget in qFrame.winfo_children():
-            if isinstance(widget, tk.Frame):
-                for frame in widget.winfo_children():
-                    if not (str(frame).startswith('.!frame.') or (isinstance(frame, tkinter.Button))):
-                        frame.pack_forget()
-                        frame.destroy()
-                        widget.destroy()
+        self.clearFrame(qFrame)
 
         # Frame for question details
         questionFrame = tkinter.Frame(qFrame)
@@ -196,40 +210,39 @@ class Example(tkinter.Frame):
         choiceOptionFrame = tkinter.Frame(questionFrame)
         choiceOptionFrame.pack(fill=tkinter.X)
         tkinter.Label(choiceOptionFrame, text="Enter choice options", width=20).pack(side=tkinter.LEFT, padx=5, pady=5)
+        tkinter.Button(choiceOptionFrame, text="add choice", command=lambda: self.addChoiceDisplay(questionFrame))\
+            .pack(side=tkinter.RIGHT, padx=5, pady=5)
 
-        # 'add choice' allows user to add another choice option
-        choicesFrame = tkinter.Frame(questionFrame)
-        choicesFrame.pack(fill=tkinter.X)
-
-        addButton = tkinter.Button(choiceOptionFrame, text="add choice",
-                                   command=lambda: self.addChoiceDisplay(choicesFrame))
-        addButton.pack(side=tkinter.RIGHT, padx=5, pady=5)
-
-    def addChoiceDisplay(self, choicesFrame):
+    def addChoiceDisplay(self, questionFrame):
         # add choice and option of follow up question if that choice picked
-        choiceOptFrame = tkinter.Frame(choicesFrame)
+        choiceOptFrame = tkinter.Frame(questionFrame)
         choiceOptFrame.pack(fill=tkinter.X)
 
-        # add option of follow up question
-        addFollowUpQuestion = tkinter.IntVar(choicesFrame)
+        followUpQuestionFrame = tkinter.Frame(questionFrame)
+        followUpQuestionFrame.pack(fill=tkinter.X)
+
+        # Can add a follow up question
+        addFollowUpQuestion = tkinter.IntVar(choiceOptFrame)
         followUp = tkinter.Checkbutton(choiceOptFrame, text="Follow Up Question", variable=addFollowUpQuestion,
                                        onvalue=1, offvalue=0)
         followUp.pack(side=tkinter.RIGHT, padx=5, pady=5)
-
-        choiceEntry = tkinter.Entry(choiceOptFrame)
-        choiceEntry.pack(fill=tkinter.X, padx=5, pady=5)
-
         # Track whether follow up chosen for that question
         addFollowUpQuestion.trace("w", lambda name, index, mode,
-                                addFollowUpQuestion=addFollowUpQuestion: self.displayFollowUpQuestion(choicesFrame, addFollowUpQuestion))
+                                              addFollowUpQuestion=addFollowUpQuestion: self.displayFollowUpQuestion(
+            followUpQuestionFrame, addFollowUpQuestion))
 
-    def displayFollowUpQuestion(self,choicesFrame, addFollowUpQuestion):
-        # display new frame containing follow up question
-        if (addFollowUpQuestion): # if option selected
-            followUpQuestionFrame = tkinter.Frame(choicesFrame)
-            followUpQuestionFrame.pack(fill=tkinter.X)
+        # input choice option label
+        choiceEntry = tkinter.Entry(choiceOptFrame)
+        choiceEntry.pack(padx=5, pady=5)
 
-            self.followUpAddQuestion(followUpQuestionFrame)
+
+    def displayFollowUpQuestion(self, choiceOptFrame, addFollowUpQuestion):
+         # display new frame containing follow up question
+         if (addFollowUpQuestion.get()): # if option selected
+            self.followUpAddQuestion(choiceOptFrame)
+         else:
+             # TODO CLEAR CHILD FRAME
+             pass
 
     def followUpAddQuestion(self, followUpPopup):
         # Frame containing question form
@@ -263,48 +276,84 @@ class Example(tkinter.Frame):
                         questionLabel += str(widget.get())  # second input is questionLabel
         return questionName, questionLabel
 
-    def btnAddChoices(self, choicesFrame, questionFrame, typeChosen):
-        questionName, questionLabel = self.getQuestionNameandLabel(questionFrame)
+    def btnAddQuestion(self, qFrame, typeOptionChosen):
+        qType = typeOptionChosen.get()
+        if (qType == 'range'):
+            # parse range question
+            self.parseRangeQuestion(qFrame, qType)
+        elif (str(qType).startswith('select_')):
+            # parse select_ question
+            self.parseSelectQuestion(qFrame, qType)
+        else:
+            # parse input question
+            self.parseInputQuestion(qFrame, qType)
 
-        # list of rows to add to choices sheet
-        choiceOptionRows = []
-        rowCount = 1
-        # add choice options from window into list
-        for widget in choicesFrame.winfo_children():
-            for frame in widget.winfo_children():
-                if isinstance(frame, tk.Entry):
-                    # choiceOptionRows = [[listName, name, label]....]
-                    choiceOptionRows.append([questionName, rowCount, frame.get()])
-                    rowCount += 1
-        self.ChoiceRowsToAdd.append(choiceOptionRows)
-        questionName, questionLabel = self.getQuestionNameandLabel(questionFrame)
-        self.btnAddQuestion((typeChosen + " " + questionName),  # e.g. select_one gender
-                            questionName, questionLabel, "","","")
+    def parseRangeQuestion(self, qFrame, qType):
+        rangeEntry = [] # = [<qName>, <qLabel>, <start>, <step>, <end>]
+
+        # get contents of entry boxes in range question form
+        for widget in qFrame.winfo_children():
+            for child_widget in widget.winfo_children():
+                for cchild_widget in child_widget.winfo_children():
+                    if isinstance(cchild_widget,tkinter.Entry):
+                        rangeEntry.append(cchild_widget.get())
+
+        parameters = "start="+rangeEntry[2] + " end="+rangeEntry[3] + " step="+rangeEntry[4]
+        self.addQuestionRow(qType, rangeEntry[0], rangeEntry[1], '', parameters, '')
+        print(qType)
+
+    def parseInputQuestion(self, qFrame ,qType):
+        questionEntry = []  # = [<qName>, <qLabel>]
+        # get contents of entry boxes in input question form
+        for widget in qFrame.winfo_children():
+            for child_widget in widget.winfo_children():
+                for cchild_widget in child_widget.winfo_children():
+                    if isinstance(cchild_widget,tkinter.Entry):
+                        questionEntry.append(cchild_widget.get())
+
+        self.addQuestionRow(qType, questionEntry[0], questionEntry[1], '', '', '')
 
 
-    def btnAddQuestion(self, type, questionName, questionLabel, parameters, relevant, media):
-        print("hi")
+    def parseSelectQuestion(self, qFrame, qType):
+        questionEntry = [] # = [<qName>, <qLabel>]
+        choiceOptions = [] # list of options for a select_ question
 
-        rowValues = [type, questionName, questionLabel, relevant, parameters, media]
+        for widget in qFrame.winfo_children():
+            for child_widget in widget.winfo_children():
+                for cchild_widget in child_widget.winfo_children():
+                    # questionName and questionLabel
+                    if isinstance(cchild_widget,tkinter.Entry):
+                        questionEntry.append(cchild_widget.get())
+                    else: # read in choices
+                        for choice_widget in cchild_widget.winfo_children():
+                            if isinstance(choice_widget, tkinter.Entry):
+                                choiceOptions.append(choice_widget.get())
 
-        # add to list of current questions
+        qName = questionEntry[0]
+        qLabel = questionEntry[1]
+
+        selectType = qType + " " + qName # e.g. select_one gender
+        self.addQuestionRow(selectType, qName, qLabel, '', '', '')
+        self.addChoicesRows(qName, choiceOptions)
+
+
+
+    def addQuestionRow(self, qType, qName, qLabel, relevant, parameters, media):
+        rowValues = [qType, qName, qLabel, relevant, parameters, media]
         self.QuestionRowsToAdd.append(rowValues)
 
-        # todo change to use current frame
-        # Clear contexts on text entries when click "add"
-        for widget in self.master.winfo_children():
-            for cwidget in widget.winfo_children():
-                for ccwidget in cwidget.winfo_children():
-                    if (isinstance(ccwidget, tkinter.Entry)):
-                        ccwidget.delete(0, 'end')
-                    for cccwidget in ccwidget.winfo_children():
-                        if (isinstance(cccwidget, tkinter.Entry)):
-                            cccwidget.delete(0, 'end')
+    def addChoicesRows(self, qName, choiceOptions):
+        choiceOptionsRows = [] # = [[listName, name, label], [..], ....]
+        index = 1
+        for choice in choiceOptions:
+            choiceOptionsRows.append([qName, index, choice])
+            index += 1
+
+        self.ChoiceRowsToAdd.append(choiceOptionsRows)
 
     def save(self):
         print(self.QuestionRowsToAdd)
         print(self.ChoiceRowsToAdd)
-
         # # TODO APPEND SURVEY SHEET HERE
         # surveySheet = wb.get_sheet_by_name(wb.get_sheet_names()[0])
         #
@@ -346,7 +395,6 @@ class Example(tkinter.Frame):
         self.quit()
 
 
-
 # survey file editing
 filename = 'files/survey-choices-update.xlsx'
 wb = load_workbook(filename)
@@ -377,3 +425,36 @@ if __name__ == '__main__':
 # todo maybe indent each follow up q to be more understandable
 
 # todo make add invisible at start
+# todo question type disapears from follow ups!!
+
+# todo do i need to convert qType to strings??
+
+#  def btnAddChoices(self, choicesFrame, questionFrame, typeChosen):
+#         questionName, questionLabel = self.getQuestionNameandLabel(questionFrame)
+#
+#         # list of rows to add to choices sheet
+#         choiceOptionRows = []
+#         rowCount = 1
+#         # add choice options from window into list
+#         for widget in choicesFrame.winfo_children():
+#             for frame in widget.winfo_children():
+#                 if isinstance(frame, tk.Entry):
+#                     # choiceOptionRows = [[listName, name, label]....]
+#                     choiceOptionRows.append([questionName, rowCount, frame.get()])
+#                     rowCount += 1
+#         self.ChoiceRowsToAdd.append(choiceOptionRows)
+#         questionName, questionLabel = self.getQuestionNameandLabel(questionFrame)
+#         self.btnAddQuestion((typeChosen + " " + questionName),  # e.g. select_one gender
+#                             questionName, questionLabel, "","","")
+
+
+# # todo change to use current frame
+# # Clear contexts on text entries when click "add"
+# for widget in self.master.winfo_children():
+#     for cwidget in widget.winfo_children():
+#         for ccwidget in cwidget.winfo_children():
+#             if (isinstance(ccwidget, tkinter.Entry)):
+#                 ccwidget.delete(0, 'end')
+#             for cccwidget in ccwidget.winfo_children():
+#                 if (isinstance(cccwidget, tkinter.Entry)):
+#                     cccwidget.delete(0, 'end')
