@@ -1,28 +1,67 @@
 package com.example.feverfinder.questions;
 
 import android.content.Context;
-import android.util.Log;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.view.View;
 import android.view.ViewGroup;
 
-import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
  * name gives a unique ID for each question - useful when saving responses
  * label gives the text of each question
  */
-abstract public class Question implements Serializable, SelectionChangedListener {
+public abstract class Question implements Parcelable, SelectionChangedListener {
+    public static final int TYPE_DECIMAL = 0;
+    public static final int TYPE_INTEGER = 1;
+    public static final int TYPE_RANGE = 2;
+    public static final int TYPE_SELECT = 3;
+    public static final int TYPE_TEXT = 4;
+
+    private int type;
     private String name;
     private String label;
     private List<Relevancy> relevancies;
     private View view;
 
-    public Question(String name, String label, List<Relevancy> relevancies) {
+    public Question(int type, String name, String label, List<Relevancy> relevancies) {
+        this.type = type;
         this.name = name;
         this.label = label;
         this.relevancies = relevancies;
     }
+
+    protected Question(int type, Parcel in) {
+        this.type = type;
+        this.name = in.readString();
+        this.label = in.readString();
+
+        this.relevancies = new ArrayList<>();
+        in.readTypedList(relevancies, Relevancy.CREATOR);
+    }
+
+    public static final Creator<Question> CREATOR = new Creator<Question>() {
+        @Override
+        public Question createFromParcel(Parcel in) {
+            int type = in.readInt();
+            switch (type) {
+                case TYPE_DECIMAL : return new DecimalQuestion(in);
+                case TYPE_INTEGER : return new IntegerQuestion(in);
+                case TYPE_RANGE : return new RangeQuestion(in);
+                case TYPE_SELECT : return new SelectQuestion(in);
+                case TYPE_TEXT : return new TextQuestion(in);
+                default : return null;
+            }
+        }
+
+        @Override
+        public Question[] newArray(int size) {
+            return new Question[size];
+        }
+    };
 
     public List<Relevancy> getRelevancies() {
         return relevancies;
@@ -49,9 +88,14 @@ abstract public class Question implements Serializable, SelectionChangedListener
         return true;
     }
 
+    /**
+     * Displays or hides the Question based on whether this Question is relevant to the
+     * SelectQuestion
+     *
+     * @param selectQuestion The Question which value may have changed
+     */
     @Override
     public void onSelectionChanged(SelectQuestion selectQuestion) {
-        Log.d("SELECTION_CHANGED", "started");
         if (isRelevant(selectQuestion)) {
             view.setVisibility(View.VISIBLE);
         } else {
@@ -59,10 +103,31 @@ abstract public class Question implements Serializable, SelectionChangedListener
         }
     }
 
+    //This should never be run!
     public abstract View generateView(Context context, ViewGroup root);
 
     protected void setView(View view) {
         this.view = view;
     }
 
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    /**
+     * Flatten this Question in to a Parcel.
+     *
+     * @param dest  The Parcel in which the object should be written.
+     * @param flags Additional flags about how the object should be written.
+     *              May be 0 or {@link #PARCELABLE_WRITE_RETURN_VALUE}.
+     */
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(type);
+        dest.writeString(name);
+        dest.writeString(label);
+        dest.writeTypedList(relevancies);
+    }
+    //TODO: if stuff doesn't work, add the factory class!
 }

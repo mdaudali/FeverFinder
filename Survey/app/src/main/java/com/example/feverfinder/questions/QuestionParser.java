@@ -15,6 +15,10 @@ import java.util.List;
 import java.util.Map;
 
 
+/**
+ * Class providing helper functions to parse from json provided to a format that can be used to
+ * display the survey
+ */
 public class QuestionParser {
 
     /**
@@ -85,23 +89,14 @@ public class QuestionParser {
                     e.printStackTrace();
                 }
             }
-            //If type is a group, add all the questions within the group
 
+            //If type is a group, add all the questions within the group
             else if (type.equals("begin_group")) {
                 getQuestions((JSONArray) questionJSON.get("relevant_questions"), responseChoices, questionRelevancy, questions);
             }
 
-
             if (newQuestion != null) {
                 questions.add(newQuestion);
-
-                //Find out if the question depends on anything - i.e. if it should
-                // only be displayed based on other entries and if it does depend on
-                //something register it so it can change based on the dependency.
-                List<SelectQuestion> dependencies = getDependencies(newQuestion, questions);
-                for (SelectQuestion dependency : dependencies) {
-                    dependency.addSelectionChangedListener(newQuestion);
-                }
             }
         }
     }
@@ -114,7 +109,7 @@ public class QuestionParser {
      * @param searchList The list of questions in which we should search
      * @return The list of SelectQuestions which question is dependant on
      */
-    private static List<SelectQuestion> getDependencies(Question question, List<Question> searchList) {
+    public static List<SelectQuestion> getDependencies(Question question, List<Question> searchList) {
         List<SelectQuestion> dependencies = new LinkedList<>();
         List<Relevancy> relevancies = question.getRelevancies();
 
@@ -158,7 +153,6 @@ public class QuestionParser {
                 JSONObject currentOption;
                 for (int j = 0; j < optionsArray.size(); j++) {
                     currentOption = (JSONObject) optionsArray.get(j);
-
 
                     //TODO: fix this - in the JSON 9 is represented as "9.0"
                     String name;

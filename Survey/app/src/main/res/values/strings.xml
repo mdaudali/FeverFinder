@@ -9,4 +9,9 @@
     <string name="action_settings">Settings</string>
 
     <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="next_section_text">Next Section</string>
+    <string name="submit_survey_text">Submit Survey</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
 </resources>

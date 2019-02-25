@@ -10,33 +10,27 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
 import com.example.feverfinder.questions.Question;
+import com.example.feverfinder.questions.QuestionParser;
+import com.example.feverfinder.questions.Section;
+import com.example.feverfinder.questions.SelectQuestion;
 
-import java.util.LinkedList;
 import java.util.List;
+
+import static android.view.View.GONE;
 
 
 /**
  * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link SurveySection.OnFragmentInteractionListener} interface
- * to handle interaction events.
  * Use the {@link SurveySection#newInstance} factory method to
  * create an instance of this fragment.
  */
 public class SurveySection extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // TODO: remove the parameters?????????????
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    //TODO: remove title
-    public static final String ARG_TITLE = "title";
-    //public static final String ARG_QUESTIONS = "questions";
+    public static final String ARG_SECTION = "section";
 
     // TODO: Rename and change types of parameters
-    private String mTitle;
-    private List<Question> mQuestions;
-    private OnFragmentInteractionListener mListener;
+    private Section mSection;
 
-    private List<Question> mRelevantQuestions;
 
     public SurveySection() {
         // Required empty public constructor
@@ -46,93 +40,71 @@ public class SurveySection extends Fragment {
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
      *
-     * @param title     Title of the survey section.
-     * @param questions List of the questions for this section to display.
+     * @param section The section we want to show in the fragment.
      * @return A new instance of fragment SurveySection.
      */
-    public static SurveySection newInstance(String title, List<Question> questions) {
+    public static SurveySection newInstance(Section section) {
         SurveySection fragment = new SurveySection();
         Bundle args = new Bundle();
-        args.putString(ARG_TITLE, title);
-        fragment.setArguments(args);
+        args.putParcelable(ARG_SECTION, section);
         return fragment;
     }
 
-    public void setmQuestions(List<Question> mQuestions) {
-        this.mQuestions = mQuestions;
+    public Section getSection() {
+        return mSection;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mTitle = getArguments().getString(ARG_TITLE);
+            mSection = getArguments().getParcelable(ARG_SECTION);
         }
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle out) {
+        out.putParcelable(ARG_SECTION, mSection);
+
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Questions that aren't yet relevant
-        mRelevantQuestions = new LinkedList<>();
-
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_survey_section, container, false);
 
         //Add the questions
         LinearLayout linearLayout = view.findViewById(R.id.question_container);
-        for (Question q : mQuestions) {
+        for (Question q : mSection.getQuestions()) {
+            //Find out if the question depends on anything - i.e. if it should
+            // only be displayed based on other entries and if it does depend on
+            //something register it so it can change based on the dependency.
+            List<SelectQuestion> dependencies = QuestionParser.getDependencies(q, mSection.getQuestions());
+            boolean relevant = true;
+            for (SelectQuestion dependency : dependencies) {
+                dependency.addSelectionChangedListener(q);
+                if (!q.isRelevant(dependency)) relevant = false;
+            }
 
             View child = q.generateView(getContext(), linearLayout);
-            if (child != null)
-                linearLayout.addView(child);
+            linearLayout.addView(child);
 
-            // hide irrelevant questions
-            if (q.getRelevancies().size() > 0) {
-                child.setVisibility(View.GONE);
-            }
+            if (!relevant) child.setVisibility(View.GONE);
         }
 
         return view;
     }
 
 
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
-    }
-
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
-        }
+        //Could attach listeners here if we wanted
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
-        mListener = null;
-    }
-
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
-    public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        void onFragmentInteraction(Uri uri);
     }
 }

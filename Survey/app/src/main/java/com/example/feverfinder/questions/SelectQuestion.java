@@ -1,6 +1,8 @@
 package com.example.feverfinder.questions;
 
 import android.content.Context;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,10 +19,21 @@ import java.util.List;
 
 
 public class SelectQuestion extends Question implements CompoundButton.OnCheckedChangeListener {
+    public static final Parcelable.Creator<SelectQuestion> CREATOR
+            = new Parcelable.Creator<SelectQuestion>() {
+        public SelectQuestion createFromParcel(Parcel in) {
+            return new SelectQuestion(in);
+        }
+
+        public SelectQuestion[] newArray(int size) {
+            return new SelectQuestion[size];
+        }
+    };
     private List<Option> options;
     private boolean multiple;
     private List<Option> selected;
     private List<SelectionChangedListener> listeners;
+
     /**
      * @param name     is the name for storage
      * @param label    is the label for display
@@ -28,10 +41,24 @@ public class SelectQuestion extends Question implements CompoundButton.OnChecked
      * @param options  is the list of options
      */
     public SelectQuestion(String name, String label, List<Relevancy> relevant, boolean multiple, List<Option> options) {
-        super(name, label, relevant);
+        super(Question.TYPE_SELECT, name, label, relevant);
         this.multiple = multiple;
         this.options = options;
         selected = new LinkedList<>();
+        listeners = new LinkedList<>();
+    }
+
+    protected SelectQuestion(Parcel in) {
+        super(Question.TYPE_SELECT, in);
+
+        options = new LinkedList<>();
+        in.readTypedList(options, Option.CREATOR);
+
+        multiple = in.readByte() != 0;
+
+        selected = new LinkedList<>();
+        in.readTypedList(selected, Option.CREATOR);
+
         listeners = new LinkedList<>();
     }
 
@@ -39,6 +66,13 @@ public class SelectQuestion extends Question implements CompoundButton.OnChecked
         return selected;
     }
 
+    /**
+     * Generate a View which displays the question
+     *
+     * @param context Context used to set up the View correctly
+     * @param root    The parent this View will be inserted in
+     * @return The generated View
+     */
     @Override
     public View generateView(Context context, ViewGroup root) {
         View view;
@@ -52,8 +86,8 @@ public class SelectQuestion extends Question implements CompoundButton.OnChecked
         for (Option option : options) {
             if (multiple) {
                 CheckBox checkBox = new CheckBox(context);
-                checkBox.setChecked(false);
-                checkBox.setText(option.label);
+                checkBox.setChecked(isSelected(option));
+                checkBox.setText(option.getLabel());
                 checkBox.setLayoutParams(new ViewGroup.LayoutParams(
                         ViewGroup.LayoutParams.MATCH_PARENT,
                         ViewGroup.LayoutParams.WRAP_CONTENT));
@@ -61,8 +95,8 @@ public class SelectQuestion extends Question implements CompoundButton.OnChecked
                 radioGroup.addView(checkBox);
             } else {
                 RadioButton radioButton = new RadioButton(context);
-                radioButton.setChecked(false);
-                radioButton.setText(option.label);
+                radioButton.setChecked(isSelected(option));
+                radioButton.setText(option.getLabel());
                 radioButton.setLayoutParams(new ViewGroup.LayoutParams(
                         ViewGroup.LayoutParams.MATCH_PARENT,
                         ViewGroup.LayoutParams.WRAP_CONTENT));
@@ -74,19 +108,38 @@ public class SelectQuestion extends Question implements CompoundButton.OnChecked
         return view;
     }
 
+    /**
+     * Calculates whether a given Option is selected
+     *
+     * @param option the option to check
+     * @return true if the option is selected
+     */
+    private boolean isSelected(Option option) {
+        for (Option selectedOpt : selected) {
+            if (selectedOpt.equals(option)) return true;
+        }
+        return false;
+    }
+
+    /**
+     * Called when the checked state of a compound button has changed.
+     *
+     * @param buttonView The compound button view whose state has changed.
+     * @param isChecked  The new checked state of buttonView.
+     */
     @Override
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
         //Ensure there is no concurrent access to the list of options
         if (isChecked) {
             for (Option option : options) {
-                if (buttonView.getText().equals(option.label)) {
+                if (buttonView.getText().equals(option.getLabel())) {
                     selected.add(option);
                     break;
                 }
             }
         } else {
             for (Option option : selected) {
-                if (buttonView.getText().equals(option.label)) {
+                if (buttonView.getText().equals(option.getLabel())) {
                     selected.remove(option);
                     break;
                 }
@@ -100,8 +153,27 @@ public class SelectQuestion extends Question implements CompoundButton.OnChecked
         }
     }
 
-
+    /**
+     * Called to add a new listener which depends on the values stored in here
+     *
+     * @param listener Object to be notified if this Question's response changes
+     */
     public void addSelectionChangedListener(SelectionChangedListener listener) {
         listeners.add(listener);
+    }
+
+    /**
+     * Flatten this Question in to a Parcel.
+     *
+     * @param dest  The Parcel in which the object should be written.
+     * @param flags Additional flags about how the object should be written.
+     *              May be 0 or {@link #PARCELABLE_WRITE_RETURN_VALUE}.
+     */
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        super.writeToParcel(dest, flags);
+        dest.writeTypedList(options);
+        dest.writeByte((byte) (multiple ? 1 : 0));
+        dest.writeTypedList(selected);
     }
 }

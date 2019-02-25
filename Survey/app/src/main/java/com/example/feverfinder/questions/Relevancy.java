@@ -1,5 +1,8 @@
 package com.example.feverfinder.questions;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -7,7 +10,7 @@ import java.util.regex.Pattern;
  * This class represents a relevancy field - whether a question should be displayed or not
  * given the value of some field.
  */
-public class Relevancy {
+public class Relevancy implements Parcelable {
     private String questionName;
     private String value;
     private boolean currentlyRelevant;
@@ -39,6 +42,24 @@ public class Relevancy {
         }
     }
 
+    private Relevancy(Parcel in) {
+        questionName = in.readString();
+        value = in.readString();
+        currentlyRelevant = in.readByte() != 0;
+    }
+
+    public static final Creator<Relevancy> CREATOR = new Creator<Relevancy>() {
+        @Override
+        public Relevancy createFromParcel(Parcel in) {
+            return new Relevancy(in);
+        }
+
+        @Override
+        public Relevancy[] newArray(int size) {
+            return new Relevancy[size];
+        }
+    };
+
     public String getQuestionName() {
         return questionName;
     }
@@ -58,5 +79,25 @@ public class Relevancy {
             currentlyRelevant = false;
         }
         return currentlyRelevant;
+    }
+
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    /**
+     * Flatten this object in to a Parcel.
+     *
+     * @param dest  The Parcel in which the object should be written.
+     * @param flags Additional flags about how the object should be written.
+     *              May be 0 or {@link #PARCELABLE_WRITE_RETURN_VALUE}.
+     */
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(questionName);
+        dest.writeString(value);
+        dest.writeByte((byte) (currentlyRelevant ? 1 : 0));
     }
 }
