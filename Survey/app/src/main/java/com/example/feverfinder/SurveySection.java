@@ -73,9 +73,6 @@ public class SurveySection extends Fragment {
             mTitle = getArguments().getString(ARG_TITLE);
         }
         Log.d("CREATION", "onCreate() running in" + this.mTitle);
-
-
-
     }
 
 

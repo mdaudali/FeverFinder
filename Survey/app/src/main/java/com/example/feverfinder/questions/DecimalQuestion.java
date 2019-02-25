@@ -14,11 +14,16 @@ import android.widget.EditText;
 import com.example.feverfinder.R;
 
 public class DecimalQuestion extends Question implements TextWatcher {
-    private Object content;
+    private double value;
 
     public DecimalQuestion(String name, String label) {
         super(name, label);
-        content = new Double(-1.0);
+        value = 0.0;
+    }
+
+    @Override
+    public Object getJSONOutput() {
+        return new Double(value);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.M)
@@ -52,6 +57,6 @@ public class DecimalQuestion extends Question implements TextWatcher {
      */
     @Override
     public void afterTextChanged(Editable s) {
-        content = Double.valueOf(s.toString());
+        value = Double.valueOf(s.toString());
     }
 }

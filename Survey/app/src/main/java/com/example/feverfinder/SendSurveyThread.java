@@ -28,7 +28,7 @@ public class SendSurveyThread extends Thread {
 
     public void run() {
         try {
-            // Set up streams for sending:
+            // Set up streams for sending (make sure URL ends with '/')
             URL url = new URL("http://13.95.172.26:8000/api/people/");
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("POST");
@@ -36,28 +36,29 @@ public class SendSurveyThread extends Thread {
             OutputStream os = conn.getOutputStream();
             BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(os, "UTF-8"));
 
-            Log.d("API", "Sending");
-            // Send
+            // Send the string
             writer.write(strToSend);
-            Log.d("API", "Trying to send this:");
-            Log.d("API", strToSend);
 
-            // Close things
+            // Close buffers and streams
             writer.flush();
             writer.close();
             os.close();
 
+            // Check response (for debugging)
             BufferedReader responseReader;
             if (200 <= conn.getResponseCode() && conn.getResponseCode() <= 299) {
+                // If successful API call, read from the input stream
                 responseReader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
             } else {
+                // Otherwise read from the error stream
                 responseReader = new BufferedReader(new InputStreamReader(conn.getErrorStream()));
             }
 
-            String line = "";
+            String line;
             while ((line = responseReader.readLine()) != null) {
                 Log.d("API_RESPONSE", line);
             }
+
             responseReader.close();
         } catch (Exception e) {
             e.printStackTrace();

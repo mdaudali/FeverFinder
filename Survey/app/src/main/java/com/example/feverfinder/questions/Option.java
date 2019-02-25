@@ -5,9 +5,11 @@ package com.example.feverfinder.questions;
 public class Option {
     String name;
     String label;
+    boolean checked;
 
     public Option(String name, String label){
         this.name = name;
         this.label = label;
+        this.checked = false;
     }
 }

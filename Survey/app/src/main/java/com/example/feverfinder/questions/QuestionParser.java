@@ -2,6 +2,7 @@ package com.example.feverfinder.questions;
 
 import android.os.Build;
 import android.support.annotation.RequiresApi;
+import android.util.Log;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -55,11 +56,22 @@ public class QuestionParser {
 
                         if (type.equals("text")) {
                             questions.add(new TextQuestion(name, label));
-                        }
-
-                        else if (type.startsWith("select")) {
-                            questions.add(new SelectQuestion(name, label,
-                                    type.startsWith("select_multiple"), responseChoices.get(name)));
+                        } else if (type.startsWith("select")) {
+                            // If this is a multiple choice question
+                            if(type.startsWith("select_multiple")) {
+                                questions.add(new MultiOptionQuestion(name, label, responseChoices.get(name)));
+                            }
+                            // Otherwise it must be a single choice question
+                            else {
+                                // But can be a boolean question which we distinguish, because it
+                                // represents a boolean value.
+                                if(responseChoices.get(name).get(0).label.equals("Yes")) {
+                                    Log.d("YESNO", label);
+                                    questions.add(new YesNoQuestion(name, label));
+                                } else {
+                                    questions.add(new SingleOptionQuestion(name, label, responseChoices.get(name)));
+                                }
+                            }
                         }
 
                         else if (type.equals("integer")) {
@@ -68,14 +80,6 @@ public class QuestionParser {
 
                         else if (type.equals("decimal")) {
                             questions.add(new DecimalQuestion(name, label));
-                        }
-
-                        else if (type.equals("range")) {
-                            try {
-                                questions.add(new RangeQuestion(name, label, currentQ.get("parameters").toString()));
-                            } catch (ParameterParseException e) {
-                                e.printStackTrace();
-                            }
                         }
                     }
                 }

@@ -6,22 +6,25 @@ import android.support.annotation.RequiresApi;
 import android.support.design.widget.TextInputLayout;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
-import android.widget.TextView;
 
 import com.example.feverfinder.R;
 
 public class TextQuestion extends Question implements TextWatcher {
     private String content;
+
     public TextQuestion(String name, String label) {
         super(name, label);
-        content = "";
-        JSONOutput = "unknown";
     }
 
+    @Override
+    public Object getJSONOutput() {
+        return content;
+    }
 
     //TODO: don't want these requires APIs
     @RequiresApi(api = Build.VERSION_CODES.M)
@@ -49,10 +52,11 @@ public class TextQuestion extends Question implements TextWatcher {
 
     }
 
-    //TODO: javadoc
     @Override
     public void afterTextChanged(Editable s) {
-        content = s.toString();
-        JSONOutput = content.equals("") ? "unknown" : content;
+        // If the content was cleared, then set output to 'unknown'.
+        // Otherwise set it to the value provided.
+        Log.d("TXT_CHANGE", s.toString());
+        content = s.toString().equals("") ? "unknown" : s.toString();
     }
 }

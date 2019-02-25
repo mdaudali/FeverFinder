@@ -4,7 +4,7 @@ import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 
-import org.json.JSONObject;
+import org.json.simple.JSONObject;
 
 import java.io.Serializable;
 
@@ -13,7 +13,6 @@ import java.io.Serializable;
 abstract public class Question implements Serializable {
     private String name;
     private String label;
-    protected Object JSONOutput;
 
     public Question(String name, String label){
         this.name = name;
@@ -28,9 +27,6 @@ abstract public class Question implements Serializable {
         return label;
     }
 
-    public Object getJSONOutput() {
-        return JSONOutput;
-    }
-
+    public abstract Object getJSONOutput();
     public abstract View generateView(Context context, ViewGroup root);
 }

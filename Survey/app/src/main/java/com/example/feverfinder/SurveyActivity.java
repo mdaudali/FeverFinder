@@ -132,8 +132,11 @@ public class SurveyActivity extends AppCompatActivity
 
                 Toast.makeText(context, "Saving survey...", Toast.LENGTH_SHORT).show();
 
+                // Try to save answers
+                // TODO: if we cannot upload them, then we should save
                 try {
                     saveAnswers();
+                    // Toast.makeText(context, "Survey successfully saved", Toast.LENGTH_SHORT).show();
                     return true;
                 } catch (Exception e) {
                     Toast.makeText(context, e.getClass().getCanonicalName() + ": " + e.getMessage(), Toast.LENGTH_LONG).show();
@@ -172,31 +175,32 @@ public class SurveyActivity extends AppCompatActivity
     }
 
     private void saveAnswers() throws SaveException, JSONException, IOException {
-        // TODO: test for internet connection; if there isn't one, save to file
+        // TODO: test for internet connection;
+        // TODO: if there isn't one save to file, or throw exception?
         if(!isNetworkAvailable()) throw new SaveException("Network is not available.");
 
         // Create JSON object to send
         JSONObject obj = new JSONObject();
 
-        Log.d("API", "Iterating through things");
         // Iterate through all questions and get their content
         for(int i = 0; i < sectionMap.size(); ++i) {
             Section s = sectionMap.valueAt(i);
             for(Question q : s.getQuestions()) {
-                obj.put(q.getName(), q.getJSONOutput());
+                obj.put(q.getName().toLowerCase(), q.getJSONOutput());
             }
         }
 
-        // Create string to send
-        Log.d("API", "Creating string");
+        // Convert JSON to string
         String strToSend = obj.toString();
 
-        Log.d("API", "Creating streams");
+        Log.d("JSON", strToSend);
 
+        // Send it with creating a new thread
         SendSurveyThread sst = new SendSurveyThread(strToSend);
         sst.start();
     }
 
+    /* Test if network is available */
     private boolean isNetworkAvailable() {
         ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();

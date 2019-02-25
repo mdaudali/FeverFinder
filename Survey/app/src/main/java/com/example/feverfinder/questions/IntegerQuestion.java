@@ -14,10 +14,15 @@ import android.widget.EditText;
 import com.example.feverfinder.R;
 
 public class IntegerQuestion extends Question implements TextWatcher {
+    private int value;
 
     public IntegerQuestion(String name, String label) {
         super(name, label);
-        JSONOutput = new Integer(-1);
+    }
+
+    @Override
+    public Object getJSONOutput() {
+        return new Integer(value);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.M)
@@ -41,6 +46,6 @@ public class IntegerQuestion extends Question implements TextWatcher {
 
     @Override
     public void afterTextChanged(Editable s) {
-        JSONOutput = Integer.valueOf(s.toString());
+        value = Integer.valueOf(s.toString());
     }
 }
