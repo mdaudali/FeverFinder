@@ -2,6 +2,8 @@ package com.example.feverfinder;
 
 import android.content.Context;
 import android.icu.util.Output;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -10,6 +12,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.util.SparseArray;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -26,6 +29,7 @@ import com.example.feverfinder.questions.Question;
 import com.example.feverfinder.questions.QuestionParser;
 import com.example.feverfinder.questions.Section;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedWriter;
@@ -132,7 +136,7 @@ public class SurveyActivity extends AppCompatActivity
                     saveAnswers();
                     return true;
                 } catch (Exception e) {
-                    Toast.makeText(context, "Something bad happened.", Toast.LENGTH_LONG).show();
+                    Toast.makeText(context, e.getClass().getCanonicalName() + ": " + e.getMessage(), Toast.LENGTH_LONG).show();
                     return false;
                 }
         }
@@ -167,41 +171,37 @@ public class SurveyActivity extends AppCompatActivity
 
     }
 
-    private void saveAnswers() throws Exception {
+    private void saveAnswers() throws SaveException, JSONException, IOException {
         // TODO: test for internet connection; if there isn't one, save to file
+        if(!isNetworkAvailable()) throw new SaveException("Network is not available.");
 
         // Create JSON object to send
         JSONObject obj = new JSONObject();
 
+        Log.d("API", "Iterating through things");
         // Iterate through all questions and get their content
         for(int i = 0; i < sectionMap.size(); ++i) {
             Section s = sectionMap.valueAt(i);
             for(Question q : s.getQuestions()) {
-                obj.put(q.getName(), 1);
+                obj.put(q.getName(), q.getJSONOutput());
             }
         }
 
         // Create string to send
+        Log.d("API", "Creating string");
         String strToSend = obj.toString();
 
-        // Set up streams for sending:
-        // IP is corresponding to 'localhost'
-        // see here: https://developer.android.com/studio/run/emulator-networking
-        URL url = new URL("http://10.0.2.2:8000/api/people");
-        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-        conn.setRequestMethod("POST");
-        conn.setRequestProperty("Content-Type", "application/json; charset=utf-8");
-        OutputStream os = conn.getOutputStream();
-        BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(os, "UTF-8"));
+        Log.d("API", "Creating streams");
 
-        // Send
-        writer.write(strToSend);
-        System.out.println("Trying to send this:");
-        System.out.println(strToSend);
-
-        // Close things
-        writer.flush();
-        writer.close();
-        os.close();
+        SendSurveyThread sst = new SendSurveyThread(strToSend);
+        sst.start();
     }
+
+    private boolean isNetworkAvailable() {
+        ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+    }
+
 }

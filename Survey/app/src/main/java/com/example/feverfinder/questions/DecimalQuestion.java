@@ -18,8 +18,7 @@ public class DecimalQuestion extends Question implements TextWatcher {
 
     public DecimalQuestion(String name, String label) {
         super(name, label);
-        //TODO: change content to decimal??
-        content = new Double(0.0);
+        content = new Double(-1.0);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.M)

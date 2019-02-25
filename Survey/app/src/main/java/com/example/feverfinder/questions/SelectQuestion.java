@@ -3,6 +3,7 @@ package com.example.feverfinder.questions;
 import android.content.Context;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +13,9 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.example.feverfinder.R;
+
+import org.json.JSONObject;
+import org.json.simple.JSONArray;
 
 import java.util.List;
 
@@ -29,6 +33,19 @@ public class SelectQuestion extends Question {
         super(name, label);
         this.multiple = multiple;
         this.options = options;
+
+        if(multiple) {
+            JSONArray jsonArr = new JSONArray();
+            for (Option opt : options) {
+                jsonArr.add(opt.label);
+            }
+
+            JSONOutput = jsonArr.toJSONString();
+        } else {
+            if(options.get(0).label.equals("Yes")) JSONOutput = "true";
+            else JSONOutput = options.get(0).label;
+        }
+        Log.d("JSONARR", (String)JSONOutput);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.M)

@@ -4,6 +4,8 @@ import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 
+import org.json.JSONObject;
+
 public class RangeQuestion extends Question {
     private int start;
     private int end;
@@ -27,6 +29,8 @@ public class RangeQuestion extends Question {
         catch (NumberFormatException e) {
             throw new ParameterParseException();
         }
+
+        JSONOutput = "range";
     }
 
     @Override

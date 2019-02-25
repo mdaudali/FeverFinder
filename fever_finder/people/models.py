@@ -49,7 +49,7 @@ class Person(models.Model):
 
     know_contact = models.BooleanField(default=False)
     know_contact_1 = models.CharField(max_length=128, default="unknown")
-    contact = models.CharField(max_length=128, default="unknown")
+    contact = models.CharField(max_length=1024, default="unknown")
     contact_7 = models.CharField(max_length=128, default="unknown")
     other_contact = models.CharField(max_length=128, default="unknown")
 

@@ -4,6 +4,8 @@ import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 
+import org.json.JSONObject;
+
 import java.io.Serializable;
 
 /* name gives a unique ID for each question - useful when saving responses
@@ -11,7 +13,7 @@ import java.io.Serializable;
 abstract public class Question implements Serializable {
     private String name;
     private String label;
-    protected Object content;
+    protected Object JSONOutput;
 
     public Question(String name, String label){
         this.name = name;
@@ -26,8 +28,8 @@ abstract public class Question implements Serializable {
         return label;
     }
 
-    public Object getContent() {
-        return content;
+    public Object getJSONOutput() {
+        return JSONOutput;
     }
 
     public abstract View generateView(Context context, ViewGroup root);

@@ -17,6 +17,7 @@ public class IntegerQuestion extends Question implements TextWatcher {
 
     public IntegerQuestion(String name, String label) {
         super(name, label);
+        JSONOutput = new Integer(-1);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.M)
@@ -40,6 +41,6 @@ public class IntegerQuestion extends Question implements TextWatcher {
 
     @Override
     public void afterTextChanged(Editable s) {
-        content = Integer.valueOf(s.toString());
+        JSONOutput = Integer.valueOf(s.toString());
     }
 }
