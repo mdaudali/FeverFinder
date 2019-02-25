@@ -6,8 +6,6 @@ from tkinter import *
 
 from openpyxl import load_workbook
 
-# todo why does select option disappear each time
-
 class Example(tkinter.Frame):
     def __init__(self):
         """ initialise UI with menu bar upon opening """
@@ -111,10 +109,10 @@ class Example(tkinter.Frame):
                             widget.destroy()
                     else:                       # follow up question
                         for f in frame.winfo_children():
-                            # TODO GET RID OF WEIRD WHITE SPACE
                             if flag:
                                 f.destroy()
                                 frame.pack_forget()
+                                widget.pack_forget()
                             if (isinstance(f, Menu)):
                                 flag = True
 
@@ -212,63 +210,63 @@ class Example(tkinter.Frame):
                 #      # self.clearFrame(choiceOptFrame.master)
 
     def btnAddQuestion(self, qFrame, typeOptionChosen):
-        # read in question form according to type chosen
-        qType = typeOptionChosen.get()
+        qType = typeOptionChosen.get()  # parse question according to their type
+        self.parseQuestionForm(qFrame, str(qType))
+        self.clearFrame(qFrame)         # resets frame
 
-        if (qType == 'range'):                          # parse range question
-            self.parseRangeQuestion(qFrame, qType)
-        elif (str(qType).startswith('select_')):
-            self.parseSelectQuestion(qFrame, qType)     # parse select_ question
-        else:
-            self.parseInputQuestion(qFrame, qType)      # parse input question
-
-        self.clearFrame(qFrame) # resets frame
-
-    def parseRangeQuestion(self, qFrame, qType):
-        rangeEntry = [] # = [<qName>, <qLabel>, <start>, <step>, <end>]
+    def parseQuestionForm(self, qFrame, qType):
+        qFormEntries   = []  # get text entries from form
+        followupFrames = []  # get follow-up questions from form
 
         for widget in qFrame.winfo_children():  # contents of entry boxes
             for child_widget in widget.winfo_children():
                 for cchild_widget in child_widget.winfo_children():
-                    if isinstance(cchild_widget,Entry):
-                        rangeEntry.append(cchild_widget.get())
+                    if isinstance(cchild_widget,Entry):  # top level text entry
+                        qFormEntries.append(cchild_widget.get())
+                    elif isinstance(cchild_widget, Frame):  # follow-up question
+                        followupFrames.append(cchild_widget)
 
+
+        if (qType == 'range'):
+            self.parseRangeQuestion(qType, qFormEntries)                      # parse range question
+        elif (str(qType).startswith('select_')):
+            self.parseSelectQuestion(qType, qFormEntries, followupFrames)     # parse select_ question
+        else:
+            self.parseInputQuestion(qType, qFormEntries)                      # parse input question
+
+    def parseRangeQuestion(self, qType, rangeEntry):
+        # rangeEntry = [<qName>, <qLabel>, <start>, <step>, <end>]
         parameters = "start="+rangeEntry[2] + " end="+rangeEntry[3] + " step="+rangeEntry[4]
 
-        #             question = [qType, qName, qLabel, relevant, parameters, media]
+        # question = [qType, qName, qLabel, relevant, parameters, media]
         self.addQuestionRow(qType, rangeEntry[0], rangeEntry[1], '', parameters, '')
 
-    def parseInputQuestion(self, qFrame ,qType):
-        questionEntry = []  # = [<qName>, <qLabel>]
+    def parseInputQuestion(self, qType, inputEntry):
+        # inputEntry = [<qName>, <qLabel>]
+        self.addQuestionRow(qType, inputEntry[0], inputEntry[1], '', '', '')
 
-        for widget in qFrame.winfo_children():          # contents of entry boxes
-            for child_widget in widget.winfo_children():
-                for cchild_widget in child_widget.winfo_children():
-                    if isinstance(cchild_widget,Entry):
-                        questionEntry.append(cchild_widget.get())
+    def parseSelectQuestion(self, qType, selectEntry, followupFrames):
+        # selectEntry = [<qName>, <qLabel>, <choiceopt1> , <choiceopt2> ....]
+        qName = selectEntry[0]
+        qLabel = selectEntry[1]
 
-        #           question = [qType, qName, qLabel, relevant, parameters, media]
-        self.addQuestionRow(qType, questionEntry[0], questionEntry[1], '', '', '')
+        choiceEntries = selectEntry[2:]     # rest of entries are choice options
 
-    def parseSelectQuestion(self, qFrame, qType):
-        selectQuestionEntry = [] # read in all text entries from form
-
-        for widget in qFrame.winfo_children():
-            for child_widget in widget.winfo_children():
-                for cchild_widget in child_widget.winfo_children():
-                    print(cchild_widget)
-                    if isinstance(cchild_widget,Entry):
-                        selectQuestionEntry.append(cchild_widget.get())
-                    elif isinstance(cchild_widget, Frame): # FOLLOW UP QUESTION
-                        # decide what to do based on type of follow up question
-                        pass
-
-        qName = selectQuestionEntry[0]
-        qLabel = selectQuestionEntry[1]
-
-        selectType = qType + " " + qName # e.g. select_one gender
+        selectType = qType + " " + qName    # e.g. select_one gender
         self.addQuestionRow(selectType, qName, qLabel, '', '', '')
-        self.addChoicesRows(qName, selectQuestionEntry[2:])  # rest of entries are choice options
+        self.addChoicesRows(qName, choiceEntries)
+
+        currentChoice = 1
+        for frame in followupFrames:
+            for widget in frame.winfo_children():
+                for w in widget.winfo_children():
+                    if (str(w).endswith('!label2')):
+                        followupType = (w.cget("text"))                # get type of follow-up question
+                        relevance = "{%s}=%d" % (qName, currentChoice) # e.g {gender}=1
+                        self.addQuestionRow('begin_group','','', relevance,'','')
+                        self.parseQuestionForm(frame.master, followupType)
+                        self.addQuestionRow('end_group', '', '', '', '', '')
+                        currentChoice += 1
 
     def addQuestionRow(self, qType, qName, qLabel, relevant, parameters, media):
         # add new question to self.QuestionRowsToAdd
@@ -286,33 +284,33 @@ class Example(tkinter.Frame):
         self.ChoiceRowsToAdd.append(choiceOptionsRows)
 
     def save(self):
-        # save changes to workbook
-
-        # TODO
-        # call code to regenerate JSON in app
-        print(self.QuestionRowsToAdd)
-        print(self.ChoiceRowsToAdd)
-        # # TODO APPEND SURVEY SHEET HERE
-        # surveySheet = wb.get_sheet_by_name(wb.get_sheet_names()[0])
+        # # save changes to workbook
+        # filename = 'files/survey-choices-update.xlsx'
+        # wb = load_workbook(filename)
         #
-        # # append choices sheet
+        # # surveySheet = wb.get_sheet_by_name(wb.get_sheet_names()[0])
+        #
+        # # add choice options to choices sheet
         # choiceSheet = wb.get_sheet_by_name(wb.get_sheet_names()[1])
+        # nRows = choiceSheet.max_row # index of last row
+        # nRows += 2 # leave a gap between different lists
         #
-        # # number of rows/columns in original worksheet
-        # nRows = choiceSheet.max_row
-        #
-        # # edit excel sheet
-        # r = nRows + 2  # leave a gap between different lists
-        # for row in choiceOptionRows:
-        #     c = 1
-        #     for choiceOption in row:
-        #         choiceSheet.cell(row=r, column=c).value = choiceOption
-        #         c += 1
-        #     r += 1
+        # for choice_list in self.ChoiceRowsToAdd:
+        #     for choice_row in choice_list:
+        #         c = 1
+        #         for row_cell in choice_row:
+        #             choiceSheet.cell(row=nRows, column=c).value = row_cell
+        #             c += 1
+        #         nRows += 1
+        #     nRows += 1  # row gap between adjacent lists
         #
         # # save changes
         # wb.save(filename)
 
+        print("Questions")
+        print(self.QuestionRowsToAdd)
+        print("Choices")
+        print(self.ChoiceRowsToAdd)
         # # Load in the workbook
         # wb = load_workbook(filename)
         # surveySheet = wb.get_sheet_by_name(wb.get_sheet_names()[0])
@@ -327,15 +325,15 @@ class Example(tkinter.Frame):
         # # save changes
         # wb.save(filename)
 
-        pass
+        # clear current cache
+        self.QuestionRowsToAdd = []
+        self.ChoiceRowsToAdd = []
 
     def onExit(self):
         self.quit() # close window
 
 
-# survey file editing
-filename = 'files/survey-choices-update.xlsx'
-wb = load_workbook(filename)
+
 
 def main():
     root = Tk()
@@ -351,13 +349,3 @@ if __name__ == '__main__':
 # todo seperate question names by hyphens if not already
 # todo some way of indenting thats more understandable or colours??
 
-# # todo change to use current frame
-# # Clear contexts on text entries when click "add"
-# for widget in self.master.winfo_children():
-#     for cwidget in widget.winfo_children():
-#         for ccwidget in cwidget.winfo_children():
-#             if (isinstance(ccwidget, Entry)):
-#                 ccwidget.delete(0, 'end')
-#             for cccwidget in ccwidget.winfo_children():
-#                 if (isinstance(cccwidget, Entry)):
-#                     cccwidget.delete(0, 'end')
