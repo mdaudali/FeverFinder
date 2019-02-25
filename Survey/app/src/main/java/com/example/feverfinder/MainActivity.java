@@ -2,15 +2,12 @@ package com.example.feverfinder;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 
 import com.example.feverfinder.questions.QuestionParser;
 import com.example.feverfinder.questions.Section;
 
-import java.io.FileInputStream;
 import java.util.ArrayList;
 import java.util.List;
 

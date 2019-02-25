@@ -11,6 +11,17 @@ import java.util.regex.Pattern;
  * given the value of some field.
  */
 public class Relevancy implements Parcelable {
+    public static final Creator<Relevancy> CREATOR = new Creator<Relevancy>() {
+        @Override
+        public Relevancy createFromParcel(Parcel in) {
+            return new Relevancy(in);
+        }
+
+        @Override
+        public Relevancy[] newArray(int size) {
+            return new Relevancy[size];
+        }
+    };
     private String questionName;
     private String value;
     private boolean currentlyRelevant;
@@ -47,18 +58,6 @@ public class Relevancy implements Parcelable {
         value = in.readString();
         currentlyRelevant = in.readByte() != 0;
     }
-
-    public static final Creator<Relevancy> CREATOR = new Creator<Relevancy>() {
-        @Override
-        public Relevancy createFromParcel(Parcel in) {
-            return new Relevancy(in);
-        }
-
-        @Override
-        public Relevancy[] newArray(int size) {
-            return new Relevancy[size];
-        }
-    };
 
     public String getQuestionName() {
         return questionName;

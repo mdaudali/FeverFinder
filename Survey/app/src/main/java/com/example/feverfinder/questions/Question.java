@@ -7,7 +7,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -20,7 +19,31 @@ public abstract class Question implements Parcelable, SelectionChangedListener {
     public static final int TYPE_RANGE = 2;
     public static final int TYPE_SELECT = 3;
     public static final int TYPE_TEXT = 4;
+    public static final Creator<Question> CREATOR = new Creator<Question>() {
+        @Override
+        public Question createFromParcel(Parcel in) {
+            int type = in.readInt();
+            switch (type) {
+                case TYPE_DECIMAL:
+                    return new DecimalQuestion(in);
+                case TYPE_INTEGER:
+                    return new IntegerQuestion(in);
+                case TYPE_RANGE:
+                    return new RangeQuestion(in);
+                case TYPE_SELECT:
+                    return new SelectQuestion(in);
+                case TYPE_TEXT:
+                    return new TextQuestion(in);
+                default:
+                    return null;
+            }
+        }
 
+        @Override
+        public Question[] newArray(int size) {
+            return new Question[size];
+        }
+    };
     private int type;
     private String name;
     private String label;
@@ -42,26 +65,6 @@ public abstract class Question implements Parcelable, SelectionChangedListener {
         this.relevancies = new ArrayList<>();
         in.readTypedList(relevancies, Relevancy.CREATOR);
     }
-
-    public static final Creator<Question> CREATOR = new Creator<Question>() {
-        @Override
-        public Question createFromParcel(Parcel in) {
-            int type = in.readInt();
-            switch (type) {
-                case TYPE_DECIMAL : return new DecimalQuestion(in);
-                case TYPE_INTEGER : return new IntegerQuestion(in);
-                case TYPE_RANGE : return new RangeQuestion(in);
-                case TYPE_SELECT : return new SelectQuestion(in);
-                case TYPE_TEXT : return new TextQuestion(in);
-                default : return null;
-            }
-        }
-
-        @Override
-        public Question[] newArray(int size) {
-            return new Question[size];
-        }
-    };
 
     public List<Relevancy> getRelevancies() {
         return relevancies;

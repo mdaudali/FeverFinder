@@ -1,7 +1,6 @@
 package com.example.feverfinder;
 
 import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -15,8 +14,6 @@ import com.example.feverfinder.questions.Section;
 import com.example.feverfinder.questions.SelectQuestion;
 
 import java.util.List;
-
-import static android.view.View.GONE;
 
 
 /**
