@@ -64,6 +64,11 @@ public class RangeQuestion extends Question implements SeekBar.OnSeekBarChangeLi
         content = in.readInt();
     }
 
+    @Override
+    public Object getJSONOutput() {
+        return content;
+    }
+
     /**
      * Generate a View which displays the question
      *

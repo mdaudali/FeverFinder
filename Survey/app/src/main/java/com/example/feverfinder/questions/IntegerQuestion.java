@@ -9,7 +9,6 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 
 import com.example.feverfinder.R;
 
@@ -26,21 +25,22 @@ public class IntegerQuestion extends Question implements TextWatcher {
             return new IntegerQuestion[size];
         }
     };
-    private int content;
+    private String content;
 
     public IntegerQuestion(String name, String label, List<Relevancy> relevant) {
         super(Question.TYPE_INTEGER, name, label, relevant);
+        content = "";
+    }
+
+    protected IntegerQuestion(Parcel in) {
+        super(Question.TYPE_INTEGER, in);
+        content = in.readString();
     }
 
     @Override
     public Object getJSONOutput() {
-        return new Integer(value);
-    }
-
-    @RequiresApi(api = Build.VERSION_CODES.M)
-    protected IntegerQuestion(Parcel in) {
-        super(Question.TYPE_INTEGER, in);
-        content = in.readInt();
+        if (content.equals("")) return 0;
+        else return Integer.valueOf(content);
     }
 
     /**
@@ -74,7 +74,7 @@ public class IntegerQuestion extends Question implements TextWatcher {
     //TODO: javadoc
     @Override
     public void afterTextChanged(Editable s) {
-        content = Integer.parseInt(s.toString());
+        content = s.toString();
     }
 
     /**
@@ -87,6 +87,6 @@ public class IntegerQuestion extends Question implements TextWatcher {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         super.writeToParcel(dest, flags);
-        dest.writeInt(content);
+        dest.writeString(content);
     }
 }

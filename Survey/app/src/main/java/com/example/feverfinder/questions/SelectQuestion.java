@@ -19,6 +19,10 @@ import java.util.List;
 
 
 public class SelectQuestion extends Question implements CompoundButton.OnCheckedChangeListener {
+    public static final int SELECT_TYPE_YES_NO = 0;
+    public static final int SELECT_TYPE_MULTIPLE = 1;
+    public static final int SELECT_TYPE_SINGLE = 2;
+
     public static final Parcelable.Creator<SelectQuestion> CREATOR
             = new Parcelable.Creator<SelectQuestion>() {
         public SelectQuestion createFromParcel(Parcel in) {
@@ -29,20 +33,21 @@ public class SelectQuestion extends Question implements CompoundButton.OnChecked
             return new SelectQuestion[size];
         }
     };
+
     private List<Option> options;
-    private boolean multiple;
+    private int select_type;
     private List<Option> selected;
     private List<SelectionChangedListener> listeners;
 
     /**
      * @param name     is the name for storage
      * @param label    is the label for display
-     * @param multiple is whether you can select multiple options
+     * @param type is whether you can select multiple options
      * @param options  is the list of options
      */
-    public SelectQuestion(String name, String label, List<Relevancy> relevant, boolean multiple, List<Option> options) {
+    public SelectQuestion(String name, String label, List<Relevancy> relevant, int type, List<Option> options) {
         super(Question.TYPE_SELECT, name, label, relevant);
-        this.multiple = multiple;
+        this.select_type = type;
         this.options = options;
         selected = new LinkedList<>();
         listeners = new LinkedList<>();
@@ -50,20 +55,31 @@ public class SelectQuestion extends Question implements CompoundButton.OnChecked
 
     protected SelectQuestion(Parcel in) {
         super(Question.TYPE_SELECT, in);
-
         options = new LinkedList<>();
         in.readTypedList(options, Option.CREATOR);
-
-        multiple = in.readByte() != 0;
-
+        select_type = in.readInt();
         selected = new LinkedList<>();
         in.readTypedList(selected, Option.CREATOR);
-
         listeners = new LinkedList<>();
     }
 
     public List<Option> getSelected() {
         return selected;
+    }
+
+    @Override
+    public Object getJSONOutput() {
+        Object output = "Unknown";
+        if (select_type == SELECT_TYPE_YES_NO) {
+            output = selected.get(0).getName().equals("yes");
+        } else if (select_type == SELECT_TYPE_MULTIPLE) {
+            List<String> out = new LinkedList<>();
+            for (Option option : selected) out.add(option.getName());
+            output = out;
+        } else if (select_type == SELECT_TYPE_SINGLE) {
+            if (selected.size() == 1) output = selected.get(0).getName();
+        }
+        return output;
     }
 
     /**
@@ -84,7 +100,7 @@ public class SelectQuestion extends Question implements CompoundButton.OnChecked
 
         RadioGroup radioGroup = view.findViewById(R.id.radio_container);
         for (Option option : options) {
-            if (multiple) {
+            if (select_type == SELECT_TYPE_MULTIPLE) {
                 CheckBox checkBox = new CheckBox(context);
                 checkBox.setChecked(isSelected(option));
                 checkBox.setText(option.getLabel());
@@ -93,7 +109,7 @@ public class SelectQuestion extends Question implements CompoundButton.OnChecked
                         ViewGroup.LayoutParams.WRAP_CONTENT));
                 checkBox.setOnCheckedChangeListener(this);
                 radioGroup.addView(checkBox);
-            } else {
+            } else if (select_type == SELECT_TYPE_SINGLE || select_type == SELECT_TYPE_YES_NO) {
                 RadioButton radioButton = new RadioButton(context);
                 radioButton.setChecked(isSelected(option));
                 radioButton.setText(option.getLabel());
@@ -173,7 +189,7 @@ public class SelectQuestion extends Question implements CompoundButton.OnChecked
     public void writeToParcel(Parcel dest, int flags) {
         super.writeToParcel(dest, flags);
         dest.writeTypedList(options);
-        dest.writeByte((byte) (multiple ? 1 : 0));
+        dest.writeInt(select_type);
         dest.writeTypedList(selected);
     }
 }

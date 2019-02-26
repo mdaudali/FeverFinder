@@ -26,16 +26,22 @@ public class DecimalQuestion extends Question implements TextWatcher {
             return new DecimalQuestion[size];
         }
     };
-    private Float content;
+    private String content;
 
     public DecimalQuestion(String name, String label, List<Relevancy> relevant) {
         super(Question.TYPE_DECIMAL, name, label, relevant);
-        content = 0f;
+        content = "";
     }
 
     protected DecimalQuestion(Parcel in) {
         super(Question.TYPE_DECIMAL, in);
-        content = in.readFloat();
+        content = in.readString();
+    }
+
+    @Override
+    public Object getJSONOutput() {
+        if (content.equals("")) return 0f;
+        else return Float.valueOf(content);
     }
 
     /**
@@ -75,7 +81,7 @@ public class DecimalQuestion extends Question implements TextWatcher {
      */
     @Override
     public void afterTextChanged(Editable s) {
-        content = Float.parseFloat(s.toString());
+        content = s.toString();
     }
 
     /**
@@ -88,6 +94,6 @@ public class DecimalQuestion extends Question implements TextWatcher {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         super.writeToParcel(dest, flags);
-        dest.writeFloat(content);
+        dest.writeString(content);
     }
 }

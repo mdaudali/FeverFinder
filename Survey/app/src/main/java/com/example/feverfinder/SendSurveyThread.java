@@ -1,22 +1,13 @@
 package com.example.feverfinder;
 
 import android.util.Log;
-import android.util.SparseArray;
-
-import com.example.feverfinder.questions.Question;
-import com.example.feverfinder.questions.Section;
-
-import org.json.JSONException;
-import org.json.simple.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
-import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
 
 public class SendSurveyThread extends Thread {

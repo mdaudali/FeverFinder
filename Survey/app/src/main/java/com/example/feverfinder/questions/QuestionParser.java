@@ -76,18 +76,17 @@ public class QuestionParser {
                 newQuestion = new TextQuestion(name, label, questionRelevancy);
             } else if (type.startsWith("select")) {
                 // If this is a multiple choice question
-                if(type.startsWith("select_multiple")) {
-                    questions.add(new MultiOptionQuestion(name, label, responseChoices.get(name)));
+                if (type.startsWith("select_multiple")) {
+                    newQuestion = new SelectQuestion(name, label, questionRelevancy, SelectQuestion.SELECT_TYPE_MULTIPLE, responseChoices.get(name));
                 }
                 // Otherwise it must be a single choice question
                 else {
-                    // But can be a boolean question which we distinguish, because it
-                    // represents a boolean value.
-                    if(responseChoices.get(name).get(0).label.equals("Yes")) {
-                        Log.d("YESNO", label);
-                        questions.add(new YesNoQuestion(name, label));
-                    } else {
-                        questions.add(new SingleOptionQuestion(name, label, responseChoices.get(name)));
+                    if (type.startsWith("select_one yes_no_2")) {
+                        //TODO: maybe put default options if type is yes/no
+                        newQuestion = new SelectQuestion(name, label, questionRelevancy, SelectQuestion.SELECT_TYPE_YES_NO, responseChoices.get(name));
+                    }
+                    else {
+                        newQuestion = new SelectQuestion(name, label, questionRelevancy, SelectQuestion.SELECT_TYPE_SINGLE, responseChoices.get(name));
                     }
                 }
             } else if (type.equals("integer")) {
