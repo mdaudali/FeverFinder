@@ -6,6 +6,7 @@ import android.os.Parcelable;
 import android.support.design.widget.TextInputLayout;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,6 +37,10 @@ public class TextQuestion extends Question implements TextWatcher {
     protected TextQuestion(Parcel in) {
         super(Question.TYPE_TEXT, in);
         content = in.readString();
+    }
+    @Override
+    public Object getJSONOutput() {
+        return content;
     }
 
     /**

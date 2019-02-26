@@ -75,8 +75,21 @@ public class QuestionParser {
             if (type.equals("text")) {
                 newQuestion = new TextQuestion(name, label, questionRelevancy);
             } else if (type.startsWith("select")) {
-                newQuestion = new SelectQuestion(name, label, questionRelevancy,
-                        type.startsWith("select_multiple"), responseChoices.get(type.split(" ")[1]));
+                // If this is a multiple choice question
+                if(type.startsWith("select_multiple")) {
+                    questions.add(new MultiOptionQuestion(name, label, responseChoices.get(name)));
+                }
+                // Otherwise it must be a single choice question
+                else {
+                    // But can be a boolean question which we distinguish, because it
+                    // represents a boolean value.
+                    if(responseChoices.get(name).get(0).label.equals("Yes")) {
+                        Log.d("YESNO", label);
+                        questions.add(new YesNoQuestion(name, label));
+                    } else {
+                        questions.add(new SingleOptionQuestion(name, label, responseChoices.get(name)));
+                    }
+                }
             } else if (type.equals("integer")) {
                 newQuestion = new IntegerQuestion(name, label, questionRelevancy);
             } else if (type.equals("decimal")) {

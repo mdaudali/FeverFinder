@@ -6,6 +6,9 @@ import android.os.Parcelable;
 import android.view.View;
 import android.view.ViewGroup;
 
+import org.json.simple.JSONObject;
+
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -78,6 +81,7 @@ public abstract class Question implements Parcelable, SelectionChangedListener {
         return label;
     }
 
+    public abstract Object getJSONOutput();
     /**
      * This method returns true if the question is relevant and should be displayed
      *

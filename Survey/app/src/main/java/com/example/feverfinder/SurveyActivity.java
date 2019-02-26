@@ -1,9 +1,19 @@
 package com.example.feverfinder;
 
+import android.content.Context;
+import android.icu.util.Output;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
+import android.util.SparseArray;
+import android.view.View;
+import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -14,11 +24,23 @@ import android.text.style.ForegroundColorSpan;
 import android.util.SparseArray;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 import android.view.View;
 
+import com.example.feverfinder.questions.Question;
+import com.example.feverfinder.questions.QuestionParser;
 import com.example.feverfinder.questions.Section;
 
 import java.util.LinkedList;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.List;
 
 public class SurveyActivity extends AppCompatActivity
@@ -162,4 +184,39 @@ public class SurveyActivity extends AppCompatActivity
 
         fragmentTransaction.commit();
     }
+
+    private void saveAnswers() throws SaveException, JSONException, IOException {
+        // TODO: test for internet connection;
+        // TODO: if there isn't one save to file, or throw exception?
+        if(!isNetworkAvailable()) throw new SaveException("Network is not available.");
+
+        // Create JSON object to send
+        JSONObject obj = new JSONObject();
+
+        // Iterate through all questions and get their content
+        for(int i = 0; i < sectionMap.size(); ++i) {
+            Section s = sectionMap.valueAt(i);
+            for(Question q : s.getQuestions()) {
+                obj.put(q.getName().toLowerCase(), q.getJSONOutput());
+            }
+        }
+
+        // Convert JSON to string
+        String strToSend = obj.toString();
+
+        Log.d("JSON", strToSend);
+
+        // Send it with creating a new thread
+        SendSurveyThread sst = new SendSurveyThread(strToSend);
+        sst.start();
+    }
+
+    /* Test if network is available */
+    private boolean isNetworkAvailable() {
+        ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+    }
+
 }
