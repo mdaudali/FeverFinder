@@ -43,7 +43,7 @@
     ]
   },
   {
-    "list_name": "GPS_ID",
+    "list_name": "gps_id",
     "options": [
       {
         "name": "1",
@@ -166,24 +166,24 @@
         "label": "Radio"
       },
       {
-        "name": "1",
-        "label": "Television "
+        "name": "2",
+        "label": "Television"
       },
       {
-        "name": "1",
-        "label": "Meeting "
+        "name": "3",
+        "label": "Meeting"
       },
       {
-        "name": "1",
-        "label": "Hospital "
+        "name": "4",
+        "label": "Hospital"
       },
       {
-        "name": "1",
-        "label": "A friend "
+        "name": "5",
+        "label": "A friend"
       },
       {
-        "name": "1",
-        "label": "Sensitization activity "
+        "name": "6",
+        "label": "Sensitization activity"
       },
       {
         "name": "7",
@@ -196,7 +196,7 @@
     "options": [
       {
         "name": "1",
-        "label": "Germs/virus  "
+        "label": "Germs/virus"
       },
       {
         "name": "2",
@@ -217,7 +217,7 @@
     "options": [
       {
         "name": "1",
-        "label": "Staying with sick person  "
+        "label": "Staying with sick person"
       },
       {
         "name": "2",
@@ -225,7 +225,7 @@
       },
       {
         "name": "3",
-        "label": "Sexual intercourse "
+        "label": "Sexual intercourse"
       },
       {
         "name": "4",
@@ -237,7 +237,7 @@
       },
       {
         "name": "6",
-        "label": "Attending burial "
+        "label": "Attending burial"
       },
       {
         "name": "7",
@@ -296,19 +296,19 @@
       },
       {
         "name": "2",
-        "label": "Personal hygiene "
+        "label": "Personal hygiene"
       },
       {
         "name": "3",
-        "label": "Vaccine "
+        "label": "Vaccine"
       },
       {
         "name": "4",
-        "label": "Prayers "
+        "label": "Prayers"
       },
       {
         "name": "5",
-        "label": "Not eating bush meat "
+        "label": "Not eating bush meat"
       },
       {
         "name": "6",
@@ -321,7 +321,7 @@
     "options": [
       {
         "name": "1",
-        "label": "A household member "
+        "label": "A household member"
       },
       {
         "name": "2",

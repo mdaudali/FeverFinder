@@ -9,9 +9,9 @@
       "media": ""
     },
     {
-      "type": "number",
+      "type": "integer",
       "name": "age",
-      "label": "Age at last birthday (years)",
+      "label": "Age at last birthday (in years)",
       "relevant": "",
       "parameters": "",
       "media": ""
@@ -25,7 +25,7 @@
       "media": ""
     },
     {
-      "type": "number",
+      "type": "integer",
       "name": "temperature",
       "label": "Measure Temperature",
       "relevant": "",
@@ -43,7 +43,7 @@
     {
       "type": "text",
       "name": "village_name",
-      "label": "Village ",
+      "label": "Village",
       "relevant": "",
       "parameters": "",
       "media": ""
@@ -51,7 +51,7 @@
     {
       "type": "text",
       "name": "town_name",
-      "label": "Town ",
+      "label": "Town",
       "relevant": "",
       "parameters": "",
       "media": ""
@@ -59,7 +59,7 @@
     {
       "type": "text",
       "name": "state_name",
-      "label": "State ",
+      "label": "State",
       "relevant": "",
       "parameters": "",
       "media": ""
@@ -82,7 +82,7 @@
     },
     {
       "type": "select_one GPS_ID",
-      "name": "GPS_ID",
+      "name": "gps_id",
       "label": "GPS_ID",
       "relevant": "",
       "parameters": "",
@@ -100,7 +100,7 @@
     },
     {
       "type": "begin_group",
-      "name": "occupation_1",
+      "name": "",
       "label": "",
       "relevant": "${occupation} = '1'",
       "parameters": "",
@@ -116,7 +116,7 @@
         },
         {
           "type": "begin_group",
-          "name": "farmer_type_4",
+          "name": "",
           "label": "",
           "relevant": "selected(${farmer_type}, '4')",
           "parameters": "",
@@ -136,7 +136,7 @@
     },
     {
       "type": "begin_group",
-      "name": "occupation_2",
+      "name": "",
       "label": "",
       "relevant": "${occupation} = '2'",
       "parameters": "",
@@ -154,7 +154,7 @@
     },
     {
       "type": "begin_group",
-      "name": "occupation_9",
+      "name": "",
       "label": "",
       "relevant": "${occupation} = '9'",
       "parameters": "",
@@ -197,14 +197,14 @@
     {
       "type": "select_one yes_no_2",
       "name": "knows_of_lassa",
-      "label": "Have you heard of Lassa fever? ",
+      "label": "Have you heard of Lassa fever?",
       "relevant": "",
       "parameters": "",
       "media": ""
     },
     {
       "type": "begin_group",
-      "name": "knows_of_lassa_1",
+      "name": "",
       "label": "",
       "relevant": "${knows_of_lassa} = '1'",
       "parameters": "",
@@ -220,7 +220,7 @@
         },
         {
           "type": "begin_group",
-          "name": "info_on_lassa_7",
+          "name": "",
           "label": "",
           "relevant": "selected(${info_on_lassa}, '7')",
           "parameters": "",
@@ -228,7 +228,7 @@
           "relevant_questions": [
             {
               "type": "text",
-              "name": "other_infoOnLassa",
+              "name": "other_info_on_lassa",
               "label": "Where else did you get information about Lassa Fever?",
               "relevant": "",
               "parameters": "",
@@ -239,14 +239,14 @@
         {
           "type": "select_one yes_no_3",
           "name": "if_local_name",
-          "label": "Is there a local name for Lassa Fever? ",
+          "label": "Is there a local name for Lassa Fever?",
           "relevant": "",
           "parameters": "",
           "media": ""
         },
         {
           "type": "begin_group",
-          "name": "if_local_name_1",
+          "name": "",
           "label": "",
           "relevant": "${if_local_name}='1'",
           "parameters": "",
@@ -255,7 +255,7 @@
             {
               "type": "text",
               "name": "local_name",
-              "label": "What is the local name? ",
+              "label": "What is the local name?",
               "relevant": "",
               "parameters": "",
               "media": ""
@@ -265,7 +265,7 @@
         {
           "type": "select_one cause",
           "name": "know_lassa_cause",
-          "label": "What causes this disease? ",
+          "label": "What causes this disease?",
           "relevant": "",
           "parameters": "",
           "media": ""
@@ -273,14 +273,14 @@
         {
           "type": "select_one yes_no_2",
           "name": "know_contact",
-          "label": "Do you know how one can contact this disease? ",
+          "label": "Do you know how one can contact this disease?",
           "relevant": "",
           "parameters": "",
           "media": ""
         },
         {
           "type": "begin_group",
-          "name": "know_contact_1",
+          "name": "",
           "label": "",
           "relevant": "${know_contact}='1'",
           "parameters": "",
@@ -298,7 +298,7 @@
         },
         {
           "type": "begin_group",
-          "name": "contact_7",
+          "name": "",
           "label": "",
           "relevant": "selected(${contact}, '7')",
           "parameters": "",
@@ -317,7 +317,7 @@
         {
           "type": "select_one yes_no_2",
           "name": "fear",
-          "label": "Are you scared of getting Lassa fever? ",
+          "label": "Are you scared of getting Lassa fever?",
           "relevant": "",
           "parameters": "",
           "media": ""
@@ -325,7 +325,7 @@
         {
           "type": "range",
           "name": "fear_range",
-          "label": "On a scale of 0-5 (0 = not scared at all and 5 = very scared) how scared are you of getting Lassa fever?  ",
+          "label": "On a scale of 0-5 (0 = not scared at all and 5 = very scared) how scared are you of getting Lassa fever?",
           "relevant": "",
           "parameters": "start=0 end=5 step=1",
           "media": ""
@@ -333,14 +333,14 @@
         {
           "type": "select_multiple signs",
           "name": "signs",
-          "label": "What are the signs of Lassa? ",
+          "label": "What are the signs of Lassa?",
           "relevant": "",
           "parameters": "",
           "media": ""
         },
         {
           "type": "begin_group",
-          "name": "signs_5",
+          "name": "",
           "label": "",
           "relevant": "selected(${signs}, '5')",
           "parameters": "",
@@ -359,7 +359,7 @@
         {
           "type": "select_one yes_no_3",
           "name": "can_kill",
-          "label": "Can Lassa Fever disease kill?     ",
+          "label": "Can Lassa Fever disease kill?",
           "relevant": "",
           "parameters": "",
           "media": ""
@@ -383,7 +383,7 @@
         {
           "type": "select_one yes_no_3",
           "name": "can_prevent",
-          "label": "Can Lassa Fever be prevented? ",
+          "label": "Can Lassa Fever be prevented?",
           "relevant": "",
           "parameters": "",
           "media": ""
@@ -401,7 +401,7 @@
     {
       "type": "select_one yes_no_2",
       "name": "take_vaccine",
-      "label": "If there was a good vaccine would you take it? ",
+      "label": "If there was a good vaccine would you take it?",
       "relevant": "",
       "parameters": "",
       "media": ""
@@ -418,7 +418,7 @@
     },
     {
       "type": "begin_group",
-      "name": "know_LF_patient_1",
+      "name": "",
       "label": "",
       "relevant": "${know_LF_patient} = '1'",
       "parameters": "",
@@ -442,7 +442,7 @@
         },
         {
           "type": "begin_group",
-          "name": "relationship_7",
+          "name": "",
           "label": "",
           "relevant": "${relationship} = '7'",
           "parameters": "",
@@ -476,7 +476,7 @@
         },
         {
           "type": "begin_group",
-          "name": "seek_treatment_2",
+          "name": "",
           "label": "",
           "relevant": "${seek_treatment} = '2'",
           "parameters": "",
@@ -494,7 +494,7 @@
         },
         {
           "type": "begin_group",
-          "name": "seek_treatment_1",
+          "name": "",
           "label": "",
           "relevant": "${seek_treatment} = '1'",
           "parameters": "",
@@ -511,7 +511,7 @@
             {
               "type": "select_one distance_treatment",
               "name": "distance_treatment",
-              "label": "How far is the main place of treatment from your home? ",
+              "label": "How far is the main place of treatment from your home?",
               "relevant": "",
               "parameters": "",
               "media": ""
@@ -528,7 +528,7 @@
         },
         {
           "type": "begin_group",
-          "name": "where_seek_treatment_1",
+          "name": "",
           "label": "",
           "relevant": "selected(${where_seek_treatment}, '1')",
           "parameters": "",
@@ -546,7 +546,7 @@
         },
         {
           "type": "begin_group",
-          "name": "where_seek_treatment_2",
+          "name": "",
           "label": "",
           "relevant": "selected(${where_seek_treatment}, '2')",
           "parameters": "",
@@ -564,7 +564,7 @@
         },
         {
           "type": "begin_group",
-          "name": "where_seek_treatment_3",
+          "name": "",
           "label": "",
           "relevant": "selected(${where_seek_treatment}, '3')",
           "parameters": "",
@@ -592,7 +592,7 @@
     },
     {
       "type": "begin_group",
-      "name": "had_lassa_1",
+      "name": "",
       "label": "",
       "relevant": "${had_lassa}='1'",
       "parameters": "",
@@ -609,7 +609,7 @@
         {
           "type": "select_one fever_intensity",
           "name": "fever_intensity",
-          "label": "How intense was the fever\u00a0? ",
+          "label": "How intense was the fever\u00a0?",
           "relevant": "",
           "parameters": "",
           "media": ""
@@ -617,14 +617,14 @@
         {
           "type": "select_one yes_no_2",
           "name": "fever_treatment",
-          "label": "Did you receive treatment for the fever? ",
+          "label": "Did you receive treatment for the fever?",
           "relevant": "",
           "parameters": "",
           "media": ""
         },
         {
           "type": "begin_group",
-          "name": "fever_treatment_1",
+          "name": "",
           "label": "",
           "relevant": "${fever_treatment}='1'",
           "parameters": "",
@@ -640,7 +640,7 @@
             },
             {
               "type": "begin_group",
-              "name": "where_fever_treatment_1",
+              "name": "",
               "label": "",
               "relevant": "${where_fever_treatment} = '1'",
               "parameters": "",
@@ -659,14 +659,14 @@
             {
               "type": "select_one yes_no_2",
               "name": "tell_treatment_type",
-              "label": "Can you tell the type of treatment you received?  ",
+              "label": "Can you tell the type of treatment you received?",
               "relevant": "",
               "parameters": "",
               "media": ""
             },
             {
               "type": "begin_group",
-              "name": "tell_treatment_type_1",
+              "name": "",
               "label": "",
               "relevant": "${tell_treatment_type} = '1'",
               "parameters": "",
@@ -687,14 +687,14 @@
         {
           "type": "select_one yes_no_2",
           "name": "know_fever_cause",
-          "label": "Do you know the cause of the fever? ",
+          "label": "Do you know the cause of the fever?",
           "relevant": "",
           "parameters": "",
           "media": ""
         },
         {
           "type": "begin_group",
-          "name": "know_fever_cause_1",
+          "name": "",
           "label": "",
           "relevant": "${know_fever_cause} = '1'",
           "parameters": "",
@@ -710,7 +710,7 @@
             },
             {
               "type": "begin_group",
-              "name": "fever_cause_4",
+              "name": "",
               "label": "",
               "relevant": "${fever_cause} = '4'",
               "parameters": "",
@@ -738,7 +738,7 @@
         },
         {
           "type": "begin_group",
-          "name": "care_by_family_1",
+          "name": "",
           "label": "",
           "relevant": "${care_by_family}='1'",
           "parameters": "",
@@ -747,14 +747,14 @@
             {
               "type": "select_one yes_no_2",
               "name": "family_get_fever",
-              "label": "Did any of them come down with fever later? ",
+              "label": "Did any of them come down with fever later?",
               "relevant": "",
               "parameters": "",
               "media": ""
             },
             {
               "type": "begin_group",
-              "name": "family_get_fever_1",
+              "name": "",
               "label": "",
               "relevant": "${family_get_fever}='1'",
               "parameters": "",
@@ -777,14 +777,14 @@
     {
       "type": "select_one yes_no_2",
       "name": "rats_present",
-      "label": "Have you seen rats around your home, farm or workplace?  ",
+      "label": "Have you seen rats around your home, farm or workplace?",
       "relevant": "",
       "parameters": "",
       "media": ""
     },
     {
       "type": "begin_group",
-      "name": "rats_present_1",
+      "name": "",
       "label": "",
       "relevant": "${rats_present}='1'",
       "parameters": "",
@@ -793,14 +793,14 @@
         {
           "type": "select_one yes_no_2",
           "name": "mastomys",
-          "label": "Have you ever seen this type of rat? ",
+          "label": "Have you ever seen this type of rat?",
           "relevant": "",
           "parameters": "",
           "media": "rat.jpg"
         },
         {
           "type": "begin_group",
-          "name": "mastomys_1",
+          "name": "",
           "label": "",
           "relevant": "${mastomys}='1'",
           "parameters": "",
@@ -816,7 +816,7 @@
             },
             {
               "type": "begin_group",
-              "name": "where_rat_4",
+              "name": "",
               "label": "",
               "relevant": "selected(${where_rat}, '4')",
               "parameters": "",
@@ -850,7 +850,7 @@
             },
             {
               "type": "begin_group",
-              "name": "rat_time_4",
+              "name": "",
               "label": "",
               "relevant": "${rat_time}='4'",
               "parameters": "",
@@ -869,14 +869,14 @@
             {
               "type": "select_one yes_no_2",
               "name": "kill_rat",
-              "label": "Do you catch or kill them? ",
+              "label": "Do you catch or kill them?",
               "relevant": "",
               "parameters": "",
               "media": ""
             },
             {
               "type": "begin_group",
-              "name": "kill_rat_1",
+              "name": "",
               "label": "",
               "relevant": "${kill_rat}='1'",
               "parameters": "",
@@ -885,7 +885,7 @@
                 {
                   "type": "select_multiple how_kill_rat",
                   "name": "how_kill_rat",
-                  "label": "How do you catch or kill them? ",
+                  "label": "How do you catch or kill them?",
                   "relevant": "",
                   "parameters": "",
                   "media": ""
@@ -903,7 +903,7 @@
             {
               "type": "text",
               "name": "why_catch2",
-              "label": "What do you do with them when you catch them? ",
+              "label": "What do you do with them when you catch them?",
               "relevant": "",
               "parameters": "",
               "media": ""
@@ -911,7 +911,7 @@
             {
               "type": "select_one yes_no_2",
               "name": "eat_rat",
-              "label": "Do you eat them?   ",
+              "label": "Do you eat them?",
               "relevant": "",
               "parameters": "",
               "media": ""
@@ -930,7 +930,7 @@
     },
     {
       "type": "begin_group",
-      "name": "farm_1",
+      "name": "",
       "label": "",
       "relevant": "${farm}='1'",
       "parameters": "",
@@ -939,14 +939,14 @@
         {
           "type": "select_multiple farm_type",
           "name": "farm_type",
-          "label": "What type of farm? ",
+          "label": "What type of farm?",
           "relevant": "",
           "parameters": "",
           "media": ""
         },
         {
           "type": "begin_group",
-          "name": "farm_type_4",
+          "name": "",
           "label": "",
           "relevant": "selected(${farm_type}, '4')",
           "parameters": "",
@@ -991,7 +991,7 @@
     {
       "type": "select_one yes_no_2",
       "name": "eat_rice",
-      "label": "Do you eat rice? ",
+      "label": "Do you eat rice?",
       "relevant": "",
       "parameters": "",
       "media": ""
@@ -1006,7 +1006,7 @@
     },
     {
       "type": "begin_group",
-      "name": "make_garri_1",
+      "name": "",
       "label": "",
       "relevant": "${make_garri}='1'",
       "parameters": "",
@@ -1033,7 +1033,7 @@
     {
       "type": "select_one yes_no_2",
       "name": "drink_garri",
-      "label": "Do you drink garri? ",
+      "label": "Do you drink garri?",
       "relevant": "",
       "parameters": "",
       "media": ""
@@ -1088,7 +1088,7 @@
     },
     {
       "type": "begin_group",
-      "name": "see_dump_1",
+      "name": "",
       "label": "",
       "relevant": "${see_dump}='1'",
       "parameters": "",
