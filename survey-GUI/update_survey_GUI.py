@@ -14,7 +14,7 @@ class Example(Frame):
 
     def initUI(self):
         """ Initialise ui with menu bar upon opening """
-        self.master.title("Survey")          # set window title
+        self.master.title("SurveyEditor")          # set window title
 
         menubar = Menu(self.master)  # add menu bar
         self.master.config(menu=menubar)
@@ -42,11 +42,11 @@ class Example(Frame):
     def displayViewQuestionAdditions(self):
         """ Display pop up menu showing current question additions """
         view_popup = Tk()  # pop-up
+        view_popup.iconbitmap('images/magnifying_class.ico')  # set icon
         view_popup.wm_title("Question Additions")
 
-        # TODO FILL THIS IN
-        Label(view_popup, text="add some explanation here").pack(side="top", fill="x", pady=10)
-        Label(view_popup, text="<id>: <label>").pack(side="top", fill="x", pady=20)
+        Label(view_popup, text="List of current questions to add to the survey").pack(side="top", fill="x")
+        Label(view_popup, text="<question_name>: <question_label>").pack(side="top", fill="x", pady=15)
 
         # question = [type, name, label, ...]
         for question in self.question_rows_to_add:
@@ -56,10 +56,11 @@ class Example(Frame):
     def displayViewChoiceAdditions(self):
         """ Display pop up menu showing current choice additions """
         view_popup = Tk()  # pop-up
+        view_popup.iconbitmap('images/magnifying_class.ico')  # set icon
         view_popup.wm_title("Choice Additions")
 
-        # TODO
-        Label(view_popup, text="add some explanation here").pack(side="top", fill="x", pady=10)
+        Label(view_popup, text="List of current choice options to add").pack(side="top", fill="x", pady=10)
+        Label(view_popup, text="<choice_id>: <choice_label>").pack(side="top", fill="x", pady=15)
 
         # choice = [[[id, index, label],[...]], ....]
         for choice_list in self.choice_rows_to_add:  # each group of choices
@@ -71,6 +72,7 @@ class Example(Frame):
     def displayHelpMenu(self):
         """ Display pop up menu explaining survey format """
         help_popup = Tk() # pop-up
+        help_popup.iconbitmap('images/magnifying_class.ico')    # set icon
 
         # Parse about message from textfile
         about_message = open("files/about.txt", "r").readline()
@@ -94,6 +96,18 @@ class Example(Frame):
         # track type of question chosen and display corresponding question form
         type_opt_chosen.trace("w", lambda name, index, mode,
                                 type_opt_chosen=type_opt_chosen: self.checkTypeOptionChosen(type_opt_chosen, q_frame))
+
+    def clearAll(self, q_frame):
+        """ Clears entire frame contents """
+        for widget in q_frame.winfo_children():  # iterate over widgets in the frame
+            # if (isinstance(widget, Frame)):
+            for frame in widget.winfo_children():
+                if q_frame.master is None:       # main question frame
+                    frame.pack_forget()
+                if not q_frame.master is None:
+                    frame.destroy()
+
+
 
     def clearFrame(self, q_frame):
         """ Clears frame contents except question_type selector """
@@ -218,7 +232,8 @@ class Example(Frame):
         """ Called when "Add Question" button clicked """
         q_type = type_opt_chosen.get()   # parse question according to their type
         self.parseQuestionForm(q_frame, str(q_type))
-        self.clearFrame(q_frame)         # resets frame
+        # self.clearFrame(q_frame)         # resets frame
+        self.clearAll(q_frame)
 
     def parseQuestionForm(self, q_frame, q_type):
         q_form_entries   = []  # get text entries from form
@@ -312,15 +327,10 @@ class Example(Frame):
 
 def main():
     root = Tk()
-    # root.geometry("250x200+300+300")
+    root.iconbitmap('images/magnifying_class.ico')
     app = Example()
     root.mainloop()
 
 if __name__ == '__main__':
     main()
 
-# todo by default add all before end section
-# todo seperate question names by hyphens if not already
-# todo some way of indenting thats more understandable or colours??
-# todo add image type
-# todo some sort of verification of inputs??
