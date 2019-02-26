@@ -77,15 +77,17 @@ public class QuestionParser {
             } else if (type.startsWith("select")) {
                 // If this is a multiple choice question
                 if (type.startsWith("select_multiple")) {
-                    newQuestion = new SelectQuestion(name, label, questionRelevancy, SelectQuestion.SELECT_TYPE_MULTIPLE, responseChoices.get(name));
+                    newQuestion = new SelectQuestion(name, label, questionRelevancy, SelectQuestion.SELECT_TYPE_MULTIPLE, responseChoices.get(type.split(" ")[1]));
                 }
                 // Otherwise it must be a single choice question
                 else {
                     if (type.startsWith("select_one yes_no_2")) {
                         //TODO: maybe put default options if type is yes/no
-                        newQuestion = new SelectQuestion(name, label, questionRelevancy, SelectQuestion.SELECT_TYPE_YES_NO, responseChoices.get(name));
+                        newQuestion = new SelectQuestion(name, label, questionRelevancy,
+                                SelectQuestion.SELECT_TYPE_YES_NO, responseChoices.get("yes_no_2"));
                     } else {
-                        newQuestion = new SelectQuestion(name, label, questionRelevancy, SelectQuestion.SELECT_TYPE_SINGLE, responseChoices.get(name));
+                        newQuestion = new SelectQuestion(name, label, questionRelevancy,
+                                SelectQuestion.SELECT_TYPE_SINGLE, responseChoices.get(type.split(" ")[1]));
                     }
                 }
             } else if (type.equals("integer")) {

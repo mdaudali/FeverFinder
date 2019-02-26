@@ -9,7 +9,7 @@
       "media": ""
     },
     {
-      "type": "text",
+      "type": "number",
       "name": "age",
       "label": "Age at last birthday (years)",
       "relevant": "",
@@ -25,7 +25,7 @@
       "media": ""
     },
     {
-      "type": "text",
+      "type": "number",
       "name": "temperature",
       "label": "Measure Temperature",
       "relevant": "",
@@ -91,7 +91,7 @@
   ],
   [
     {
-      "type": "select_one occupation",
+      "type": "select_multiple occupation",
       "name": "occupation",
       "label": "Occupation",
       "relevant": "",
@@ -264,7 +264,7 @@
         },
         {
           "type": "select_one cause",
-          "name": "cause",
+          "name": "know_lassa_cause",
           "label": "What causes this disease? ",
           "relevant": "",
           "parameters": "",
@@ -390,7 +390,7 @@
         },
         {
           "type": "select_multiple how_prevent",
-          "name": "how_prevent",
+          "name": "knows_lassa_how_prevent",
           "label": "How can Lassa Fever be prevented?",
           "relevant": "",
           "parameters": "",
@@ -982,7 +982,7 @@
     },
     {
       "type": "text",
-      "name": "rice",
+      "name": "rice_how_store",
       "label": "If you cultivate rice, how do you process and store the crop?",
       "relevant": "",
       "parameters": "",
@@ -997,7 +997,7 @@
       "media": ""
     },
     {
-      "type": "text",
+      "type": "select_one yes_no_2",
       "name": "make_garri",
       "label": "Do you make garri?",
       "relevant": "",
