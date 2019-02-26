@@ -1,3 +1,11 @@
+# TODOs and backlog
+- 'Customised placeholder' on map --> use something different
+- UI notifications are somewhat unnecessary -- for the sake of the demo we should put an example notification up there so that we can say: _Look our system detected this and notified you about it!'' (this is subject to #TheFancyData)_
+- encryption for the app
+- cache for the app
+- GPS for the app
+- (GDPR DB??? -- I'm not quite if it is feasible to think that we can get that right or that we have time for that -- it might be good to mention that in the demo that we thought about it so that we don't look like complete fools)
+
 # FeverFinder
 Cambridge Part 1B Group Project 2018-2019
 
