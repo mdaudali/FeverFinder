@@ -40,10 +40,10 @@ public class SelectQuestion extends Question implements CompoundButton.OnChecked
     private List<SelectionChangedListener> listeners;
 
     /**
-     * @param name     is the name for storage
-     * @param label    is the label for display
-     * @param type is whether you can select multiple options
-     * @param options  is the list of options
+     * @param name    is the name for storage
+     * @param label   is the label for display
+     * @param type    is whether you can select multiple options
+     * @param options is the list of options
      */
     public SelectQuestion(String name, String label, List<Relevancy> relevant, int type, List<Option> options) {
         super(Question.TYPE_SELECT, name, label, relevant);
@@ -71,7 +71,8 @@ public class SelectQuestion extends Question implements CompoundButton.OnChecked
     public Object getJSONOutput() {
         Object output = "Unknown";
         if (select_type == SELECT_TYPE_YES_NO) {
-            output = selected.get(0).getName().equals("yes");
+            if (selected.size() == 1) output = selected.get(0).getName().equals("yes");
+            else output = false; //TODO: should this be false
         } else if (select_type == SELECT_TYPE_MULTIPLE) {
             List<String> out = new LinkedList<>();
             for (Option option : selected) out.add(option.getName());

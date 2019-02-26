@@ -14,6 +14,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
+import android.util.Log;
 import android.util.SparseArray;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -23,10 +24,8 @@ import android.widget.Toast;
 import com.example.feverfinder.questions.Question;
 import com.example.feverfinder.questions.Section;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -179,12 +178,16 @@ public class SurveyActivity extends AppCompatActivity
             JSONObject obj = new JSONObject();
 
             // Iterate through all questions and get their content
-            for (int i = 0; i < sectionMap.size(); ++i) {
-                Section s = sectionMap.valueAt(i).getSection();
+
+
+            for (int id : sectionOrder) {
+                Section s = sectionMap.get(id).getSection();
                 for (Question q : s.getQuestions()) {
                     obj.put(q.getName().toLowerCase(), q.getJSONOutput());
+
                 }
             }
+            Log.d("JSON", obj.toString());
 
             // Convert JSON to string
             String strToSend = obj.toString();

@@ -84,8 +84,7 @@ public class QuestionParser {
                     if (type.startsWith("select_one yes_no_2")) {
                         //TODO: maybe put default options if type is yes/no
                         newQuestion = new SelectQuestion(name, label, questionRelevancy, SelectQuestion.SELECT_TYPE_YES_NO, responseChoices.get(name));
-                    }
-                    else {
+                    } else {
                         newQuestion = new SelectQuestion(name, label, questionRelevancy, SelectQuestion.SELECT_TYPE_SINGLE, responseChoices.get(name));
                     }
                 }
