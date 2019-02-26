@@ -46,6 +46,17 @@
     },
     {
       "type": "text",
+      "name": "patient_name",
+      "label": "Patient Name",
+      "relevant": "",
+      "hint": "",
+      "parameters": "",
+      "constraint": "",
+      "constraint_message": "",
+      "media::image": ""
+    },
+    {
+      "type": "text",
       "name": "community_name",
       "label": "Name of Community",
       "relevant": "",
