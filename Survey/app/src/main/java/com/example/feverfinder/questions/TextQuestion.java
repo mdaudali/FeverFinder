@@ -40,7 +40,8 @@ public class TextQuestion extends Question implements TextWatcher {
 
     @Override
     public Object getJSONOutput() {
-        return content;
+        if (!content.equals("")) return content;
+        return "unknown";
     }
 
     /**

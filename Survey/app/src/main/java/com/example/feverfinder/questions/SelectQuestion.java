@@ -14,6 +14,8 @@ import android.widget.TextView;
 
 import com.example.feverfinder.R;
 
+import org.json.JSONArray;
+
 import java.util.LinkedList;
 import java.util.List;
 
@@ -73,11 +75,13 @@ public class SelectQuestion extends Question implements CompoundButton.OnChecked
         if (select_type == SELECT_TYPE_YES_NO) {
             if (selected.size() == 1) output = selected.get(0).getName().equals("yes");
             else output = false; //TODO: should this be false
-        } else if (select_type == SELECT_TYPE_MULTIPLE) {
-            List<String> out = new LinkedList<>();
-            for (Option option : selected) out.add(option.getName());
-            output = out;
-        } else if (select_type == SELECT_TYPE_SINGLE) {
+        }
+        else if (select_type == SELECT_TYPE_MULTIPLE) {
+            JSONArray jsonArray = new JSONArray();
+            for (Option option : selected) jsonArray.put(option.getName());
+            output = jsonArray;
+        }
+        else if (select_type == SELECT_TYPE_SINGLE) {
             if (selected.size() == 1) output = selected.get(0).getName();
         }
         return output;
