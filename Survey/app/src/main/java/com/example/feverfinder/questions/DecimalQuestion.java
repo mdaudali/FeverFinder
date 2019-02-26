@@ -59,6 +59,8 @@ public class DecimalQuestion extends Question implements TextWatcher {
         textInputLayout.setHint(getLabel());
 
         EditText editText = view.findViewById(R.id.editText);
+        editText.setText(content);
+        editText.addTextChangedListener(this);
 
         setView(view);
         return view;

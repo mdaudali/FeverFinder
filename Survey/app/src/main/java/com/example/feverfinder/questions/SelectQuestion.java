@@ -73,16 +73,16 @@ public class SelectQuestion extends Question implements CompoundButton.OnChecked
     public Object getJSONOutput() {
         Object output = "Unknown";
         if (select_type == SELECT_TYPE_YES_NO) {
-            if (selected.size() == 1) output = selected.get(0).getName().equals("yes");
+            if (selected.size() == 1) output = selected.get(0).getName().equals("1"); //"1" is the name of yes
             else output = false; //TODO: should this be false
         }
         else if (select_type == SELECT_TYPE_MULTIPLE) {
             JSONArray jsonArray = new JSONArray();
-            for (Option option : selected) jsonArray.put(option.getName());
-            output = jsonArray;
+            for (Option option : selected) jsonArray.put(option.getLabel());
+            output = jsonArray.toString();
         }
         else if (select_type == SELECT_TYPE_SINGLE) {
-            if (selected.size() == 1) output = selected.get(0).getName();
+            if (selected.size() == 1) output = selected.get(0).getLabel();
         }
         return output;
     }

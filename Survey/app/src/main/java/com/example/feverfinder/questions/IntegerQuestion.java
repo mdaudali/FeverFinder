@@ -9,6 +9,7 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 
 import com.example.feverfinder.R;
 
@@ -54,8 +55,12 @@ public class IntegerQuestion extends Question implements TextWatcher {
     public View generateView(Context context, ViewGroup root) {
         View view = LayoutInflater.from(context)
                 .inflate(R.layout.integer_question, root, false);
-        TextInputLayout editText = view.findViewById(R.id.editTextLayout);
-        editText.setHint(getLabel());
+        TextInputLayout editTextLayout = view.findViewById(R.id.editTextLayout);
+        editTextLayout.setHint(getLabel());
+
+        EditText editText = view.findViewById(R.id.editText);
+        editText.setText(content);
+        editText.addTextChangedListener(this);
 
         setView(view);
         return view;

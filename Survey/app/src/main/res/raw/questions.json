@@ -9,7 +9,7 @@
       "media": ""
     },
     {
-      "type": "number",
+      "type": "integer",
       "name": "age",
       "label": "Age at last birthday (years)",
       "relevant": "",
@@ -25,7 +25,7 @@
       "media": ""
     },
     {
-      "type": "number",
+      "type": "integer",
       "name": "temperature",
       "label": "Measure Temperature",
       "relevant": "",
@@ -91,7 +91,7 @@
   ],
   [
     {
-      "type": "select_multiple occupation",
+      "type": "select_single occupation",
       "name": "occupation",
       "label": "Occupation",
       "relevant": "",
