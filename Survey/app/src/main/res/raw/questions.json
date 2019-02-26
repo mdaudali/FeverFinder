@@ -11,7 +11,7 @@
     {
       "type": "text",
       "name": "age",
-      "label": "Age at last birthday (in years)",
+      "label": "Age at last birthday (years)",
       "relevant": "",
       "parameters": "",
       "media": ""
