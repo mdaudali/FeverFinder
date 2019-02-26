@@ -6,7 +6,6 @@ def writeQuestions(filename, question_rows):
 
     # add questions to survey sheet
     survey_sheet = wb.get_sheet_by_name(wb.get_sheet_names()[0])
-    survey_sheet.insert_rows(7)
 
     n_rows = survey_sheet.max_row + 1  # start on next empty row
     n_cols = survey_sheet.max_column
