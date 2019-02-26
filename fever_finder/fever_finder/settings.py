@@ -36,6 +36,8 @@ CORS_ORIGIN_ALLOW_ALL = False
 
 CORS_ORIGIN_WHITELIST = (
     'localhost:3000',
+    'localhost:8000',
+    '13.95.172.26'
 )
 
 # Application definition

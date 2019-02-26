@@ -1,99 +1,168 @@
 import uuid
-import re
 from datetime import datetime
 from django.db import models
 
-# TODO: do this nicely with inheritance
-class FarmerType(models.Model):
-    value = models.CharField(max_length=32, default="")
-
-    def __str__(self):
-        return self.value
-
-class TraderOccupationType(models.Model):
-    value = models.CharField(max_length=32, default="")
-
-    def __str__(self):
-        return self.value
-
-class LassaCause(models.Model):
-    value = models.CharField(max_length=32, default="")
-
-    def __str__(self):
-        return self.value
-
-class LassaTreatment(models.Model):
-    value = models.CharField(max_length=32, default="")
-
-    def __str__(self):
-        return self.value
-
-
-class LassaPrevent(models.Model):
-    value = models.CharField(max_length=32, default="")
-
-    def __str__(self):
-        return self.value
-
-class RiceType(models.Model):
-    value = models.CharField(max_length=32, default="")
-
-    def __str__(self):
-        return self.value
-
-class OccupationType(models.Model):
-    value = models.CharField(max_length=32, default="")
-
-    def __str__(self):
-        return self.value
-
-class EducationType(models.Model):
-    value = models.CharField(max_length=32, default="")
-
-    def __str__(self):
-        return self.value
 
 class Person(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     created_at = models.DateTimeField(auto_now_add=True, blank=False, editable=False)
 
-    # SimPrints specific columns based on survey (but not everything)
-    community_name = models.CharField(max_length=64, default="Unknown")
-    village_name = models.CharField(max_length=64, default="Unknown")
-    town_name = models.CharField(max_length=64, default="Unknown")
-    state_name = models.CharField(max_length=64, default="Unknown")
-    lga_name = models.CharField(max_length=64, default="Unknown")
-    interview_date = models.DateTimeField(default=datetime.now)
+    # Columns for the survey data
+    patient_name = models.CharField(max_length=64, default="unknown")
+    age = models.IntegerField(default=-1)
+    gender = models.CharField(max_length=8, default="female")
+    temperature = models.FloatField(default=-1)
+    community_name = models.CharField(max_length=64, default="unknown")
+    village_name = models.CharField(max_length=64, default="unknown")
+    town_name = models.CharField(max_length=64, default="unknown")
+    state_name = models.CharField(max_length=64, default="unknown")
+    lga_name = models.CharField(max_length=64, default="unknown")
     store_gps_latitude = models.FloatField(default=0.0)
     store_gps_longitude = models.FloatField(default=0.0)
-    age = models.IntegerField(default=-1)
-    gender = models.CharField(max_length=8, default="Female")
-    occupation = models.ManyToManyField(OccupationType)
-    farmer_type = models.ManyToManyField(FarmerType)
-    trader_occupation = models.ManyToManyField(TraderOccupationType)
-    education = models.ManyToManyField(EducationType)
-    income = models.IntegerField(default=0)
+
+    gps_id = models.CharField(max_length=64, default="unknown")
+    occupation = models.CharField(max_length=128, default="unknown")
+    occupation_1 = models.CharField(max_length=128, default="unknown")
+
+    farmer_type = models.CharField(max_length=128, default="unknown")
+    farmer_type_4 = models.CharField(max_length=128, default="unknown")
+    farmer_type_other = models.CharField(max_length=128, default="unknown")
+    occupation_2 = models.CharField(max_length=128, default="unknown")
+    trader_occupation = models.CharField(max_length=128, default="unknown")
+    occupation_9 = models.CharField(max_length=128, default="unknown")
+    other_occupation = models.CharField(max_length=128, default="unknown")
+
+    education = models.CharField(max_length=128, default="unknown")
+    income = models.FloatField(default=0.0)
     family_size = models.IntegerField(default=1)
-    knows_lassa = models.BooleanField(default=False)
-    knows_lassa_cause = models.ManyToManyField(LassaCause)
-    knows_lassa_know_signs = models.BooleanField(default=False)
-    knows_lassa_can_kill = models.BooleanField(default=False)
-    knows_lassa_can_treat = models.BooleanField(default=False)
-    knows_lassa_what_treat = models.ManyToManyField(LassaTreatment)
-    knows_lassa_can_prevent = models.BooleanField(default=False)
-    knows_lassa_how_prevent = models.ManyToManyField(LassaPrevent)
-    take_vaccine = models.BooleanField(default=False)
-    had_lassa = models.BooleanField(default=False)
+    knows_of_lassa = models.BooleanField(default=False)
+    knows_of_lassa1 = models.CharField(max_length=128, default="unknown")
+    info_on_lassa = models.CharField(max_length=128, default="unknown")
+    info_on_lassa_7 = models.CharField(max_length=128, default="unknown")
+    other_info_on_lassa = models.CharField(max_length=128, default="unknown")
+
+    if_local_name = models.CharField(max_length=128, default="False")
+    if_local_name_1 = models.CharField(max_length=128, default="unknown")
+
+    local_name = models.CharField(max_length=128, default="unknown")
+    cause = models.CharField(max_length=128, default="unknown")
+
+    know_contact = models.BooleanField(default=False)
+    know_contact_1 = models.CharField(max_length=128, default="unknown")
+    contact = models.CharField(max_length=1024, default="unknown")
+    contact_7 = models.CharField(max_length=128, default="unknown")
+    other_contact = models.CharField(max_length=128, default="unknown")
+
     fear = models.BooleanField(default=False)
-    fear_range = models.IntegerField(default=1)
+    fear_range = models.CharField(max_length=128, default="unknown")
+    signs = models.CharField(max_length=128, default="unknown")
+    signs_5 = models.CharField(max_length=128, default="unknown")
+    other_signs = models.CharField(max_length=128, default="unknown")
+
+    can_kill = models.CharField(max_length=128, default="False")
+    can_treat = models.CharField(max_length=128, default="False")
+    what_treat = models.CharField(max_length=128, default="unknown")
+
+    can_prevent = models.CharField(max_length=128, default="False")
+    how_prevent = models.CharField(max_length=128, default="unknown")
+    take_vaccine = models.BooleanField(default=False)
+    know_lf_patient = models.BooleanField(default=False)
+    know_lf_patient_1 = models.CharField(max_length=128, default="unknown")
+    year = models.CharField(max_length=128, default="unknown")
+    relationship = models.CharField(max_length=128, default="unknown")
+    relationship_7 = models.CharField(max_length=128, default="unknown")
+    other_relationship = models.CharField(max_length=128, default="unknown")
+    care = models.BooleanField(default=False)
+    seek_treatment = models.CharField(max_length=128, default="False")
+    seek_treatment_2 = models.CharField(max_length=128, default="unknown")
+    why_no_treatment =  models.CharField(max_length=128, default="unknown")
+    seek_treatment_1 = models.CharField(max_length=128, default="unknown")
+    where_seek_treatment = models.CharField(max_length=128, default="unknown")
+    distance_treatment = models.CharField(max_length=128, default="unknown")
+    early_treatment = models.CharField(max_length=128, default="False")
+    where_seek_treatment_1 = models.CharField(max_length=128, default="unknown")
+    gov_hospital_name = models.CharField(max_length=128, default="unknown")
+    where_seek_treatment_2 = models.CharField(max_length=128, default="unknown")
+    mis_hospital_name = models.CharField(max_length=128, default="unknown")
+    where_seek_treatment_3 = models.CharField(max_length=128, default="unknown")
+    priv_hospital_name = models.CharField(max_length=128, default="unknown")
+
+    had_lassa = models.BooleanField(default=False)
+    had_lassa_1 = models.CharField(max_length=128, default="unknown")
+    last_fever = models.CharField(max_length=128, default="unknown")
+    fever_intensity = models.CharField(max_length=128, default="unknown")
+    fever_treatment = models.BooleanField(default=False)
+    fever_treatment_1 = models.CharField(max_length=128, default="unknown")
+    where_fever_treatment = models.CharField(max_length=128, default="unknown")
+    where_fever_treatment_1 = models.CharField(max_length=128, default="unknown")
+    fever_treatment_hospital = models.CharField(max_length=128, default="unknown")
+    tell_treatment_type = models.BooleanField(default=False)
+    tell_treatment_type_1 = models.CharField(max_length=128, default="unknown")
+    treatment_type = models.CharField(max_length=128, default="unknown")
+    know_fever_cause = models.BooleanField(default=False)
+    know_fever_cause_1 = models.CharField(max_length=128, default="unknown")
+    fever_cause = models.CharField(max_length=128, default="unknown")
+    fever_cause_4 = models.CharField(max_length=128, default="unknown")
+    other_fever_cause = models.CharField(max_length=128, default="unknown")
+    care_by_family = models.BooleanField(default=False)
+    care_by_family_1 = models.CharField(max_length=128, default="unknown")
+    family_get_fever = models.BooleanField(default=False)
+    family_get_fever_1 = models.CharField(max_length=128, default="unknown")
+    family_fever_recovery = models.BooleanField(default=False)
+
     rats_present = models.BooleanField(default=False)
+    rats_present_1 = models.CharField(max_length=128, default="unknown")
     mastomys = models.BooleanField(default=False)
+    mastomys_1 = models.CharField(max_length=128, default="unknown")
+    where_rat = models.CharField(max_length=128, default="unknown")
+    where_rat_4 = models.CharField(max_length=128, default="unknown")
+    where_rat_other = models.CharField(max_length=128, default="unknown")
+    rat_often = models.BooleanField(default=False)
+    rat_time = models.CharField(max_length=128, default="unknown")
+    rat_time_4 = models.CharField(max_length=128, default="unknown")
+    rat_month = models.CharField(max_length=128, default="unknown")
+    kill_rat = models.BooleanField(default=False)
+    kill_rat_1 = models.CharField(max_length=128, default="unknown")
+    how_kill_rat = models.CharField(max_length=128, default="unknown")
+    why_catch = models.CharField(max_length=128, default="unknown")
+    why_catch2 = models.CharField(max_length=128, default="unknown")
+    eat_rat = models.BooleanField(default=False)
+
     farm = models.BooleanField(default=False)
-    cultivate_rice = models.BooleanField(default=False)
-    rice_how_store = models.ManyToManyField(RiceType)
+    farm_1 = models.CharField(max_length=128, default="unknown")
+    farm_type = models.CharField(max_length=128, default="unknown")
+    farm_type_4 = models.CharField(max_length=128, default="unknown")
+    farm_type_other = models.CharField(max_length=128, default="unknown")
+    food_to_farm = models.BooleanField(default=False)
+
+    store_food = models.CharField(max_length=128, default="unknown")
+    rice = models.CharField(max_length=128, default="unknown")
     eat_rice = models.BooleanField(default=False)
     make_garri = models.BooleanField(default=False)
+    make_garri_1 = models.CharField(max_length=128, default="unknown")
+    dry_garri = models.CharField(max_length=128, default="unknown")
+    store_garri = models.CharField(max_length=128, default="unknown")
     drink_garri = models.BooleanField(default=False)
+    store_maize = models.CharField(max_length=128, default="unknown")
+    eat_maize = models.BooleanField(default=False)
+    sell = models.BooleanField(default=False)
+
+    dump = models.CharField(max_length=128, default="unknown")
+    far_dump = models.CharField(max_length=128, default="unknown")
+    see_dump = models.BooleanField(default=False)
+    see_dump_1 = models.CharField(max_length=128, default="unknown")
+    dump1 = models.CharField(max_length=128, default="unknown")
+    dump2 = models.CharField(max_length=128, default="unknown")
+
+    who_live_with = models.CharField(max_length=128, default="unknown")
+    who_sharefood_with = models.CharField(max_length=128, default="unknown")
+    who_work_with = models.CharField(max_length=128, default="unknown")
+
+    questions = models.CharField(max_length=512, default="unknown")
+    notes = models.CharField(max_length=512, default="unknown")
+
+    # Let's record the interview data automatically
+    interview_date = models.DateTimeField(default=datetime.now)
 
     # Our fields
     sick = models.FloatField(default=0.0)
