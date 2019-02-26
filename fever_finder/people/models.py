@@ -63,7 +63,7 @@ class Person(models.Model):
     can_treat = models.CharField(max_length=128, default="False")
     what_treat = models.CharField(max_length=128, default="unknown")
 
-    can_prevent = models.BooleanField(default=False)
+    can_prevent = models.CharField(max_length=128, default="False")
     how_prevent = models.CharField(max_length=128, default="unknown")
     take_vaccine = models.BooleanField(default=False)
     know_lf_patient = models.BooleanField(default=False)
