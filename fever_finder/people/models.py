@@ -33,7 +33,7 @@ class Person(models.Model):
     other_occupation = models.CharField(max_length=128, default="unknown")
 
     education = models.CharField(max_length=128, default="unknown")
-    income = models.IntegerField(default=0)
+    income = models.FloatField(default=0.0)
     family_size = models.IntegerField(default=1)
     knows_of_lassa = models.BooleanField(default=False)
     knows_of_lassa1 = models.CharField(max_length=128, default="unknown")
@@ -41,7 +41,7 @@ class Person(models.Model):
     info_on_lassa_7 = models.CharField(max_length=128, default="unknown")
     other_info_on_lassa = models.CharField(max_length=128, default="unknown")
 
-    if_local_name = models.BooleanField(default="False")
+    if_local_name = models.CharField(max_length=128, default="False")
     if_local_name_1 = models.CharField(max_length=128, default="unknown")
 
     local_name = models.CharField(max_length=128, default="unknown")
@@ -59,11 +59,11 @@ class Person(models.Model):
     signs_5 = models.CharField(max_length=128, default="unknown")
     other_signs = models.CharField(max_length=128, default="unknown")
 
-    can_kill = models.BooleanField(default=False)
-    can_treat = models.BooleanField(default=False)
+    can_kill = models.CharField(max_length=128, default="False")
+    can_treat = models.CharField(max_length=128, default="False")
     what_treat = models.CharField(max_length=128, default="unknown")
 
-    can_prevent = models.BooleanField(default=False)
+    can_prevent = models.CharField(max_length=128, default="False")
     how_prevent = models.CharField(max_length=128, default="unknown")
     take_vaccine = models.BooleanField(default=False)
     know_lf_patient = models.BooleanField(default=False)
@@ -73,13 +73,13 @@ class Person(models.Model):
     relationship_7 = models.CharField(max_length=128, default="unknown")
     other_relationship = models.CharField(max_length=128, default="unknown")
     care = models.BooleanField(default=False)
-    seek_treatment = models.BooleanField(default=False)
+    seek_treatment = models.CharField(max_length=128, default="False")
     seek_treatment_2 = models.CharField(max_length=128, default="unknown")
     why_no_treatment =  models.CharField(max_length=128, default="unknown")
     seek_treatment_1 = models.CharField(max_length=128, default="unknown")
     where_seek_treatment = models.CharField(max_length=128, default="unknown")
     distance_treatment = models.CharField(max_length=128, default="unknown")
-    early_treatment = models.BooleanField(default=False)
+    early_treatment = models.CharField(max_length=128, default="False")
     where_seek_treatment_1 = models.CharField(max_length=128, default="unknown")
     gov_hospital_name = models.CharField(max_length=128, default="unknown")
     where_seek_treatment_2 = models.CharField(max_length=128, default="unknown")
