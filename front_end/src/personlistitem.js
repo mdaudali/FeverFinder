@@ -56,7 +56,7 @@ class PersonListItem extends React.Component {
           return (
               <ExpansionPanel square expanded={false} className={classes.expansionPanel}>
                <ExpansionPanelSummary>
-                  <Typography className={classes.heading}>{heading.charAt(0).toUpperCase() + heading.substr(1)}</Typography>
+                  <Typography className={classes.heading}>{heading}</Typography>
                   <Typography className={classes.secondaryHeading}>{contents+''}</Typography>
                 </ExpansionPanelSummary>
               </ExpansionPanel>
@@ -66,7 +66,7 @@ class PersonListItem extends React.Component {
           return (
               <ExpansionPanel square className={classes.expansionPanel}>
                <ExpansionPanelSummary expandIcon={<ExpandMoreIcon/>}>
-                  <Typography className={classes.heading}>{heading.charAt(0).toUpperCase() + heading.substr(1)}</Typography>
+                  <Typography className={classes.heading}>{heading}</Typography>
                   <Typography className={classes.secondaryHeading}>{subheading}</Typography>
                 </ExpansionPanelSummary>
                   <ExpansionPanelDetails>

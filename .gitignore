@@ -33,3 +33,4 @@ fever_finder/db.sqlite3
 fever_finder/.idea
 
 env/**/*
+.idea/**/*

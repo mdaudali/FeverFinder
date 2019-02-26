@@ -46,7 +46,7 @@ class SearchInput extends React.Component {
             return;
 
         // Assemble query
-        var query = 'http://127.0.0.1:8000/api/people/search/?';
+        var query = 'http://localhost:8000/api/people/search/?';
         if (this.state.name)
             query += 'name='+encodeURIComponent(this.state.name)+'&';
         if (this.state.eatsWith)
@@ -66,11 +66,16 @@ class SearchInput extends React.Component {
         // Note: replace hardcoded string with assembled query once API is ready
         // Currently just gets a fixed person that exists in the DB and adds a name too
         var request = new XMLHttpRequest();
-        request.open('GET', 'http://127.0.0.1:8000/api/people/get_by_id/?id=7d516f50-02bf-40c3-8e83-5bc4321b8861', true);
+        //request.open('GET', 'http://127.0.0.1:8000/api/people/get_by_id/?id=7d516f50-02bf-40c3-8e83-5bc4321b8861', true);
+        request.open('GET', query, true);
         request.onload = (callback => function() {
-            var ps = JSON.parse(this.response);
-            ps[0].name = "Some Name";
-            callback(ps);
+            if(this.response === undefined || this.response.length == 0) {
+                // TODO: nothing found
+                console.log("Nothing found");
+            } else {
+                var ps = JSON.parse(this.response);
+                callback(ps);
+            }
         })(this.props.updateList);
         request.send();
     }
