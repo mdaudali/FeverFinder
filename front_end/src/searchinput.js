@@ -46,7 +46,7 @@ class SearchInput extends React.Component {
             return;
 
         // Assemble query
-        var query = 'http://localhost:8000/api/people/search/?';
+        var query = 'http://13.95.172.26:8000/api/people/search/?';
         if (this.state.name)
             query += 'name='+encodeURIComponent(this.state.name)+'&';
         if (this.state.eatsWith)
