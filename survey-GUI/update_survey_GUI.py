@@ -308,7 +308,7 @@ class Example(Frame):
 
     def save(self):
         # """ Save changes to excel workbook """
-        filename = 'files/survey-choices-update.xlsx'
+        filename = 'files/survey-choices.xlsx'
 
         # Write question additions to file
         write_to_file.writeQuestions(filename, self.question_rows_to_add)

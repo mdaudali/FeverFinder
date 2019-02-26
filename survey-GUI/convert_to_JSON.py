@@ -69,7 +69,7 @@ def convertChoicesToJSON(filename):
     j = json.dumps(choices_list)
 
     # Write to file
-    with open('choices.json', 'w') as f:
+    with open('files/choices.json', 'w') as f:
         f.write(j)
 
 def convertQuestionsToJSON(filename):
@@ -232,5 +232,5 @@ def writeToFile(sectionList):
     j = json.dumps(sectionList)
 
     # Write to file
-    with open('questions.json', 'w') as f:
+    with open('files/questions.json', 'w') as f:
         f.write(j)
