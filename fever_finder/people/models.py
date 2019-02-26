@@ -33,7 +33,7 @@ class Person(models.Model):
     other_occupation = models.CharField(max_length=128, default="unknown")
 
     education = models.CharField(max_length=128, default="unknown")
-    income = models.IntegerField(default=0)
+    income = models.FloatField(default=0.0)
     family_size = models.IntegerField(default=1)
     knows_of_lassa = models.BooleanField(default=False)
     knows_of_lassa1 = models.CharField(max_length=128, default="unknown")
