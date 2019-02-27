@@ -12,8 +12,17 @@ import Divider from '@material-ui/core/Divider';
 import IconButton from '@material-ui/core/IconButton';
 import Badge from '@material-ui/core/Badge';
 import MenuIcon from '@material-ui/icons/Menu';
+import MenuItem from "@material-ui/core/MenuItem";
+import ListItemIcon from "@material-ui/core/ListItemIcon";
+import MenuList from "@material-ui/core/MenuList";
+import Grow from "@material-ui/core/Grow";
+import Paper from "@material-ui/core/Paper";
+import ClickAwayListener from "@material-ui/core/ClickAwayListener";
+import Hidden from "@material-ui/core/Hidden";
+import Poppers from "@material-ui/core/Popper";
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import NotificationsIcon from '@material-ui/icons/Notifications';
+import WarningIcon from '@material-ui/icons/Warning';
 import { NavListItems } from './listItems.js';
 import { styles } from './styles/dashboardStyles.js';
 import MapPanel from './mappanel.js';
@@ -22,6 +31,7 @@ import SearchPanel from './searchpanel.js';
 class Dashboard extends React.Component {
   state = {
     open: true,
+    notificationsOpen: false,
     activePanel: "map"
   };
 
@@ -31,6 +41,18 @@ class Dashboard extends React.Component {
 
   handleDrawerClose = () => {
     this.setState({ open: false });
+  };
+
+  toggleNotifications = () => {
+      this.setState(state => ({ notificationsOpen: !state.notificationsOpen }));
+  }
+
+  handleClose = event => {
+    if (this.anchorEl.contains(event.target)) {
+      return;
+    }
+
+    this.setState({ notificationsOpen: false });
   };
 
   selectPanel(panel) {
@@ -68,10 +90,52 @@ class Dashboard extends React.Component {
             >
               Dashboard
             </Typography>
-            <IconButton color="inherit">
-              <Badge badgeContent={4} color="secondary">
-                <NotificationsIcon />
+            <IconButton color="inherit" onClick={this.toggleNotifications} buttonRef={node => {
+              this.anchorEl = node;
+            }}>
+              <Badge badgeContent={2} color="secondary">
+                <NotificationsIcon  />
               </Badge>
+              <Poppers
+                open={this.state.notificationsOpen}
+                anchorEl={this.anchorEl}
+                transition
+                disablePortal
+                placement="top-end"
+              >
+            {({ TransitionProps, placement }) => (
+              <Grow
+                {...TransitionProps}
+                id="menu-list-grow"
+                style={{
+                  transformOrigin:"right top"
+                }}
+              >
+                <Paper>
+                  <ClickAwayListener onClickAway={this.handleClose}>
+                    <MenuList role="menu">
+                      <MenuItem
+                        onClick={this.handleClose}
+                      >
+                      <ListItemIcon>
+                        <WarningIcon />
+                      </ListItemIcon>
+                        High risk patients found
+                      </MenuItem>
+                      <MenuItem
+                        onClick={this.handleClose}
+                      >
+                      <ListItemIcon>
+                        <WarningIcon />
+                      </ListItemIcon>
+                        Increase in symptoms detected
+                      </MenuItem>
+                    </MenuList>
+                  </ClickAwayListener>
+                </Paper>
+              </Grow>
+            )}
+          </Poppers>
             </IconButton>
           </Toolbar>
         </AppBar>
