@@ -83,7 +83,7 @@ class PersonListItem extends React.Component {
 
     render() {
         return this.createComponent(
-          this.props.person.name,
+          this.props.person.patient_name,
           this.props.person.age + " years old " + this.props.person.gender + " from " + this.props.person.village_name,
           this.props.person);
     }
