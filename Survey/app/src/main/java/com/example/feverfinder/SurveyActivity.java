@@ -103,7 +103,7 @@ public class SurveyActivity extends AppCompatActivity
         SpannableString spannableString = new SpannableString("Submit Survey");
         spannableString.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.colorPrimary)),
                 0, spannableString.length(), 0);
-        m.add(Menu.NONE, 0, Menu.NONE, spannableString).setCheckable(true);
+        m.add(Menu.NONE, 0, Menu.NONE, spannableString).setCheckable(false);
 
         navigationView.setNavigationItemSelectedListener(this);
     }
@@ -147,8 +147,18 @@ public class SurveyActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == 0) submitSurvey();
-        else showFragment(String.valueOf(id));
+        if (id == 0) {
+            submitSurvey();
+            //Ensure the menu doesn't change
+            NavigationView navigationView = findViewById(R.id.nav_view);
+            Menu m = navigationView.getMenu();
+            item.setChecked(false);
+            m.findItem(Integer.valueOf(currentFragment)).setChecked(true);
+
+            ((DrawerLayout) findViewById(R.id.drawer_layout)).closeDrawer(GravityCompat.START);
+        } else {
+            showFragment(String.valueOf(id));
+        }
 
         return true;
     }
@@ -164,9 +174,14 @@ public class SurveyActivity extends AppCompatActivity
 
 
     private void showFragment(String id) {
+        //Sort out menu
+        NavigationView navigationView = findViewById(R.id.nav_view);
+        Menu m = navigationView.getMenu();
+        m.findItem(Integer.valueOf(currentFragment)).setChecked(false);
+        m.findItem(Integer.valueOf(id)).setChecked(true);
+
+
         SurveySection surveySection = (SurveySection) getSupportFragmentManager().findFragmentByTag(id);
-
-
         setTitle(surveySection.getSection().getName());
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
@@ -236,7 +251,6 @@ public class SurveyActivity extends AppCompatActivity
 
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
-        // TODO Auto-generated method stub
         super.onRestoreInstanceState(savedInstanceState);
     }
 
