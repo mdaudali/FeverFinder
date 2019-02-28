@@ -60,10 +60,19 @@ public class IntegerQuestion extends Question implements TextWatcher {
 
         EditText editText = view.findViewById(R.id.editText);
         editText.setText(content);
+        editText.setId(getId());
         editText.addTextChangedListener(this);
 
         setView(view);
         return view;
+    }
+
+    @Override
+    public void updateView() {
+        View view = getView();
+        //EditText editText = view.findViewById(R.id.editText);
+        //editText.setText(content);
+        //editText.addTextChangedListener(this);
     }
 
     @Override

@@ -29,12 +29,22 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.startBtn).setClickable(true);
     }
 
+    public void onSubmitResponses(View view) {
+        //TODO: replace this with actual code!!
+        try {
+            SurveyStore.saveSurvey("HELLO", getApplicationContext());
+            SurveyStore.submitSavedSurveys(getApplicationContext());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     public void onStartSurvey(View view) {
 
         //TODO: Ensure you cannot spawn multiple surveys
         findViewById(R.id.startBtn).setClickable(false);
         Intent intent = new Intent(this, SurveyActivity.class);
-        intent.putParcelableArrayListExtra(SurveyActivity.EXTRA_SECTIONS, new ArrayList<>(mSections));
+        intent.putParcelableArrayListExtra(SurveyActivity.SECTIONS, new ArrayList<>(mSections));
         startActivity(intent);
     }
 }

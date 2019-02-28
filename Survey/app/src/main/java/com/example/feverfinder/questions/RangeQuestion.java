@@ -66,7 +66,7 @@ public class RangeQuestion extends Question implements SeekBar.OnSeekBarChangeLi
 
     @Override
     public Object getJSONOutput() {
-        return content;
+        return content * step + start;
     }
 
     /**
@@ -86,13 +86,19 @@ public class RangeQuestion extends Question implements SeekBar.OnSeekBarChangeLi
         rangeTextView.setText(getLabel());
 
         SeekBar rangeSeekBar = view.findViewById(R.id.rangeSeekBar);
-        rangeSeekBar.setMax(this.end);
-        rangeSeekBar.setProgress(this.step);
-        rangeSeekBar.setProgress(content);
+        rangeSeekBar.setMax((this.end - this.start) / this.step);
         rangeSeekBar.setOnSeekBarChangeListener(this);
+        rangeSeekBar.setId(getId());
 
         setView(view);
         return view;
+    }
+
+    @Override
+    public void updateView() {
+        View view = getView();
+        //SeekBar rangeSeekBar = view.findViewById(R.id.rangeSeekBar);
+        //rangeSeekBar.setProgress(content);
     }
 
     /**

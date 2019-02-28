@@ -1,6 +1,8 @@
 package com.example.feverfinder;
 
+import android.content.Context;
 import android.util.Log;
+import android.widget.Toast;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -12,9 +14,11 @@ import java.net.URL;
 
 public class SendSurveyThread extends Thread {
     private String strToSend;
+    private Context context;
 
-    public SendSurveyThread(String s) {
+    public SendSurveyThread(String s, Context c) {
         strToSend = s;
+        context = c;
     }
 
     public void run() {
@@ -40,9 +44,11 @@ public class SendSurveyThread extends Thread {
             if (200 <= conn.getResponseCode() && conn.getResponseCode() <= 299) {
                 // If successful API call, read from the input stream
                 responseReader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+                Toast.makeText(context, "Response Sent Successfully", Toast.LENGTH_SHORT).show();
             } else {
                 // Otherwise read from the error stream
                 responseReader = new BufferedReader(new InputStreamReader(conn.getErrorStream()));
+                Toast.makeText(context, "Response Not Sent - Server Error", Toast.LENGTH_SHORT).show();
             }
 
             String line;

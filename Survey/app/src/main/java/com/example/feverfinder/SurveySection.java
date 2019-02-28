@@ -25,7 +25,6 @@ public class SurveySection extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     public static final String ARG_SECTION = "section";
 
-    // TODO: Rename and change types of parameters
     private Section mSection;
 
 
@@ -44,6 +43,7 @@ public class SurveySection extends Fragment {
         SurveySection fragment = new SurveySection();
         Bundle args = new Bundle();
         args.putParcelable(ARG_SECTION, section);
+        fragment.setArguments(args);
         return fragment;
     }
 
@@ -68,6 +68,8 @@ public class SurveySection extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        //if (savedInstanceState != null) return super.onCreateView(inflater, container, savedInstanceState);
+
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_survey_section, container, false);
 
@@ -85,6 +87,7 @@ public class SurveySection extends Fragment {
             }
 
             View child = q.generateView(getContext(), linearLayout);
+            child.setId(View.generateViewId());
             linearLayout.addView(child);
 
             if (!relevant) child.setVisibility(View.GONE);
@@ -92,6 +95,15 @@ public class SurveySection extends Fragment {
 
         return view;
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        for (Question q : mSection.getQuestions()) {
+            q.updateView();
+        }
+    }
+
 
 
     @Override

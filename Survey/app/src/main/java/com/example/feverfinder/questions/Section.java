@@ -1,6 +1,5 @@
 package com.example.feverfinder.questions;
 
-import android.os.Bundle;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.util.Log;
@@ -53,11 +52,7 @@ public class Section implements Parcelable {
     }
 
     public SurveySection getSurveySectionFragment() {
-        SurveySection surveySectionFragment = new SurveySection();
-        Bundle args = new Bundle();
-        args.putParcelable(SurveySection.ARG_SECTION, this);
-        surveySectionFragment.setArguments(args);
-        return surveySectionFragment;
+        return SurveySection.newInstance(this);
     }
 
     @Override
