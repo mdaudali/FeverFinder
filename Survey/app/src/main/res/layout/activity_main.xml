@@ -21,4 +21,12 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
+    <Button
+        android:id="@+id/GPSButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="get location"
+        tools:layout_editor_absoluteX="5dp"
+        tools:layout_editor_absoluteY="408dp" />
+
 </android.support.constraint.ConstraintLayout>
