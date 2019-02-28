@@ -118,13 +118,6 @@ public abstract class Question implements Parcelable, SelectionChangedListener {
 
     public abstract View generateView(Context context, ViewGroup root);
 
-
-    /**
-     * Update view to contain the correct user submitted data
-     */
-    public abstract void updateView();
-
-
     protected void setView(View view) {
         this.view = view;
     }
@@ -153,5 +146,4 @@ public abstract class Question implements Parcelable, SelectionChangedListener {
         dest.writeInt(id);
         dest.writeTypedList(relevancies);
     }
-    //TODO: if stuff doesn't work, add the factory class!
 }

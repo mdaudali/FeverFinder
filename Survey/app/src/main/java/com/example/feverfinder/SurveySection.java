@@ -97,16 +97,6 @@ public class SurveySection extends Fragment {
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
-        for (Question q : mSection.getQuestions()) {
-            q.updateView();
-        }
-    }
-
-
-
-    @Override
     public void onAttach(Context context) {
         super.onAttach(context);
         //Could attach listeners here if we wanted

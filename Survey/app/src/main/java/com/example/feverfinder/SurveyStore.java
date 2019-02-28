@@ -36,9 +36,6 @@ public class SurveyStore {
     private static final String ALGORITHM = "RSA";
     private static final String TRANSFORMATION = "RSA/ECB/PKCS1Padding";
 
-    //TODO: change this?
-    private static final String PASSWORD = "fdsFHJK3783hwewikjhbdhGJHgjhsgfj7GHh";
-
     private static KeyStore.Entry getKeys(Context context) throws CertificateException, NoSuchAlgorithmException, IOException, KeyStoreException, NoSuchProviderException, InvalidAlgorithmParameterException, UnrecoverableEntryException {
         KeyStore keyStore = KeyStore.getInstance("AndroidKeyStore");
         keyStore.load(null);

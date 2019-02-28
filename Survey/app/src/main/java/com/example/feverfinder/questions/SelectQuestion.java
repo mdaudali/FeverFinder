@@ -74,7 +74,7 @@ public class SelectQuestion extends Question implements CompoundButton.OnChecked
         Object output = "Unknown";
         if (select_type == SELECT_TYPE_YES_NO) {
             if (selected.size() == 1) output = selected.get(0).getName().equals("1"); //"1" is the name of yes
-            else output = false; //TODO: should this be false
+            else output = false;
         }
         else if (select_type == SELECT_TYPE_MULTIPLE) {
             JSONArray jsonArray = new JSONArray();
@@ -129,12 +129,6 @@ public class SelectQuestion extends Question implements CompoundButton.OnChecked
 
         setView(view);
         return view;
-    }
-
-    @Override
-    public void updateView() {
-        View view = getView();
-
     }
 
     /**

@@ -68,14 +68,6 @@ public class TextQuestion extends Question implements TextWatcher {
     }
 
     @Override
-    public void updateView() {
-        View view = getView();
-        //EditText editText = view.findViewById(R.id.editText);
-        //editText.setText(content);
-        //editText.addTextChangedListener(this);
-    }
-
-    @Override
     public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
     }

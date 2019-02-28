@@ -14,7 +14,6 @@ import com.example.feverfinder.R;
 
 import java.util.List;
 
-//TODO: ensure that this updates to contain the correct content -
 public class RangeQuestion extends Question implements SeekBar.OnSeekBarChangeListener {
     public static final Parcelable.Creator<RangeQuestion> CREATOR
             = new Parcelable.Creator<RangeQuestion>() {
@@ -92,13 +91,6 @@ public class RangeQuestion extends Question implements SeekBar.OnSeekBarChangeLi
 
         setView(view);
         return view;
-    }
-
-    @Override
-    public void updateView() {
-        View view = getView();
-        //SeekBar rangeSeekBar = view.findViewById(R.id.rangeSeekBar);
-        //rangeSeekBar.setProgress(content);
     }
 
     /**
