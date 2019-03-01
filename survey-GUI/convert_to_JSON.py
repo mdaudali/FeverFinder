@@ -1,7 +1,6 @@
 from collections import OrderedDict
 import simplejson as json
 
-# TODO CHANGE FILE PATH TO ROUTE JSON TO CORRECT PLACE
 import xlrd
 
 
@@ -69,7 +68,7 @@ def convertChoicesToJSON(filename):
     j = json.dumps(choices_list)
 
     # Write to file
-    with open('files/choices.json', 'w') as f:
+    with open('../Survey/app/src/main/res/raw/choices.json', 'w') as f:
         f.write(j)
 
 def convertQuestionsToJSON(filename):
@@ -232,5 +231,5 @@ def writeToFile(sectionList):
     j = json.dumps(sectionList)
 
     # Write to file
-    with open('files/questions.json', 'w') as f:
+    with open('../Survey/app/src/main/res/raw/questions.json', 'w') as f:
         f.write(j)
