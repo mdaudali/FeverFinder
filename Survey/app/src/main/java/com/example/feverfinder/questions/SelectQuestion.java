@@ -74,7 +74,7 @@ public class SelectQuestion extends Question implements CompoundButton.OnChecked
         Object output = "Unknown";
         if (select_type == SELECT_TYPE_YES_NO) {
             if (selected.size() == 1) output = selected.get(0).getName().equals("1"); //"1" is the name of yes
-            else output = false; //TODO: should this be false
+            else output = false;
         }
         else if (select_type == SELECT_TYPE_MULTIPLE) {
             JSONArray jsonArray = new JSONArray();
@@ -96,28 +96,26 @@ public class SelectQuestion extends Question implements CompoundButton.OnChecked
      */
     @Override
     public View generateView(Context context, ViewGroup root) {
-        View view;
-        view = LayoutInflater.from(context)
+        View view = LayoutInflater.from(context)
                 .inflate(R.layout.select_question, root, false);
 
-        TextView textView = view.findViewById(R.id.text_label);
-        textView.setText(getLabel());
-
         RadioGroup radioGroup = view.findViewById(R.id.radio_container);
+        radioGroup.setId(getId());
+
         for (Option option : options) {
             if (select_type == SELECT_TYPE_MULTIPLE) {
-                CheckBox checkBox = new CheckBox(context);
-                checkBox.setChecked(isSelected(option));
+                CheckBox checkBox = new CheckBox(view.getContext());
                 checkBox.setText(option.getLabel());
+                checkBox.setId(option.getId());
                 checkBox.setLayoutParams(new ViewGroup.LayoutParams(
                         ViewGroup.LayoutParams.MATCH_PARENT,
                         ViewGroup.LayoutParams.WRAP_CONTENT));
                 checkBox.setOnCheckedChangeListener(this);
                 radioGroup.addView(checkBox);
             } else if (select_type == SELECT_TYPE_SINGLE || select_type == SELECT_TYPE_YES_NO) {
-                RadioButton radioButton = new RadioButton(context);
-                radioButton.setChecked(isSelected(option));
+                RadioButton radioButton = new RadioButton(view.getContext());
                 radioButton.setText(option.getLabel());
+                radioButton.setId(option.getId());
                 radioButton.setLayoutParams(new ViewGroup.LayoutParams(
                         ViewGroup.LayoutParams.MATCH_PARENT,
                         ViewGroup.LayoutParams.WRAP_CONTENT));
@@ -125,6 +123,10 @@ public class SelectQuestion extends Question implements CompoundButton.OnChecked
                 radioGroup.addView(radioButton);
             }
         }
+
+        TextView textView = view.findViewById(R.id.text_label);
+        textView.setText(getLabel());
+
         setView(view);
         return view;
     }
@@ -154,14 +156,16 @@ public class SelectQuestion extends Question implements CompoundButton.OnChecked
         if (isChecked) {
             for (Option option : options) {
                 if (buttonView.getText().equals(option.getLabel())) {
-                    selected.add(option);
+                    if (!selected.contains(option)) selected.add(option);
                     break;
                 }
             }
         } else {
             for (Option option : selected) {
                 if (buttonView.getText().equals(option.getLabel())) {
-                    selected.remove(option);
+                    while (selected.contains(option)) {
+                        selected.remove(option);
+                    }
                     break;
                 }
             }

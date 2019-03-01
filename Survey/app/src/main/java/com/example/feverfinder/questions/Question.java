@@ -48,6 +48,7 @@ public abstract class Question implements Parcelable, SelectionChangedListener {
     private int type;
     private String name;
     private String label;
+    private int id;
     private List<Relevancy> relevancies;
     private View view;
 
@@ -55,6 +56,7 @@ public abstract class Question implements Parcelable, SelectionChangedListener {
         this.type = type;
         this.name = name;
         this.label = label;
+        this.id = View.generateViewId();
         this.relevancies = relevancies;
     }
 
@@ -62,6 +64,7 @@ public abstract class Question implements Parcelable, SelectionChangedListener {
         this.type = type;
         this.name = in.readString();
         this.label = in.readString();
+        this.id = in.readInt();
 
         this.relevancies = new ArrayList<>();
         in.readTypedList(relevancies, Relevancy.CREATOR);
@@ -77,6 +80,10 @@ public abstract class Question implements Parcelable, SelectionChangedListener {
 
     public String getLabel() {
         return label;
+    }
+
+    public int getId() {
+        return id;
     }
 
     public abstract Object getJSONOutput();
@@ -109,11 +116,14 @@ public abstract class Question implements Parcelable, SelectionChangedListener {
         }
     }
 
-    //This should never be run!
     public abstract View generateView(Context context, ViewGroup root);
 
     protected void setView(View view) {
         this.view = view;
+    }
+
+    protected View getView() {
+        return view;
     }
 
     @Override
@@ -133,7 +143,7 @@ public abstract class Question implements Parcelable, SelectionChangedListener {
         dest.writeInt(type);
         dest.writeString(name);
         dest.writeString(label);
+        dest.writeInt(id);
         dest.writeTypedList(relevancies);
     }
-    //TODO: if stuff doesn't work, add the factory class!
 }

@@ -82,7 +82,6 @@ public class QuestionParser {
                 // Otherwise it must be a single choice question
                 else {
                     if (type.startsWith("select_one yes_no_2")) {
-                        //TODO: maybe put default options if type is yes/no
                         newQuestion = new SelectQuestion(name, label, questionRelevancy,
                                 SelectQuestion.SELECT_TYPE_YES_NO, responseChoices.get("yes_no_2"));
                     } else {
@@ -167,14 +166,7 @@ public class QuestionParser {
                 for (int j = 0; j < optionsArray.size(); j++) {
                     currentOption = (JSONObject) optionsArray.get(j);
 
-                    //TODO: fix this - in the JSON 9 is represented as "9.0"
-                    String name;
-                    if (currentOption.get("name").getClass() == Double.class) {
-                        name = String.valueOf(Math.round((Double) currentOption.get("name")));
-                    } else {
-                        name = (String) currentOption.get("name");
-                    }
-
+                    String name = (String) currentOption.get("name");
 
                     Option newOption = new Option(name, currentOption.get("label").toString());
                     optionsList.add(newOption);

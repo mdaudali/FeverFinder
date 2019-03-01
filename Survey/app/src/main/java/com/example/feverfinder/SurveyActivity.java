@@ -15,7 +15,6 @@ import android.support.v7.widget.Toolbar;
 import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
 import android.util.Log;
-import android.util.SparseArray;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -26,25 +25,23 @@ import com.example.feverfinder.questions.Section;
 
 import org.json.JSONObject;
 
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 
 public class SurveyActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
-    public static final String EXTRA_SECTIONS = "com.example.feverfinder.EXTRA_SECTIONS";
+    public static final String SECTIONS = "com.example.feverfinder.SECTIONS";
+    public static final String CURRENT_FRAGMENT = "CURRENT_FRAGMENT";
+    public static final String SECTION_ORDER = "SECTION_ORDER";
 
-    private SparseArray<SurveySection> sectionMap;
-    private List<Integer> sectionOrder;
-    private int currentFragment;
+
+    private ArrayList<String> sectionOrder;
+    private String currentFragment;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        List<Section> sections;
-        sections = getIntent().getExtras().getParcelableArrayList(EXTRA_SECTIONS);
-
 
         setContentView(R.layout.activity_survey);
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -56,44 +53,58 @@ public class SurveyActivity extends AppCompatActivity
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
-        //sectionMap is a map from ids to their associated Section
-        sectionMap = new SparseArray<>();
-        //sectionOrder is a list of IDs in the correct order
-        sectionOrder = new LinkedList<>();
-
         NavigationView navigationView = findViewById(R.id.nav_view);
         Menu m = navigationView.getMenu();
-        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        boolean first = true;
-        int id = 1;
-        for (Section s : sections) {
-            sectionOrder.add(id);
-            SurveySection surveySectionFragment = s.getSurveySectionFragment();
-            MenuItem menuItem = m.add(Menu.NONE, id, Menu.NONE, s.getName()).setCheckable(true);
-            fragmentTransaction.add(R.id.fragment_container, surveySectionFragment);
 
-            //If this is the first section
-            if (first) {
-                first = false;
-                setTitle(s.getName());
-                currentFragment = id;
-                menuItem.setChecked(true);
-            } else {
-                fragmentTransaction.hide(surveySectionFragment);
+        if (savedInstanceState == null) {
+            List<Section> sections = getIntent().getExtras().getParcelableArrayList(SECTIONS);
+
+            //Generate sections
+            FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+            boolean first = true;
+            int id = 1;
+            sectionOrder = new ArrayList<>();
+
+            for (Section s : sections) {
+                sectionOrder.add(String.valueOf(id));
+                SurveySection surveySectionFragment = s.getSurveySectionFragment();
+                MenuItem menuItem = m.add(Menu.NONE, id, Menu.NONE, s.getName()).setCheckable(true);
+                fragmentTransaction.add(R.id.fragment_container, surveySectionFragment, String.valueOf(id));
+
+                //If this is the first section
+                if (first) {
+                    first = false;
+                    setTitle(s.getName());
+                    currentFragment = String.valueOf(id);
+                    menuItem.setChecked(true);
+                } else {
+                    fragmentTransaction.hide(surveySectionFragment);
+                }
+                id++;
             }
+            fragmentTransaction.commit();
 
-            sectionMap.append(id, surveySectionFragment);
-            id++;
+
+        } else {
+            sectionOrder = savedInstanceState.getStringArrayList(SECTION_ORDER);
+            currentFragment = savedInstanceState.getString(CURRENT_FRAGMENT);
+
+            //Sort out the menu
+            for (String id : sectionOrder) {
+                SurveySection surveySection = (SurveySection) getSupportFragmentManager()
+                        .findFragmentByTag(id);
+                MenuItem menuItem = m.add(Menu.NONE, Integer.valueOf(id), Menu.NONE,
+                        surveySection.getSection().getName()).setCheckable(true);
+                if (id.equals(currentFragment)) menuItem.setChecked(true);
+            }
         }
 
         //Set the submit button to be a different colour
         SpannableString spannableString = new SpannableString("Submit Survey");
         spannableString.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.colorPrimary)),
                 0, spannableString.length(), 0);
-        m.add(Menu.NONE, 0, Menu.NONE, spannableString).setCheckable(true);
+        m.add(Menu.NONE, 0, Menu.NONE, spannableString).setCheckable(false);
 
-
-        fragmentTransaction.commit();
         navigationView.setNavigationItemSelectedListener(this);
     }
 
@@ -136,14 +147,24 @@ public class SurveyActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == 0) submitSurvey();
-        else showFragment(id);
+        if (id == 0) {
+            submitSurvey();
+            //Ensure the menu doesn't change
+            NavigationView navigationView = findViewById(R.id.nav_view);
+            Menu m = navigationView.getMenu();
+            item.setChecked(false);
+            m.findItem(Integer.valueOf(currentFragment)).setChecked(true);
+
+            ((DrawerLayout) findViewById(R.id.drawer_layout)).closeDrawer(GravityCompat.START);
+        } else {
+            showFragment(String.valueOf(id));
+        }
 
         return true;
     }
 
     public void nextSectionClick(View view) {
-        int id = sectionOrder.get((sectionOrder.indexOf(currentFragment) + 1) % sectionOrder.size());
+        String id = sectionOrder.get((sectionOrder.indexOf(currentFragment) + 1) % sectionOrder.size());
         showFragment(id);
     }
 
@@ -152,8 +173,16 @@ public class SurveyActivity extends AppCompatActivity
     }
 
 
-    private void showFragment(int id) {
-        setTitle(sectionMap.get(id).getSection().getName());
+    private void showFragment(String id) {
+        //Sort out menu
+        NavigationView navigationView = findViewById(R.id.nav_view);
+        Menu m = navigationView.getMenu();
+        m.findItem(Integer.valueOf(currentFragment)).setChecked(false);
+        m.findItem(Integer.valueOf(id)).setChecked(true);
+
+
+        SurveySection surveySection = (SurveySection) getSupportFragmentManager().findFragmentByTag(id);
+        setTitle(surveySection.getSection().getName());
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
@@ -161,8 +190,8 @@ public class SurveyActivity extends AppCompatActivity
         FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fm.beginTransaction();
 
-        fragmentTransaction.hide(sectionMap.get(currentFragment));
-        fragmentTransaction.show(sectionMap.get(id));
+        fragmentTransaction.hide(getSupportFragmentManager().findFragmentByTag(currentFragment));
+        fragmentTransaction.show(surveySection);
         currentFragment = id;
 
         fragmentTransaction.commit();
@@ -180,8 +209,9 @@ public class SurveyActivity extends AppCompatActivity
             // Iterate through all questions and get their content
 
 
-            for (int id : sectionOrder) {
-                Section s = sectionMap.get(id).getSection();
+            for (String id : sectionOrder) {
+                SurveySection surveySection = (SurveySection) getSupportFragmentManager().findFragmentByTag(id);
+                Section s = surveySection.getSection();
                 for (Question q : s.getQuestions()) {
                     obj.put(q.getName().toLowerCase(), q.getJSONOutput());
 
@@ -193,9 +223,11 @@ public class SurveyActivity extends AppCompatActivity
             String strToSend = obj.toString();
 
             // Send it with creating a new thread
-            SendSurveyThread sst = new SendSurveyThread(strToSend);
+            SendSurveyThread sst = new SendSurveyThread(strToSend, getApplicationContext());
             sst.start();
 
+            //TODO: sort out this message!
+            //TODO: might be better if this waits for thread to finish!
             Toast.makeText(getApplicationContext(), "Survey sent", Toast.LENGTH_SHORT).show();
         } catch (Exception e) {
             //If sending fails, display error message
@@ -205,6 +237,23 @@ public class SurveyActivity extends AppCompatActivity
         }
     }
 
+    /**
+     * Puts data in to bundle to be recreated on recreation of the survey
+     *
+     * @param out The bundle to store data in
+     */
+    @Override
+    public void onSaveInstanceState(Bundle out) {
+        super.onSaveInstanceState(out);
+        out.putStringArrayList(SECTION_ORDER, sectionOrder);
+        out.putString(CURRENT_FRAGMENT, currentFragment);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+    }
+
     /* Test if network is available */
     private boolean isNetworkAvailable() {
         ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -212,5 +261,4 @@ public class SurveyActivity extends AppCompatActivity
 
         return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
-
 }

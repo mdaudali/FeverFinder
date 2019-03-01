@@ -57,11 +57,8 @@ public class DecimalQuestion extends Question implements TextWatcher {
                 .inflate(R.layout.decimal_question, root, false);
         TextInputLayout textInputLayout = view.findViewById(R.id.editTextLayout);
         textInputLayout.setHint(getLabel());
-
         EditText editText = view.findViewById(R.id.editText);
-        editText.setText(content);
-        editText.addTextChangedListener(this);
-
+        editText.setId(getId());
         setView(view);
         return view;
     }
@@ -73,7 +70,6 @@ public class DecimalQuestion extends Question implements TextWatcher {
 
     @Override
     public void onTextChanged(CharSequence s, int start, int before, int count) {
-
     }
 
     /**

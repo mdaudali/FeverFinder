@@ -60,6 +60,7 @@ public class IntegerQuestion extends Question implements TextWatcher {
 
         EditText editText = view.findViewById(R.id.editText);
         editText.setText(content);
+        editText.setId(getId());
         editText.addTextChangedListener(this);
 
         setView(view);
@@ -76,7 +77,6 @@ public class IntegerQuestion extends Question implements TextWatcher {
 
     }
 
-    //TODO: javadoc
     @Override
     public void afterTextChanged(Editable s) {
         content = s.toString();

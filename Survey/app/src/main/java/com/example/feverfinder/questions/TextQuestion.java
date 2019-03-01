@@ -59,7 +59,8 @@ public class TextQuestion extends Question implements TextWatcher {
         textInputLayout.setHint(getLabel());
 
         EditText editText = view.findViewById(R.id.editText);
-        editText.setText(content);
+        editText.setId(getId());
+
         editText.addTextChangedListener(this);
 
         setView(view);
