@@ -1,13 +1,8 @@
 package com.example.feverfinder.questions;
 
-import android.content.Intent;
 import android.location.Location;
 import android.location.LocationListener;
 import android.os.Bundle;
-import android.provider.Settings;
-import android.widget.Toast;
-
-import static android.support.v4.content.ContextCompat.startActivity;
 
 public class GPSLoc implements LocationListener {
     public void onLocationChanged(Location loc) {
