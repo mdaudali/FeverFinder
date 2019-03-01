@@ -2,7 +2,6 @@ from collections import OrderedDict
 import simplejson as json
 import xlrd
 
-
 def convertChoicesToJSON(filename):
     """ Convert choices sheet in survey-choices.xlsx into choices.JSON """
     """
