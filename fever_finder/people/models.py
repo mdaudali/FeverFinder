@@ -154,9 +154,9 @@ class Person(models.Model):
     dump1 = models.CharField(max_length=128, default="unknown")
     dump2 = models.CharField(max_length=128, default="unknown")
 
-    who_live_with = models.CharField(max_length=128, default="unknown")
-    who_sharefood_with = models.CharField(max_length=128, default="unknown")
-    who_work_with = models.CharField(max_length=128, default="unknown")
+    who_live_with = models.CharField(max_length=1024, default="unknown")
+    who_sharefood_with = models.CharField(max_length=1024, default="unknown")
+    who_work_with = models.CharField(max_length=1024, default="unknown")
 
     questions = models.CharField(max_length=512, default="unknown")
     notes = models.CharField(max_length=512, default="unknown")

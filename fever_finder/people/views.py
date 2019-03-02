@@ -26,13 +26,17 @@ class PersonFilter(generics.ListAPIView):
     def get_queryset(self):
         patient_name = self.request.query_params.get('name')
 
-        # TODO: filter with these other things as well
-        eats_with = self.request.query_params.get('eatsWith')
-        lives_with = self.request.query_params.get('livesWith')
-        works_with = self.request.query_params.get('worksWith')
+        who_sharefood_with = self.request.query_params.get('eatsWith')
+        who_live_with = self.request.query_params.get('livesWith')
+        who_work_with = self.request.query_params.get('worksWith')
         symptom_score = self.request.query_params.get('symptomScore')
         risk_score = self.request.query_params.get('riskScore')
 
-        queryset = Person.objects.all().filter(patient_name__contains=patient_name)
+        queryset = Person.objects.all().filter(patient_name__contains=patient_name,
+                                               who_sharefood_with__contains=who_sharefood_with,
+                                               who_live_with__contains=who_live_with,
+                                               who_work_with__contains=who_work_with,
+                                               symptom_score__level__gte=symptom_score,
+                                               risk_score__level__gte=risk_score)
 
         return queryset
