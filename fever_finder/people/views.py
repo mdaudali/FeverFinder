@@ -36,7 +36,7 @@ class PersonFilter(generics.ListAPIView):
                                                who_sharefood_with__contains=who_sharefood_with,
                                                who_live_with__contains=who_live_with,
                                                who_work_with__contains=who_work_with,
-                                               symptom_score__level__gte=symptom_score,
-                                               risk_score__level__gte=risk_score)
+                                               sick__level__gte=symptom_score,
+                                               risk__level__gte=risk_score)
 
         return queryset
