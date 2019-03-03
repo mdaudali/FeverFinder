@@ -1,6 +1,5 @@
 import React from 'react';
 import { compose, withProps, lifecycle } from "recompose"
-import classNames from 'classnames';
 import {
   activeMarker,
   withHandlers,
@@ -10,7 +9,6 @@ import {
   Marker,
   InfoWindow
 } from "react-google-maps"
-import Typography from '@material-ui/core/Typography';
 
 const _ = require("lodash");
 const { SearchBox } = require("react-google-maps/lib/components/places/SearchBox");
@@ -26,12 +24,11 @@ class MapPanel extends React.Component {
   }
 
   componentDidMount() {
-    // the link is just a JSON a hosting and storage service
-    // which contains the same data as the people JSON
-    fetch("https://api.myjson.com/bins/1bnvni")
+    fetch("/api/people/")
       .then(r => r.json())
       .then(data => {
-        this.setState({ features: data.features })
+        this.setState({ features: data})
+        console.log(data)
       })
   }
 
@@ -69,7 +66,7 @@ const MapWithASearchBox = compose(
       this.setState({
         bounds: null,
         center: {
-          lat: 52.210945, lng:  0.091719
+          lat: 6.4, lng: 8.0
         },
         onMapMounted: ref => {
           refs.map = ref;
@@ -112,10 +109,10 @@ const MapWithASearchBox = compose(
     return (
   <GoogleMap
     ref={props.onMapMounted}
-    defaultZoom={8}
+    defaultZoom={10}
     center={props.center}
     onBoundsChanged={props.onBoundsChanged}
-    defaultCenter={{ lat: 0.8541553715898037, lng: 32.640380859375 }}
+    defaultCenter={{ lat: 6.4, lng: 8.0}}
   >
     {props.markers.map(marker => {
       const onClick = props.onClick.bind(this, marker);
@@ -124,12 +121,12 @@ const MapWithASearchBox = compose(
           key={marker.id}
           visible={true}
           onClick={onClick}
-          position={{ lat: marker.latitude, lng: marker.longitude }}
+          position={{ lat: marker.store_gps_latitude, lng: marker.store_gps_longitude }}
         >
           {props.selectedMarker === marker &&
             <InfoWindow>
               <div>
-                {marker.name}
+                {marker.patient_name}
               </div>
             </InfoWindow>
           }
@@ -144,7 +141,7 @@ const MapWithASearchBox = compose(
     >
       <input
         type="text"
-        placeholder="Customized placeholder"
+        placeholder="Search..."
         style={{
           boxSizing: `border-box`,
           border: `1px solid transparent`,

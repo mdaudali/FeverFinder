@@ -1,18 +1,8 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import classNames from 'classnames';
 import { withStyles } from '@material-ui/core/styles';
-import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import SearchBar from './searchbar.js';
 import { styles } from './styles/searchPanelStyles.js';
-import { examplePeople } from './fullpeopleexample.js';
-
-// Use instead of usual search for random offline results
-function dummySearchQuery(name, callback) {
-  let results = examplePeople.filter((person, ind) => Math.random() > 0.5)
-  setTimeout(() => callback(results), 100);
-}
 
 class SearchInput extends React.Component {
     constructor(props) {
@@ -46,7 +36,7 @@ class SearchInput extends React.Component {
             return;
 
         // Assemble query
-        var query = 'http://13.95.172.26:8000/api/people/search/?';
+        var query = '/api/people/search/?';
         if (this.state.name)
             query += 'name='+encodeURIComponent(this.state.name)+'&';
         if (this.state.eatsWith)
@@ -63,10 +53,8 @@ class SearchInput extends React.Component {
         console.log("Would make query:" + query);
 
         // Send request
-        // Note: replace hardcoded string with assembled query once API is ready
-        // Currently just gets a fixed person that exists in the DB and adds a name too
         var request = new XMLHttpRequest();
-        //request.open('GET', 'http://127.0.0.1:8000/api/people/get_by_id/?id=7d516f50-02bf-40c3-8e83-5bc4321b8861', true);
+
         request.open('GET', query, true);
         request.onload = (callback => function() {
             if(this.response === undefined || this.response.length == 0) {
