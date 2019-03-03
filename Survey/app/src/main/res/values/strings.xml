@@ -9,4 +9,7 @@
     <string name="action_settings">Settings</string>
     <string name="next_section_text">Next Section</string>
     <string name="submit_survey_text">Submit Survey</string>
+    <string name="get_location_button">Get location</string>
+    <string name="longitude_field">Longitude</string>
+    <string name="latitude_field">Latitude</string>
 </resources>

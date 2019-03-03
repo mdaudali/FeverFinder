@@ -100,6 +100,8 @@ public class QuestionParser {
                 } catch (ParameterParseException e) {
                     e.printStackTrace();
                 }
+            } else if (type.equals("gps")) {
+                newQuestion = new GPSQuestion(name, label, questionRelevancy);
             }
 
             //If type is a group, add all the questions within the group

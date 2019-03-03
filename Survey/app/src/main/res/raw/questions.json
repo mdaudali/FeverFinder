@@ -73,7 +73,7 @@
       "media": ""
     },
     {
-      "type": "text",
+      "type": "gps",
       "name": "store_gps",
       "label": "GPS coordinates of this store",
       "relevant": "",

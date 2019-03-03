@@ -12,6 +12,9 @@ import android.widget.TextView;
 
 import com.example.feverfinder.R;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.List;
 
 public class RangeQuestion extends Question implements SeekBar.OnSeekBarChangeListener {
@@ -63,10 +66,18 @@ public class RangeQuestion extends Question implements SeekBar.OnSeekBarChangeLi
         content = in.readInt();
     }
 
+    /**
+     * Given a JSON object to output to, add the data relevant to the question to be submitted to
+     * the database
+     *
+     * @param out the JSON object to add to
+     * @throws JSONException
+     */
     @Override
-    public Object getJSONOutput() {
-        return content * step + start;
+    public void addToJSON(JSONObject out) throws JSONException {
+        out.put(getName().toLowerCase(), content * step + start);
     }
+
 
     /**
      * Generate a View which displays the question

@@ -15,6 +15,8 @@ import android.widget.TextView;
 import com.example.feverfinder.R;
 
 import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -69,22 +71,28 @@ public class SelectQuestion extends Question implements CompoundButton.OnChecked
         return selected;
     }
 
+    /**
+     * Given a JSON object to output to, add the data relevant to the question to be submitted to
+     * the database
+     *
+     * @param out the JSON object to add to
+     * @throws JSONException
+     */
     @Override
-    public Object getJSONOutput() {
+    public void addToJSON(JSONObject out) throws JSONException {
         Object output = "Unknown";
         if (select_type == SELECT_TYPE_YES_NO) {
-            if (selected.size() == 1) output = selected.get(0).getName().equals("1"); //"1" is the name of yes
+            if (selected.size() == 1)
+                output = selected.get(0).getName().equals("1"); //"1" is the name of yes
             else output = false;
-        }
-        else if (select_type == SELECT_TYPE_MULTIPLE) {
+        } else if (select_type == SELECT_TYPE_MULTIPLE) {
             JSONArray jsonArray = new JSONArray();
             for (Option option : selected) jsonArray.put(option.getLabel());
             output = jsonArray.toString();
-        }
-        else if (select_type == SELECT_TYPE_SINGLE) {
+        } else if (select_type == SELECT_TYPE_SINGLE) {
             if (selected.size() == 1) output = selected.get(0).getLabel();
         }
-        return output;
+        out.put(getName().toLowerCase(), output);
     }
 
     /**

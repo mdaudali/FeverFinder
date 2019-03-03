@@ -83,8 +83,6 @@ public class SurveyActivity extends AppCompatActivity
                 id++;
             }
             fragmentTransaction.commit();
-
-
         } else {
             sectionOrder = savedInstanceState.getStringArrayList(SECTION_ORDER);
             currentFragment = savedInstanceState.getString(CURRENT_FRAGMENT);
@@ -132,12 +130,6 @@ public class SurveyActivity extends AppCompatActivity
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
         return super.onOptionsItemSelected(item);
     }
 
@@ -149,13 +141,6 @@ public class SurveyActivity extends AppCompatActivity
 
         if (id == 0) {
             submitSurvey();
-            //Ensure the menu doesn't change
-            NavigationView navigationView = findViewById(R.id.nav_view);
-            Menu m = navigationView.getMenu();
-            item.setChecked(false);
-            m.findItem(Integer.valueOf(currentFragment)).setChecked(true);
-
-            ((DrawerLayout) findViewById(R.id.drawer_layout)).closeDrawer(GravityCompat.START);
         } else {
             showFragment(String.valueOf(id));
         }
@@ -199,22 +184,15 @@ public class SurveyActivity extends AppCompatActivity
 
     private void submitSurvey() {
         try {
-            // TODO: test for internet connection;
-            // TODO: if there isn't one save to file, or throw exception?
-            if (!isNetworkAvailable()) throw new SaveException("Network is not available.");
-
             // Create JSON object to send
             JSONObject obj = new JSONObject();
 
             // Iterate through all questions and get their content
-
-
             for (String id : sectionOrder) {
                 SurveySection surveySection = (SurveySection) getSupportFragmentManager().findFragmentByTag(id);
                 Section s = surveySection.getSection();
                 for (Question q : s.getQuestions()) {
-                    obj.put(q.getName().toLowerCase(), q.getJSONOutput());
-
+                    q.addToJSON(obj);
                 }
             }
             Log.d("JSON", obj.toString());
@@ -222,19 +200,24 @@ public class SurveyActivity extends AppCompatActivity
             // Convert JSON to string
             String strToSend = obj.toString();
 
-            // Send it with creating a new thread
-            SendSurveyThread sst = new SendSurveyThread(strToSend, getApplicationContext());
-            sst.start();
+            if (isNetworkAvailable()) {
+                // Send it by creating a new thread
+                SendSurveyThread sst = new SendSurveyThread(strToSend, this);
+                sst.start();
+            } else {
+                SurveyStore.saveSurvey(strToSend, this);
+                Toast.makeText(this, "No Internet - Survey Saved", Toast.LENGTH_LONG).show();
+            }
 
-            //TODO: sort out this message!
-            //TODO: might be better if this waits for thread to finish!
-            Toast.makeText(getApplicationContext(), "Survey sent", Toast.LENGTH_SHORT).show();
         } catch (Exception e) {
             //If sending fails, display error message
             Toast.makeText(getApplicationContext(),
                     e.getClass().getCanonicalName() + ": " + e.getMessage(),
                     Toast.LENGTH_LONG).show();
         }
+
+        //Now exit the survey
+        super.onBackPressed();
     }
 
     /**
