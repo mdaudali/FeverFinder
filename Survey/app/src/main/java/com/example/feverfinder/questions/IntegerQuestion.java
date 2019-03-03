@@ -13,6 +13,9 @@ import android.widget.EditText;
 
 import com.example.feverfinder.R;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.List;
 
 public class IntegerQuestion extends Question implements TextWatcher {
@@ -38,10 +41,16 @@ public class IntegerQuestion extends Question implements TextWatcher {
         content = in.readString();
     }
 
+    /**
+     * Given a JSON object to output to, add the data relevant to the question to be submitted to
+     * the database
+     *
+     * @param out the JSON object to add to
+     * @throws JSONException
+     */
     @Override
-    public Object getJSONOutput() {
-        if (content.equals("")) return 0;
-        else return Integer.valueOf(content);
+    public void addToJSON(JSONObject out) throws JSONException {
+        out.put(getName().toLowerCase(), content.equals("") ? 0 : Integer.valueOf(content));
     }
 
     /**

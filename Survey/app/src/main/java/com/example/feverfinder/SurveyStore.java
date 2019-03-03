@@ -1,81 +1,24 @@
 package com.example.feverfinder;
 
+import android.app.Activity;
 import android.content.Context;
-import android.security.KeyPairGeneratorSpec;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.util.Log;
+import android.widget.Toast;
 
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FilenameFilter;
-import java.io.IOException;
-import java.math.BigInteger;
-import java.security.InvalidAlgorithmParameterException;
-import java.security.KeyPairGenerator;
-import java.security.KeyStore;
-import java.security.KeyStoreException;
-import java.security.NoSuchAlgorithmException;
-import java.security.NoSuchProviderException;
-import java.security.PrivateKey;
-import java.security.PublicKey;
-import java.security.UnrecoverableEntryException;
-import java.security.cert.CertificateException;
+import java.io.OutputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
-import java.util.Calendar;
 import java.util.List;
 
-import javax.crypto.Cipher;
-import javax.crypto.CipherInputStream;
-import javax.crypto.CipherOutputStream;
-import javax.security.auth.x500.X500Principal;
-
-/**
- * Class designed to allow temporary saving of Survey Responses, until they can be sent
- */
 public class SurveyStore {
-    private static final String KEY_ALIAS = "keyAlias";
-    private static final String ALGORITHM = "RSA";
-    private static final String TRANSFORMATION = "RSA/ECB/PKCS1Padding";
-
-    private static KeyStore.Entry getKeys(Context context) throws CertificateException, NoSuchAlgorithmException, IOException, KeyStoreException, NoSuchProviderException, InvalidAlgorithmParameterException, UnrecoverableEntryException {
-        KeyStore keyStore = KeyStore.getInstance("AndroidKeyStore");
-        keyStore.load(null);
-
-        if (!keyStore.containsAlias(KEY_ALIAS)) {
-            //Set the time restriction on the key
-            Calendar notBefore = Calendar.getInstance();
-            //TODO: deal with end dates properly
-            Calendar notAfter = Calendar.getInstance();
-            notAfter.add(Calendar.YEAR, 100);
-
-            KeyPairGeneratorSpec spec = new KeyPairGeneratorSpec.Builder(context)
-                    .setAlias(KEY_ALIAS)
-                    .setKeyType(ALGORITHM)
-                    .setKeySize(2048)
-                    .setSubject(new X500Principal("CN=app"))
-                    .setSerialNumber(BigInteger.ONE)
-                    .setStartDate(notBefore.getTime())
-                    .setEndDate(notAfter.getTime())
-                    .build();
-
-
-            KeyPairGenerator generator = KeyPairGenerator.getInstance("RSA", "AndroidKeyStore");
-            generator.initialize(spec);
-            generator.generateKeyPair();
-            keyStore.store(null);
-        }
-
-
-        return keyStore.getEntry(KEY_ALIAS, null);
-    }
-
-
     protected static void saveSurvey(String contents, Context context) throws EncryptionException, SaveException {
         try {
-            //Create the cipher text
-            Cipher cipher = Cipher.getInstance(TRANSFORMATION);
-            PublicKey publicKey = ((KeyStore.PrivateKeyEntry) getKeys(context)).getCertificate().getPublicKey();
-            cipher.init(Cipher.ENCRYPT_MODE, publicKey);
-
             //Find a new unique filename
             List<String> fileNames = Arrays.asList(context.getFilesDir().list(new FilenameFilter() {
                 @Override
@@ -87,24 +30,21 @@ public class SurveyStore {
             int i = 0;
             String filename = "response" + String.valueOf(i);
             while (fileNames.contains(filename)) {
-                context.deleteFile(filename); //TODO: remove this once working
                 i++;
                 filename = "response" + String.valueOf(i);
             }
 
             //Write out the bytes
-            CipherOutputStream cipherOutputStream =
-                    new CipherOutputStream(
-                            context.openFileOutput(filename, Context.MODE_PRIVATE), cipher);
-            cipherOutputStream.write(contents.getBytes("UTF-8"));
-            cipherOutputStream.close();
+            OutputStream outputStream = context.openFileOutput(filename, Context.MODE_PRIVATE);
+            outputStream.write(contents.getBytes(StandardCharsets.UTF_8));
+            outputStream.close();
         } catch (Exception e) {
             throw new SaveException(e.getMessage());
         }
     }
 
-    protected static void submitSavedSurveys(Context context) throws EncryptionException {
-        List<File> files = Arrays.asList(context.getFilesDir().listFiles());
+    protected static void submitSavedSurveys(Context context) {
+        File[] files = context.getFilesDir().listFiles();
         for (File file : files) {
             if (file.getName().startsWith("response")) {
                 try {
@@ -113,35 +53,39 @@ public class SurveyStore {
                     BufferedInputStream in = new BufferedInputStream(new FileInputStream(file));
                     in.read(bytes, 0, size);
                     in.close();
+                    String data = new String(bytes, 0, size, StandardCharsets.UTF_8);
+                    Log.d("STRINGSEND", data);
 
-                    Cipher cipher = Cipher.getInstance(TRANSFORMATION);
-                    PrivateKey privateKey = ((KeyStore.PrivateKeyEntry) getKeys(context)).getPrivateKey();
-                    cipher.init(Cipher.DECRYPT_MODE, privateKey);
-
-                    CipherInputStream cipherInputStream =
-                            new CipherInputStream(context.openFileInput(file.getName()),
-                                    cipher);
-                    byte[] outBytes = new byte[10000]; //TODO: resize this
-
-                    int index = 0;
-                    int nextByte;
-                    while ((nextByte = cipherInputStream.read()) != -1) {
-                        outBytes[index] = (byte) nextByte;
-                        index++;
+                    if (isNetworkAvailable(context)) {
+                        // Send it by creating a new thread
+                        SendSurveyThread sst = new SendSurveyThread(data, context);
+                        sst.start();
+                        file.delete();
+                    } else {
+                        report("No Internet - Survey Saved", Toast.LENGTH_LONG, context);
                     }
-                    String plainText = new String(outBytes, 0, index, "UTF-8");
-
 
                 } catch (Exception e) {
                     e.printStackTrace();
-                    throw new EncryptionException("Failed to decode responses");
                 }
             }
         }
     }
 
-    protected void sendString(String string, Context context) {
+    /* Test if network is available */
+    private static boolean isNetworkAvailable(Context context) {
+        ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
 
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+    }
 
+    private static void report(final String message, final int length, final Context context) {
+        ((Activity) context).runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                Toast.makeText(context, message, length).show();
+            }
+        });
     }
 }

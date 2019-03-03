@@ -2,7 +2,7 @@ package com.example.feverfinder;
 
 import org.junit.Test;
 
-public class SurveyStoreTest {
+public class SurveyStoreEncryptTest {
 
     @Test
     public void saveSurvey() {

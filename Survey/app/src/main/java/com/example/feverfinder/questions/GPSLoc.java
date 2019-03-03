@@ -12,6 +12,7 @@ public class GPSLoc implements LocationListener {
         );
         System.out.println(message);
     }
+
     public void onProviderDisabled(String arg0) {
     }
 
