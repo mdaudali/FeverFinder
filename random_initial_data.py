@@ -106,7 +106,7 @@ def gen_person():
 
     # Generate sensible GPS
     (lat, long) = r(STORE_GPS)
-    eps = 0.00001
+    eps = 0.07
     person['store_gps_latitude'] = f(lat-eps, lat+eps)
     person['store_gps_longitude'] = f(long-eps, long+eps)
 
@@ -135,7 +135,7 @@ def send_person_to_api(person):
 
 def main():
     # Generate trivial info (i.e. a 1000 people) and then add relations
-    N = 1000
+    N = 100
     data = [add_relations_to_person_json(p) for p in [gen_person() for _ in range(N)]]
 
     # Now send them all to the API
