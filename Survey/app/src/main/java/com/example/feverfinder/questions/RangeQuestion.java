@@ -12,9 +12,11 @@ import android.widget.TextView;
 
 import com.example.feverfinder.R;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.List;
 
-//TODO: ensure that this updates to contain the correct content -
 public class RangeQuestion extends Question implements SeekBar.OnSeekBarChangeListener {
     public static final Parcelable.Creator<RangeQuestion> CREATOR
             = new Parcelable.Creator<RangeQuestion>() {
@@ -64,10 +66,18 @@ public class RangeQuestion extends Question implements SeekBar.OnSeekBarChangeLi
         content = in.readInt();
     }
 
+    /**
+     * Given a JSON object to output to, add the data relevant to the question to be submitted to
+     * the database
+     *
+     * @param out the JSON object to add to
+     * @throws JSONException
+     */
     @Override
-    public Object getJSONOutput() {
-        return content;
+    public void addToJSON(JSONObject out) throws JSONException {
+        out.put(getName().toLowerCase(), content * step + start);
     }
+
 
     /**
      * Generate a View which displays the question
@@ -86,10 +96,9 @@ public class RangeQuestion extends Question implements SeekBar.OnSeekBarChangeLi
         rangeTextView.setText(getLabel());
 
         SeekBar rangeSeekBar = view.findViewById(R.id.rangeSeekBar);
-        rangeSeekBar.setMax(this.end);
-        rangeSeekBar.setProgress(this.step);
-        rangeSeekBar.setProgress(content);
+        rangeSeekBar.setMax((this.end - this.start) / this.step);
         rangeSeekBar.setOnSeekBarChangeListener(this);
+        rangeSeekBar.setId(getId());
 
         setView(view);
         return view;

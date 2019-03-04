@@ -6,6 +6,9 @@ import android.os.Parcelable;
 import android.view.View;
 import android.view.ViewGroup;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,6 +22,7 @@ public abstract class Question implements Parcelable, SelectionChangedListener {
     public static final int TYPE_RANGE = 2;
     public static final int TYPE_TEXT = 3;
     public static final int TYPE_SELECT = 4;
+    public static final int TYPE_GPS = 5;
 
     public static final Creator<Question> CREATOR = new Creator<Question>() {
         @Override
@@ -35,6 +39,8 @@ public abstract class Question implements Parcelable, SelectionChangedListener {
                     return new TextQuestion(in);
                 case TYPE_SELECT:
                     return new SelectQuestion(in);
+                case TYPE_GPS:
+                    return new GPSQuestion(in);
                 default:
                     return null;
             }
@@ -48,6 +54,7 @@ public abstract class Question implements Parcelable, SelectionChangedListener {
     private int type;
     private String name;
     private String label;
+    private int id;
     private List<Relevancy> relevancies;
     private View view;
 
@@ -55,6 +62,7 @@ public abstract class Question implements Parcelable, SelectionChangedListener {
         this.type = type;
         this.name = name;
         this.label = label;
+        this.id = View.generateViewId();
         this.relevancies = relevancies;
     }
 
@@ -62,6 +70,7 @@ public abstract class Question implements Parcelable, SelectionChangedListener {
         this.type = type;
         this.name = in.readString();
         this.label = in.readString();
+        this.id = in.readInt();
 
         this.relevancies = new ArrayList<>();
         in.readTypedList(relevancies, Relevancy.CREATOR);
@@ -79,7 +88,19 @@ public abstract class Question implements Parcelable, SelectionChangedListener {
         return label;
     }
 
-    public abstract Object getJSONOutput();
+    public int getId() {
+        return id;
+    }
+
+
+    /**
+     * Given a JSON object to output to, add the data relevant to the question to be submitted to
+     * the database
+     *
+     * @param out the JSON object to add to
+     * @throws JSONException
+     */
+    public abstract void addToJSON(JSONObject out) throws JSONException;
 
     /**
      * This method returns true if the question is relevant and should be displayed
@@ -109,8 +130,11 @@ public abstract class Question implements Parcelable, SelectionChangedListener {
         }
     }
 
-    //This should never be run!
     public abstract View generateView(Context context, ViewGroup root);
+
+    protected View getView() {
+        return view;
+    }
 
     protected void setView(View view) {
         this.view = view;
@@ -133,7 +157,7 @@ public abstract class Question implements Parcelable, SelectionChangedListener {
         dest.writeInt(type);
         dest.writeString(name);
         dest.writeString(label);
+        dest.writeInt(id);
         dest.writeTypedList(relevancies);
     }
-    //TODO: if stuff doesn't work, add the factory class!
 }

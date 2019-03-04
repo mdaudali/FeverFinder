@@ -2,6 +2,7 @@ package com.example.feverfinder.questions;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.view.View;
 
 /* Each option has a name and label e.g.
  * {"list_name": "see_dump", "options": [{"name": 1.0, "label": "Yes"}, {"name": 2.0, "label": "No"}]} */
@@ -19,15 +20,18 @@ public class Option implements Parcelable {
     };
     private String name;
     private String label;
+    private int id;
 
     public Option(String name, String label) {
         this.name = name;
         this.label = label;
+        this.id = View.generateViewId();
     }
 
     private Option(Parcel in) {
         name = in.readString();
         label = in.readString();
+        id = in.readInt();
     }
 
     @Override
@@ -43,6 +47,10 @@ public class Option implements Parcelable {
 
     public String getLabel() {
         return label;
+    }
+
+    public int getId() {
+        return id;
     }
 
     @Override
@@ -61,5 +69,6 @@ public class Option implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(name);
         dest.writeString(label);
+        dest.writeInt(id);
     }
 }

@@ -26,13 +26,29 @@ class PersonFilter(generics.ListAPIView):
     def get_queryset(self):
         patient_name = self.request.query_params.get('name')
 
-        # TODO: filter with these other things as well
-        eats_with = self.request.query_params.get('eatsWith')
-        lives_with = self.request.query_params.get('livesWith')
-        works_with = self.request.query_params.get('worksWith')
+        # Get parameters
+        who_sharefood_with = self.request.query_params.get('eatsWith')
+        who_live_with = self.request.query_params.get('livesWith')
+        who_work_with = self.request.query_params.get('worksWith')
         symptom_score = self.request.query_params.get('symptomScore')
         risk_score = self.request.query_params.get('riskScore')
 
-        queryset = Person.objects.all().filter(patient_name__contains=patient_name)
+        # Construct filter
+        kwargs = {}
+        if patient_name is not None:
+            kwargs['patient_name__contains'] = patient_name
+        if who_sharefood_with is not None:
+            kwargs['who_sharefood_with__contains'] = who_sharefood_with
+        if who_live_with is not None:
+            kwargs['who_live_with__contains'] = who_live_with
+        if who_work_with is not None:
+            kwargs['who_work_with__contains'] = who_work_with
+        if symptom_score is not None:
+            kwargs['sick__range'] = (symptom_score, 1.0)
+        if risk_score is not None:
+            kwargs['risk__range'] = (risk_score, 1.0)
+
+        # Call the query
+        queryset = Person.objects.all().filter(**kwargs)
 
         return queryset

@@ -7,11 +7,9 @@
     <string name="nav_header_title">Fever Finder</string>
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="next_section_text">Next Section</string>
     <string name="submit_survey_text">Submit Survey</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
+    <string name="get_location_button">Get location</string>
+    <string name="longitude_field">Longitude</string>
+    <string name="latitude_field">Latitude</string>
 </resources>

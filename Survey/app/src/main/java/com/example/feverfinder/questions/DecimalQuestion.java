@@ -13,6 +13,9 @@ import android.widget.EditText;
 
 import com.example.feverfinder.R;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.List;
 
 public class DecimalQuestion extends Question implements TextWatcher {
@@ -38,10 +41,16 @@ public class DecimalQuestion extends Question implements TextWatcher {
         content = in.readString();
     }
 
+    /**
+     * Given a JSON object to output to, add the data relevant to the question to be submitted to
+     * the database
+     *
+     * @param out the JSON object to add to
+     * @throws JSONException
+     */
     @Override
-    public Object getJSONOutput() {
-        if (content.equals("")) return 0f;
-        else return Float.valueOf(content);
+    public void addToJSON(JSONObject out) throws JSONException {
+        out.put(getName().toLowerCase(), content.equals("") ? 0f : Float.valueOf(content));
     }
 
     /**
@@ -57,11 +66,8 @@ public class DecimalQuestion extends Question implements TextWatcher {
                 .inflate(R.layout.decimal_question, root, false);
         TextInputLayout textInputLayout = view.findViewById(R.id.editTextLayout);
         textInputLayout.setHint(getLabel());
-
         EditText editText = view.findViewById(R.id.editText);
-        editText.setText(content);
-        editText.addTextChangedListener(this);
-
+        editText.setId(getId());
         setView(view);
         return view;
     }
@@ -73,7 +79,6 @@ public class DecimalQuestion extends Question implements TextWatcher {
 
     @Override
     public void onTextChanged(CharSequence s, int start, int before, int count) {
-
     }
 
     /**

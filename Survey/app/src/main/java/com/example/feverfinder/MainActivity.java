@@ -23,18 +23,25 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
     }
 
+
     @Override
     protected void onResume() {
         super.onResume();
         findViewById(R.id.startBtn).setClickable(true);
     }
 
-    public void onStartSurvey(View view) {
+    public void onSubmitResponses(View view) {
+        try {
+            SurveyStore.submitSavedSurveys(this);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
-        //TODO: Ensure you cannot spawn multiple surveys
+    public void onStartSurvey(View view) {
         findViewById(R.id.startBtn).setClickable(false);
         Intent intent = new Intent(this, SurveyActivity.class);
-        intent.putParcelableArrayListExtra(SurveyActivity.EXTRA_SECTIONS, new ArrayList<>(mSections));
+        intent.putParcelableArrayListExtra(SurveyActivity.SECTIONS, new ArrayList<>(mSections));
         startActivity(intent);
     }
 }
