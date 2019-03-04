@@ -3,12 +3,9 @@ package com.example.feverfinder.questions;
 import android.Manifest;
 import android.content.Context;
 import android.content.pm.PackageManager;
-import android.location.Criteria;
 import android.location.Location;
-import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Build;
-import android.os.Bundle;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.v4.app.ActivityCompat;
@@ -147,31 +144,6 @@ public class GPSQuestion extends Question implements View.OnClickListener {
     }
 
 
-    private LocationListener mListener = new LocationListener() {
-        @Override
-        public void onLocationChanged(Location location) {
-            // Previously mock location is cleared.
-            // getLastKnownLocation(LocationManager.GPS_PROVIDER); will not return mock location.
-        }
-
-        @Override
-        public void onStatusChanged(String provider, int status, Bundle extras) {
-
-        }
-
-
-        @Override
-        public void onProviderEnabled(String provider) {
-
-        }
-
-
-        @Override
-        public void onProviderDisabled(String provider) {
-
-        }
-    };
-
     private void setupGps(View view) {
         locManager = (LocationManager) view.getContext().getSystemService(Context.LOCATION_SERVICE);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -182,25 +154,9 @@ public class GPSQuestion extends Question implements View.OnClickListener {
                 }, 10);
             }
         }
-        locManager.requestLocationUpdates(
-                LocationManager.GPS_PROVIDER, 0, 10, mListener);
+        locManager.requestLocationUpdates("gps", 0, 0, new GPSLoc());
     }
 
-    /**
-     * Flatten this Question in to a Parcel.
-     *
-     * @param dest  The Parcel in which the object should be written.
-     * @param flags Additional flags about how the object should be written.
-     *              May be 0 or {@link #PARCELABLE_WRITE_RETURN_VALUE}.
-     */
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        super.writeToParcel(dest, flags);
-        dest.writeInt(latitudeID);
-        dest.writeInt(longitudeID);
-        dest.writeString(latitude);
-        dest.writeString(longitude);
-    }
 
     /**
      * Called when the GPS button is clicked.
@@ -218,26 +174,29 @@ public class GPSQuestion extends Question implements View.OnClickListener {
             }
         }
         //TODO: check accuracy of this method of location finding!
-        locManager.requestLocationUpdates("gps", 0, 0, mListener);
-        LocationManager lm = (LocationManager) v.getContext().getSystemService(Context.LOCATION_SERVICE);
-        Criteria criteria = new Criteria();
-        criteria.setAccuracy(Criteria.ACCURACY_FINE);
-        criteria.setAltitudeRequired(false);
-        criteria.setBearingRequired(false);
-        criteria.setCostAllowed(true);
-        String strLocationProvider = lm.getBestProvider(criteria, true);
-        Location location = lm.getLastKnownLocation(strLocationProvider);
-        if (location != null) {
-            ((EditText) getView().findViewById(latitudeID)).setText(latitude);
-            ((EditText) getView().findViewById(longitudeID)).setText(longitude);
-        }
-
-        /*
         Location location = locManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
         latitude = String.valueOf(location.getLatitude());
         longitude = String.valueOf(location.getLongitude());
 
-        ((EditText) getView().findViewById(latitudeID)).setText(latitude);
-        ((EditText) getView().findViewById(longitudeID)).setText(longitude); */
+        if (location != null) {
+            ((EditText) getView().findViewById(latitudeID)).setText(latitude);
+            ((EditText) getView().findViewById(longitudeID)).setText(longitude);
+        }
+    }
+
+    /**
+     * Flatten this Question in to a Parcel.
+     *
+     * @param dest  The Parcel in which the object should be written.
+     * @param flags Additional flags about how the object should be written.
+     *              May be 0 or {@link #PARCELABLE_WRITE_RETURN_VALUE}.
+     */
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        super.writeToParcel(dest, flags);
+        dest.writeInt(latitudeID);
+        dest.writeInt(longitudeID);
+        dest.writeString(latitude);
+        dest.writeString(longitude);
     }
 }
