@@ -1,6 +1,7 @@
 from people.serializers import PersonSerializer
 from rest_framework import generics
 from people.models import Person
+from rest_framework import mixins
 
 
 class PersonListCreate(generics.ListCreateAPIView):
@@ -18,6 +19,23 @@ class PersonByID(generics.ListAPIView):
         if id is not None:
             return queryset.filter(id = id)
         return queryset
+
+
+class UpdateScores(generics.ListAPIView):
+    serializer_class = PersonSerializer
+
+    def get_queryset(self):
+        patient_id = self.request.query_params.get('id')
+        s = float(self.request.query_params.get('sick'))
+        r = float(self.request.query_params.get('risk'))
+
+        person = Person.objects.all().filter(id=patient_id)[0]
+
+        person.sick = s
+        person.risk = r
+        person.save()
+
+        return [person]
 
 
 class PersonFilter(generics.ListAPIView):

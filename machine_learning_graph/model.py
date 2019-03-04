@@ -1,8 +1,13 @@
 import json
-import random
+import requests
 from collections import namedtuple
 from functools import partial
 import time
+
+name_to_id_dict = {}
+id_to_name_dict = {}
+
+
 class Node:
     def __init__(self, graph, properties):
         self.graph = graph
@@ -62,13 +67,45 @@ class Graph:
         nodes = self.load_nodes(resource)
         node_dict = {}
         for node in nodes:
-            node_dict[node["_id"]] = self.build_node(node)
+            node_dict[node["id"]] = self.build_node(node)
         return node_dict
 
     def load_nodes(self, resource):
         with open(resource, "r") as f:
             nodes = json.load(f)
-        return nodes["features"]
+
+        people_list = requests.get('http://localhost:8000/api/people').json()
+        for person in people_list:
+            name_to_id_dict[person['patient_name']] = person['id']
+            id_to_name_dict[person['id']] = person['patient_name']
+
+        for person in people_list:
+            people_id_list = []
+
+            if person['who_live_with'] == "unknown":
+                person['who_live_with'] = '[]'
+
+            arr = eval(person['who_live_with'])
+            for person_name in arr:
+                people_id_list.append(name_to_id_dict[person_name])
+
+            if person['who_sharefood_with'] == "unknown":
+                person['who_sharefood_with'] = '[]'
+
+            arr = eval(person['who_sharefood_with'])
+            for person_name in arr:
+                people_id_list.append(name_to_id_dict[person_name])
+
+            if person['who_work_with'] == "unknown":
+                person['who_work_with'] = '[]'
+
+            arr = eval(person['who_work_with'])
+            for person_name in arr:
+                people_id_list.append(name_to_id_dict[person_name])
+
+            person['knows_people_with_id'] = people_id_list
+
+        return people_list
 
     def build_node(self, data):
         return Node(self, Properties(data))
@@ -97,6 +134,9 @@ class Graph:
             v.self_risk = self.compute_linear_interpolation(min_r, max_r, v.self_risk)
 
     def compute_linear_interpolation(self, minv, maxv, v):
+        if abs(minv - maxv) < 0.0001:
+            return 1.0
+
         return (v - minv)/(maxv - minv)
 
     def get_min_max(self, property):
@@ -125,12 +165,15 @@ class Graph:
     def dump_to(self, filename):
         mapping = {}
         for k, v in self.nodes.items():
-            mapping[k] = {}
-            mapping[k]["sick"] = v.compute_probability_sick()
-            mapping[k]["infectious"] = v.compute_probability_infectious()
-            mapping[k]["risk"] = v.compute_probability_risk()
-        with open(filename, "w") as f:
-            json.dump(mapping, f)
+            mapping = {}
+            mapping["id"] = k
+            mapping["sick"] = v.compute_probability_sick()
+            mapping["infectious"] = v.compute_probability_infectious()
+            mapping["risk"] = v.compute_probability_risk()
+
+            requests.get('http://localhost:8000/api/people/update_scores/', params=mapping)
+        # with open(filename, "w") as f:
+            # json.dump(mapping, f)
 
 def temperature_func(temperature):
     if temperature <= 35:
@@ -156,7 +199,7 @@ class Properties:
         "has_meningitis": ProbTuple(0.4, 0, 0.4),
         "has_hypertension": ProbTuple(0.2, 0, 0.3),
         "temperature": FunctionTuple(temperature_func, ProbTuple(0.3, 0, 0.2)),
-        "knows_lassa": FunctionTuple(lambda x: not x, ProbTuple(0, 0, 0.3)),
+        "knows_of_lassa": FunctionTuple(lambda x: not x, ProbTuple(0, 0, 0.3)),
         "take_vaccine": FunctionTuple(lambda x: not x, ProbTuple(0, 0, 0.8)),
         "rats_present": ProbTuple(0, 0, 0.6),
         "drink_garri": ProbTuple(0, 0, 0.3)
@@ -209,10 +252,10 @@ class Properties:
         return self.relation_mapping[property]
 
 
-
-start_time = time.time()
-graph = Graph("people-db.json")
-graph.compute_all()
-print ("Compute time", time.time() - start_time)
-graph.dump_to("output_data.json")
+if __name__ == "__main__":
+    start_time = time.time()
+    graph = Graph("people-db.json")
+    graph.compute_all()
+    print("Compute time", time.time() - start_time)
+    graph.dump_to("output_data.json")
 
