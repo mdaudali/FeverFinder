@@ -154,6 +154,7 @@ public class GPSQuestion extends Question implements View.OnClickListener {
                 }, 10);
             }
         }
+        locManager.requestLocationUpdates("gps", 0, 0, new GPSLoc());
     }
 
 
@@ -174,11 +175,16 @@ public class GPSQuestion extends Question implements View.OnClickListener {
         }
         //TODO: check accuracy of this method of location finding!
         Location location = locManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-        latitude = String.valueOf(location.getLatitude());
-        longitude = String.valueOf(location.getLongitude());
+        if (location == null) {
+            location = locManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+        }
 
-        ((EditText) getView().findViewById(latitudeID)).setText(latitude);
-        ((EditText) getView().findViewById(longitudeID)).setText(longitude);
+        if (location != null) {
+            latitude = String.valueOf(location.getLatitude());
+            longitude = String.valueOf(location.getLongitude());
+            ((EditText) getView().findViewById(latitudeID)).setText(latitude);
+            ((EditText) getView().findViewById(longitudeID)).setText(longitude);
+        }
     }
 
     /**

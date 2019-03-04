@@ -6,11 +6,6 @@ import android.os.Bundle;
 
 public class GPSLoc implements LocationListener {
     public void onLocationChanged(Location loc) {
-        String message = String.format(
-                "New Location \n Longitude: %1$s \n Latitude: %2$s",
-                loc.getLongitude(), loc.getLatitude()
-        );
-        System.out.println(message);
     }
 
     public void onProviderDisabled(String arg0) {

@@ -85,7 +85,7 @@ class Example(Frame):
 
         # Form to add new question
         q_type_frame = Frame(q_frame)
-        q_type_frame.pack(fill=X)
+        q_type_frame.pack(fill=X, expand=True)
 
         # Display options for different types of question
         Label(q_type_frame, text="Question Type", width=20).pack(side=LEFT, padx=5, pady=5)
@@ -136,20 +136,20 @@ class Example(Frame):
 
         self.clearFrame(q_frame)                       # clears frame if different option chosen
         inner_q_frame = Frame(q_frame)
-        inner_q_frame.pack(fill=X, side=TOP)
+        inner_q_frame.pack(fill=X, side=TOP, expand=True)
 
         q_type_frame = Frame(inner_q_frame)            # question_type
-        q_type_frame.pack(fill=X)
+        q_type_frame.pack(fill=X, expand=True)
         Label(q_type_frame, text="Question Type", width=20).pack(side=LEFT, padx=5, pady=5)
         Label(q_type_frame, text=type_opt).pack(fill="x", padx=5, pady=5)
 
         q_name_frame = Frame(inner_q_frame)            # question_name
-        q_name_frame.pack(fill=X)
+        q_name_frame.pack(fill=X, expand=True)
         Label(q_name_frame, text="Question Name", width=20).pack(side=LEFT, padx=5, pady=5)
         Entry(q_name_frame).pack(fill=X, padx=5, expand=True)
 
         q_label_frame = Frame(inner_q_frame)           # question_label
-        q_label_frame.pack(fill=X)
+        q_label_frame.pack(fill=X, expand=True)
         Label(q_label_frame, text="Question Label", width=20).pack(side=LEFT, padx=5, pady=5)
         Entry(q_label_frame).pack(fill=X, padx=5, expand=True)
 
@@ -169,31 +169,31 @@ class Example(Frame):
     def displayRangeOptions(self, question_frame):
         """ user must enter "start" "end" "step" parameters for range """
         range_frame = Frame(question_frame)
-        range_frame.pack(fill=X)
+        range_frame.pack(fill=X, expand=True)
         Label(range_frame, text="Enter range parameters", width=20).pack(side=LEFT, padx=5, pady=5)
 
         # label for start
         start_frame = Frame(question_frame)
-        start_frame.pack(fill=X)
+        start_frame.pack(fill=X, expand=True)
         Label(start_frame, text="Start of range", width=20).pack(side=LEFT, padx=5, pady=5)
         Entry(start_frame).pack(fill=X, padx=5, expand=True)
 
         # label for end
         end_frame = Frame(question_frame)
-        end_frame.pack(fill=X)
+        end_frame.pack(fill=X, expand=True)
         Label(end_frame, text="End of range", width=20).pack(side=LEFT, padx=5, pady=5)
         Entry(end_frame).pack(fill=X, padx=5, expand=True)
 
         # label for step
         step_frame = Frame(question_frame)
-        step_frame.pack(fill=X)
+        step_frame.pack(fill=X, expand=True)
         Label(step_frame, text="Step", width=20).pack(side=LEFT, padx=5, pady=5)
         Entry(step_frame).pack(fill=X, padx=5, expand=True)
 
     def displaySelectOptions(self, question_frame):
         # display form for select_ questions allowing user to add in as many choices
         choice_opt_frame = Frame(question_frame)
-        choice_opt_frame.pack(fill=X)
+        choice_opt_frame.pack(fill=X, expand=True)
 
         Label(choice_opt_frame, text="Enter choice options", width=20).pack(side=LEFT, padx=5, pady=5)
         Button(choice_opt_frame, text="add choice", command=lambda: self.addChoiceDisplay(question_frame))\
@@ -201,9 +201,9 @@ class Example(Frame):
 
     def addChoiceDisplay(self, question_frame):
         choice_opt_frame = Frame(question_frame)     # Add choice options
-        choice_opt_frame.pack(fill=X)
+        choice_opt_frame.pack(fill=X, expand=True)
         follow_up_q_frame = Frame(question_frame)    # Add follow up questions for certain choices
-        follow_up_q_frame.pack(fill=X)
+        follow_up_q_frame.pack(fill=X, expand=True)
 
         add_followup_q = IntVar(choice_opt_frame)
         followup = Checkbutton(choice_opt_frame, text="Follow Up Question", variable=add_followup_q, onvalue=1, offvalue=0)
@@ -328,6 +328,7 @@ class Example(Frame):
 def main():
     root = Tk()
     root.iconbitmap('images/magnifying_class.ico')
+    Label(root, text="Fever Finder", font=("Helvetica", 20)).pack()
     app = Example()
     root.mainloop()
 
