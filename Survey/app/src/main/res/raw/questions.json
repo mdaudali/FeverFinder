@@ -1,1 +1,1208 @@
-[[{"type": "text", "name": "patient_name", "label": "Name", "relevant": "", "parameters": "", "media": ""}, {"type": "integer", "name": "age", "label": "Age at last birthday (in years)", "relevant": "", "parameters": "", "media": ""}, {"type": "select_one gender", "name": "gender", "label": "Gender", "relevant": "", "parameters": "", "media": ""}, {"type": "integer", "name": "temperature", "label": "Measure Temperature", "relevant": "", "parameters": "", "media": ""}, {"type": "text", "name": "community_name", "label": "Name of Community", "relevant": "", "parameters": "", "media": ""}, {"type": "text", "name": "village_name", "label": "Village", "relevant": "", "parameters": "", "media": ""}, {"type": "text", "name": "town_name", "label": "Town", "relevant": "", "parameters": "", "media": ""}, {"type": "text", "name": "state_name", "label": "State", "relevant": "", "parameters": "", "media": ""}, {"type": "text", "name": "LGA_name", "label": "LGA", "relevant": "", "parameters": "", "media": ""}, {"type": "gps_coord", "name": "store_gps", "label": "GPS coordinates of this store", "relevant": "", "parameters": "", "media": ""}, {"type": "select_one GPS_ID", "name": "gps_id", "label": "GPS_ID", "relevant": "", "parameters": "", "media": ""}], [{"type": "select_multiple occupation", "name": "occupation", "label": "Occupation", "relevant": "", "parameters": "", "media": ""}, {"type": "begin_group", "name": "", "label": "", "relevant": "${occupation} = '1'", "parameters": "", "media": "", "relevant_questions": [{"type": "select_multiple farmer_type", "name": "farmer_type", "label": "What do you farm?", "relevant": "", "parameters": "", "media": ""}, {"type": "begin_group", "name": "", "label": "", "relevant": "selected(${farmer_type}, '4')", "parameters": "", "media": "", "relevant_questions": [{"type": "text", "name": "farmer_type_other", "label": "What else do you farm.", "relevant": "", "parameters": "", "media": ""}]}]}, {"type": "begin_group", "name": "", "label": "", "relevant": "${occupation} = '2'", "parameters": "", "media": "", "relevant_questions": [{"type": "text", "name": "trader_occupation", "label": "What do you trade?", "relevant": "", "parameters": "", "media": ""}]}, {"type": "begin_group", "name": "", "label": "", "relevant": "${occupation} = '9'", "parameters": "", "media": "", "relevant_questions": [{"type": "text", "name": "other_occupation", "label": "Specify occupation", "relevant": "", "parameters": "", "media": ""}]}, {"type": "select_one education", "name": "education", "label": "Education", "relevant": "", "parameters": "", "media": ""}, {"type": "decimal", "name": "income", "label": "Estimated monthly income? (in Naira)", "relevant": "", "parameters": "", "media": ""}, {"type": "integer", "name": "family_size", "label": "Family size (total number of people in your household)", "relevant": "", "parameters": "", "media": ""}, {"type": "select_one yes_no_2", "name": "knows_of_lassa", "label": "Have you heard of Lassa fever?", "relevant": "", "parameters": "", "media": ""}, {"type": "begin_group", "name": "", "label": "", "relevant": "${knows_of_lassa} = '1'", "parameters": "", "media": "", "relevant_questions": [{"type": "select_multiple info_on_lassa", "name": "info_on_lassa", "label": "From where did you get information about Lassa Fever?", "relevant": "", "parameters": "", "media": ""}, {"type": "begin_group", "name": "", "label": "", "relevant": "selected(${info_on_lassa}, '7')", "parameters": "", "media": "", "relevant_questions": [{"type": "text", "name": "other_info_on_lassa", "label": "Where else did you get information about Lassa Fever?", "relevant": "", "parameters": "", "media": ""}]}, {"type": "select_one yes_no_3", "name": "if_local_name", "label": "Is there a local name for Lassa Fever?", "relevant": "", "parameters": "", "media": ""}, {"type": "begin_group", "name": "", "label": "", "relevant": "${if_local_name}='1'", "parameters": "", "media": "", "relevant_questions": [{"type": "text", "name": "local_name", "label": "What is the local name?", "relevant": "", "parameters": "", "media": ""}]}, {"type": "select_one cause", "name": "know_lassa_cause", "label": "What causes this disease?", "relevant": "", "parameters": "", "media": ""}, {"type": "select_one yes_no_2", "name": "know_contact", "label": "Do you know how one can contact this disease?", "relevant": "", "parameters": "", "media": ""}, {"type": "begin_group", "name": "", "label": "", "relevant": "${know_contact}='1'", "parameters": "", "media": "", "relevant_questions": [{"type": "select_multiple contact", "name": "contact", "label": "How can one get the disease", "relevant": "", "parameters": "", "media": ""}]}, {"type": "begin_group", "name": "", "label": "", "relevant": "selected(${contact}, '7')", "parameters": "", "media": "", "relevant_questions": [{"type": "text", "name": "other_contact", "label": "How can one get the disease", "relevant": "", "parameters": "", "media": ""}]}, {"type": "select_one yes_no_2", "name": "fear", "label": "Are you scared of getting Lassa fever?", "relevant": "", "parameters": "", "media": ""}, {"type": "range", "name": "fear_range", "label": "On a scale of 0-5 (0 = not scared at all and 5 = very scared) how scared are you of getting Lassa fever?", "relevant": "", "parameters": "start=0 end=5 step=1", "media": ""}, {"type": "select_multiple signs", "name": "signs", "label": "What are the signs of Lassa?", "relevant": "", "parameters": "", "media": ""}, {"type": "begin_group", "name": "", "label": "", "relevant": "selected(${signs}, '5')", "parameters": "", "media": "", "relevant_questions": [{"type": "text", "name": "other_signs", "label": "What are other signs of Lassa?", "relevant": "", "parameters": "", "media": ""}]}, {"type": "select_one yes_no_3", "name": "can_kill", "label": "Can Lassa Fever disease kill?", "relevant": "", "parameters": "", "media": ""}, {"type": "select_one yes_no_3", "name": "can_treat", "label": "Can Lassa Fever disease be treated?", "relevant": "", "parameters": "", "media": ""}, {"type": "select_one what_treat", "name": "what_treat", "label": "What can be used to treat Lassa Fever", "relevant": "", "parameters": "", "media": ""}, {"type": "select_one yes_no_3", "name": "can_prevent", "label": "Can Lassa Fever be prevented?", "relevant": "", "parameters": "", "media": ""}, {"type": "select_multiple how_prevent", "name": "knows_lassa_how_prevent", "label": "How can Lassa Fever be prevented?", "relevant": "", "parameters": "", "media": ""}]}, {"type": "select_one yes_no_2", "name": "take_vaccine", "label": "If there was a good vaccine would you take it?", "relevant": "", "parameters": "", "media": ""}], [{"type": "select_one yes_no_2", "name": "know_LF_patient", "label": "Have you come across anyone who suffered from LF?", "relevant": "", "parameters": "", "media": ""}, {"type": "begin_group", "name": "", "label": "", "relevant": "${know_LF_patient} = '1'", "parameters": "", "media": "", "relevant_questions": [{"type": "integer", "name": "year", "label": "When (year) did they have LF?", "relevant": "", "parameters": "", "media": ""}, {"type": "select_one relationship", "name": "relationship", "label": "What was your relationship with the person?", "relevant": "", "parameters": "", "media": ""}, {"type": "begin_group", "name": "", "label": "", "relevant": "${relationship} = '7'", "parameters": "", "media": "", "relevant_questions": [{"type": "text", "name": "other_relationship", "label": "What was your relationship with the person?", "relevant": "", "parameters": "", "media": ""}]}, {"type": "select_one yes_no_2", "name": "care", "label": "Did you give care to the person?", "relevant": "", "parameters": "", "media": ""}, {"type": "select_one yes_no_3", "name": "seek_treatment", "label": "Did the person receive treatment?", "relevant": "", "parameters": "", "media": ""}, {"type": "begin_group", "name": "", "label": "", "relevant": "${seek_treatment} = '2'", "parameters": "", "media": "", "relevant_questions": [{"type": "text", "name": "why_no_treatment", "label": "Why did they not seek treatment?", "relevant": "", "parameters": "", "media": ""}]}, {"type": "begin_group", "name": "", "label": "", "relevant": "${seek_treatment} = '1'", "parameters": "", "media": "", "relevant_questions": [{"type": "select_multiple where_seek_treatment", "name": "where_seek_treatment", "label": "Where did they seek treatment?", "relevant": "", "parameters": "", "media": ""}, {"type": "select_one distance_treatment", "name": "distance_treatment", "label": "How far is the main place of treatment from your home?", "relevant": "", "parameters": "", "media": ""}, {"type": "select_one yes_no_3", "name": "early_treatment", "label": "Was the patient treated early?", "relevant": "", "parameters": "", "media": ""}]}, {"type": "begin_group", "name": "", "label": "", "relevant": "selected(${where_seek_treatment}, '1')", "parameters": "", "media": "", "relevant_questions": [{"type": "text", "name": "Gov_hospital_name", "label": "What is the name of the hospital?", "relevant": "", "parameters": "", "media": ""}]}, {"type": "begin_group", "name": "", "label": "", "relevant": "selected(${where_seek_treatment}, '2')", "parameters": "", "media": "", "relevant_questions": [{"type": "text", "name": "Mis_hospital_name", "label": "What is the name of the hospital?", "relevant": "", "parameters": "", "media": ""}]}, {"type": "begin_group", "name": "", "label": "", "relevant": "selected(${where_seek_treatment}, '3')", "parameters": "", "media": "", "relevant_questions": [{"type": "text", "name": "Priv_hospital_name", "label": "What is the name of the hospital?", "relevant": "", "parameters": "", "media": ""}]}]}, {"type": "select_one yes_no_2", "name": "had_lassa", "label": "Have you has lassa fever in the past?", "relevant": "", "parameters": "", "media": ""}, {"type": "begin_group", "name": "", "label": "", "relevant": "${had_lassa}='1'", "parameters": "", "media": "", "relevant_questions": [{"type": "select_one last_fever", "name": "last_fever", "label": "When did you last have fever?", "relevant": "", "parameters": "", "media": ""}, {"type": "select_one fever_intensity", "name": "fever_intensity", "label": "How intense was the fever\u00a0?", "relevant": "", "parameters": "", "media": ""}, {"type": "select_one yes_no_2", "name": "fever_treatment", "label": "Did you receive treatment for the fever?", "relevant": "", "parameters": "", "media": ""}, {"type": "begin_group", "name": "", "label": "", "relevant": "${fever_treatment}='1'", "parameters": "", "media": "", "relevant_questions": [{"type": "select_one where_fever_treatment", "name": "where_fever_treatment", "label": "Where did you receive the treatment?", "relevant": "", "parameters": "", "media": ""}, {"type": "begin_group", "name": "", "label": "", "relevant": "${where_fever_treatment} = '1'", "parameters": "", "media": "", "relevant_questions": [{"type": "text", "name": "fever_treatment_hospital", "label": "What hospital?", "relevant": "", "parameters": "", "media": ""}]}, {"type": "select_one yes_no_2", "name": "tell_treatment_type", "label": "Can you tell the type of treatment you received?", "relevant": "", "parameters": "", "media": ""}, {"type": "begin_group", "name": "", "label": "", "relevant": "${tell_treatment_type} = '1'", "parameters": "", "media": "", "relevant_questions": [{"type": "text", "name": "treatment_type", "label": "What kind of treatment did you have?", "relevant": "", "parameters": "", "media": ""}]}]}, {"type": "select_one yes_no_2", "name": "know_fever_cause", "label": "Do you know the cause of the fever?", "relevant": "", "parameters": "", "media": ""}, {"type": "begin_group", "name": "", "label": "", "relevant": "${know_fever_cause} = '1'", "parameters": "", "media": "", "relevant_questions": [{"type": "select_one fever_cause", "name": "fever_cause", "label": "What was the cause of the fever?", "relevant": "", "parameters": "", "media": ""}, {"type": "begin_group", "name": "", "label": "", "relevant": "${fever_cause} = '4'", "parameters": "", "media": "", "relevant_questions": [{"type": "text", "name": "other_fever_cause", "label": "Specify cause of the fever.", "relevant": "", "parameters": "", "media": ""}]}]}, {"type": "select_one yes_no_2", "name": "care_by_family", "label": "Were you taken care of by any member of your family?", "relevant": "", "parameters": "", "media": ""}, {"type": "begin_group", "name": "", "label": "", "relevant": "${care_by_family}='1'", "parameters": "", "media": "", "relevant_questions": [{"type": "select_one yes_no_2", "name": "family_get_fever", "label": "Did any of them come down with fever later?", "relevant": "", "parameters": "", "media": ""}, {"type": "begin_group", "name": "", "label": "", "relevant": "${family_get_fever}='1'", "parameters": "", "media": "", "relevant_questions": [{"type": "select_one yes_no_2", "name": "family_fever_recovery", "label": "Did they recover?", "relevant": "", "parameters": "", "media": ""}]}]}]}, {"type": "select_one yes_no_2", "name": "rats_present", "label": "Have you seen rats around your home, farm or workplace?", "relevant": "", "parameters": "", "media": ""}, {"type": "begin_group", "name": "", "label": "", "relevant": "${rats_present}='1'", "parameters": "", "media": "", "relevant_questions": [{"type": "select_one yes_no_2", "name": "mastomys", "label": "Have you ever seen this type of rat?", "relevant": "", "parameters": "", "media": "rat.jpg"}, {"type": "begin_group", "name": "", "label": "", "relevant": "${mastomys}='1'", "parameters": "", "media": "", "relevant_questions": [{"type": "select_one where_rat", "name": "where_rat", "label": "Where have you seen this rat?", "relevant": "", "parameters": "", "media": ""}, {"type": "begin_group", "name": "", "label": "", "relevant": "selected(${where_rat}, '4')", "parameters": "", "media": "", "relevant_questions": [{"type": "text", "name": "where_rat_other", "label": "Where else have you seen it?", "relevant": "", "parameters": "", "media": ""}]}, {"type": "select_one yes_no_2", "name": "rat_often", "label": "Do you see them often?", "relevant": "", "parameters": "", "media": ""}, {"type": "select_one rat_time", "name": "rat_time", "label": "What time of the year do you see them more?", "relevant": "", "parameters": "", "media": ""}, {"type": "begin_group", "name": "", "label": "", "relevant": "${rat_time}='4'", "parameters": "", "media": "", "relevant_questions": [{"type": "select_multiple rat_month", "name": "rat_month", "label": "When do you see the rat more?", "relevant": "", "parameters": "", "media": ""}]}, {"type": "select_one yes_no_2", "name": "kill_rat", "label": "Do you catch or kill them?", "relevant": "", "parameters": "", "media": ""}, {"type": "begin_group", "name": "", "label": "", "relevant": "${kill_rat}='1'", "parameters": "", "media": "", "relevant_questions": [{"type": "select_multiple how_kill_rat", "name": "how_kill_rat", "label": "How do you catch or kill them?", "relevant": "", "parameters": "", "media": ""}]}, {"type": "text", "name": "why_catch", "label": "Why do you catch them?", "relevant": "", "parameters": "", "media": ""}, {"type": "text", "name": "why_catch2", "label": "What do you do with them when you catch them?", "relevant": "", "parameters": "", "media": ""}, {"type": "select_one yes_no_2", "name": "eat_rat", "label": "Do you eat them?", "relevant": "", "parameters": "", "media": ""}]}]}, {"type": "select_one yes_no_2", "name": "farm", "label": "Do you have a farm?", "relevant": "", "parameters": "", "media": ""}, {"type": "begin_group", "name": "", "label": "", "relevant": "${farm}='1'", "parameters": "", "media": "", "relevant_questions": [{"type": "select_multiple farm_type", "name": "farm_type", "label": "What type of farm?", "relevant": "", "parameters": "", "media": ""}, {"type": "begin_group", "name": "", "label": "", "relevant": "selected(${farm_type}, '4')", "parameters": "", "media": "", "relevant_questions": [{"type": "text", "name": "farm_type_other", "label": "Specify what else you farm.", "relevant": "", "parameters": "", "media": ""}]}, {"type": "select_one yes_no_2", "name": "food_to_farm", "label": "Do you take food to the farm?", "relevant": "", "parameters": "", "media": ""}, {"type": "text", "name": "store_food", "label": "How do you keep the food in the farm?", "relevant": "", "parameters": "", "media": ""}]}, {"type": "text", "name": "rice_how_store", "label": "If you cultivate rice, how do you process and store the crop?", "relevant": "", "parameters": "", "media": ""}, {"type": "select_one yes_no_2", "name": "eat_rice", "label": "Do you eat rice?", "relevant": "", "parameters": "", "media": ""}, {"type": "select_one yes_no_2", "name": "make_garri", "label": "Do you make garri?", "relevant": "", "parameters": "", "media": ""}, {"type": "begin_group", "name": "", "label": "", "relevant": "${make_garri}='1'", "parameters": "", "media": "", "relevant_questions": [{"type": "text", "name": "dry_garri", "label": "How do you dry the garri you make?", "relevant": "", "parameters": "", "media": ""}]}, {"type": "text", "name": "store_garri", "label": "How do you store your garri?", "relevant": "", "parameters": "", "media": ""}, {"type": "select_one yes_no_2", "name": "drink_garri", "label": "Do you drink garri?", "relevant": "", "parameters": "", "media": ""}, {"type": "text", "name": "store_maize", "label": "How do you process and store maize?", "relevant": "", "parameters": "", "media": ""}, {"type": "select_one yes_no_2", "name": "eat_maize", "label": "Do you eat maize?", "relevant": "", "parameters": "", "media": ""}, {"type": "select_one yes_no_2", "name": "sell", "label": "Do you sell your products to traders?", "relevant": "", "parameters": "", "media": ""}, {"type": "text", "name": "dump", "label": "Where do you dump your refuse?", "relevant": "", "parameters": "", "media": ""}, {"type": "text", "name": "far_dump", "label": "How far is it from your farm?", "relevant": "", "parameters": "", "media": ""}, {"type": "select_one yes_no_2", "name": "see_dump", "label": "Can we see the dump site?", "relevant": "", "parameters": "", "media": ""}, {"type": "begin_group", "name": "", "label": "", "relevant": "${see_dump}='1'", "parameters": "", "media": "", "relevant_questions": [{"type": "text", "name": "dump1", "label": "Take picture of dump site", "relevant": "", "parameters": "", "media": ""}, {"type": "text", "name": "dump2", "label": "Take picture of dump site", "relevant": "", "parameters": "", "media": ""}]}], [{"type": "select_one yes_no_2", "name": "has_facial_swelling", "label": "Do you have facial swelling?", "relevant": "", "parameters": "", "media": ""}, {"type": "select_one yes_no_2", "name": "has_muscle_fatigue", "label": "Do you have muscle fatigue?", "relevant": "", "parameters": "", "media": ""}, {"type": "select_one yes_no_2", "name": "has_vomiting", "label": "Are you vomiting?", "relevant": "", "parameters": "", "media": ""}, {"type": "select_one yes_no_2", "name": "has_cough", "label": "Do you have a cough?", "relevant": "", "parameters": "", "media": ""}, {"type": "select_one yes_no_2", "name": "has_meningitis", "label": "Do you have meningitis?", "relevant": "", "parameters": "", "media": ""}, {"type": "select_one yes_no_2", "name": "has_hypertension", "label": "Do you have hypertension?", "relevant": "", "parameters": "", "media": ""}, {"type": "text", "name": "who_live_with", "label": "Who do you live with?", "relevant": "", "parameters": "", "media": ""}, {"type": "text", "name": "who_sharefood_with", "label": "Who do you share food with?", "relevant": "", "parameters": "", "media": ""}, {"type": "text", "name": "who_work_with", "label": "Who do you work with?", "relevant": "", "parameters": "", "media": ""}], [{"type": "text", "name": "questions", "label": "Please, do you have any question for me?", "relevant": "", "parameters": "", "media": ""}, {"type": "text", "name": "notes", "label": "Include any notes about this interview", "relevant": "", "parameters": "", "media": ""}]]
+[
+  [
+    {
+      "type": "text",
+      "name": "patient_name",
+      "label": "Name",
+      "relevant": "",
+      "parameters": "",
+      "media": ""
+    },
+    {
+      "type": "integer",
+      "name": "age",
+      "label": "Age at last birthday (in years)",
+      "relevant": "",
+      "parameters": "",
+      "media": ""
+    },
+    {
+      "type": "select_one gender",
+      "name": "gender",
+      "label": "Gender",
+      "relevant": "",
+      "parameters": "",
+      "media": ""
+    },
+    {
+      "type": "decimal",
+      "name": "temperature",
+      "label": "Measure Temperature",
+      "relevant": "",
+      "parameters": "",
+      "media": ""
+    },
+    {
+      "type": "text",
+      "name": "community_name",
+      "label": "Name of Community",
+      "relevant": "",
+      "parameters": "",
+      "media": ""
+    },
+    {
+      "type": "text",
+      "name": "village_name",
+      "label": "Village",
+      "relevant": "",
+      "parameters": "",
+      "media": ""
+    },
+    {
+      "type": "text",
+      "name": "town_name",
+      "label": "Town",
+      "relevant": "",
+      "parameters": "",
+      "media": ""
+    },
+    {
+      "type": "text",
+      "name": "state_name",
+      "label": "State",
+      "relevant": "",
+      "parameters": "",
+      "media": ""
+    },
+    {
+      "type": "text",
+      "name": "LGA_name",
+      "label": "LGA",
+      "relevant": "",
+      "parameters": "",
+      "media": ""
+    },
+    {
+      "type": "gps",
+      "name": "store_gps",
+      "label": "GPS coordinates of this store",
+      "relevant": "",
+      "parameters": "",
+      "media": ""
+    },
+    {
+      "type": "select_one GPS_ID",
+      "name": "gps_id",
+      "label": "GPS_ID",
+      "relevant": "",
+      "parameters": "",
+      "media": ""
+    }
+  ],
+  [
+    {
+      "type": "select_multiple occupation",
+      "name": "occupation",
+      "label": "Occupation",
+      "relevant": "",
+      "parameters": "",
+      "media": ""
+    },
+    {
+      "type": "begin_group",
+      "name": "",
+      "label": "",
+      "relevant": "${occupation} = '1'",
+      "parameters": "",
+      "media": "",
+      "relevant_questions": [
+        {
+          "type": "select_multiple farmer_type",
+          "name": "farmer_type",
+          "label": "What do you farm?",
+          "relevant": "",
+          "parameters": "",
+          "media": ""
+        },
+        {
+          "type": "begin_group",
+          "name": "",
+          "label": "",
+          "relevant": "selected(${farmer_type}, '4')",
+          "parameters": "",
+          "media": "",
+          "relevant_questions": [
+            {
+              "type": "text",
+              "name": "farmer_type_other",
+              "label": "What else do you farm.",
+              "relevant": "",
+              "parameters": "",
+              "media": ""
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "begin_group",
+      "name": "",
+      "label": "",
+      "relevant": "${occupation} = '2'",
+      "parameters": "",
+      "media": "",
+      "relevant_questions": [
+        {
+          "type": "text",
+          "name": "trader_occupation",
+          "label": "What do you trade?",
+          "relevant": "",
+          "parameters": "",
+          "media": ""
+        }
+      ]
+    },
+    {
+      "type": "begin_group",
+      "name": "",
+      "label": "",
+      "relevant": "${occupation} = '9'",
+      "parameters": "",
+      "media": "",
+      "relevant_questions": [
+        {
+          "type": "text",
+          "name": "other_occupation",
+          "label": "Specify occupation",
+          "relevant": "",
+          "parameters": "",
+          "media": ""
+        }
+      ]
+    },
+    {
+      "type": "select_one education",
+      "name": "education",
+      "label": "Education",
+      "relevant": "",
+      "parameters": "",
+      "media": ""
+    },
+    {
+      "type": "decimal",
+      "name": "income",
+      "label": "Estimated monthly income? (in Naira)",
+      "relevant": "",
+      "parameters": "",
+      "media": ""
+    },
+    {
+      "type": "integer",
+      "name": "family_size",
+      "label": "Family size (total number of people in your household)",
+      "relevant": "",
+      "parameters": "",
+      "media": ""
+    },
+    {
+      "type": "select_one yes_no_2",
+      "name": "knows_of_lassa",
+      "label": "Have you heard of Lassa fever?",
+      "relevant": "",
+      "parameters": "",
+      "media": ""
+    },
+    {
+      "type": "begin_group",
+      "name": "",
+      "label": "",
+      "relevant": "${knows_of_lassa} = '1'",
+      "parameters": "",
+      "media": "",
+      "relevant_questions": [
+        {
+          "type": "select_multiple info_on_lassa",
+          "name": "info_on_lassa",
+          "label": "From where did you get information about Lassa Fever?",
+          "relevant": "",
+          "parameters": "",
+          "media": ""
+        },
+        {
+          "type": "begin_group",
+          "name": "",
+          "label": "",
+          "relevant": "selected(${info_on_lassa}, '7')",
+          "parameters": "",
+          "media": "",
+          "relevant_questions": [
+            {
+              "type": "text",
+              "name": "other_info_on_lassa",
+              "label": "Where else did you get information about Lassa Fever?",
+              "relevant": "",
+              "parameters": "",
+              "media": ""
+            }
+          ]
+        },
+        {
+          "type": "select_one yes_no_3",
+          "name": "if_local_name",
+          "label": "Is there a local name for Lassa Fever?",
+          "relevant": "",
+          "parameters": "",
+          "media": ""
+        },
+        {
+          "type": "begin_group",
+          "name": "",
+          "label": "",
+          "relevant": "${if_local_name}='1'",
+          "parameters": "",
+          "media": "",
+          "relevant_questions": [
+            {
+              "type": "text",
+              "name": "local_name",
+              "label": "What is the local name?",
+              "relevant": "",
+              "parameters": "",
+              "media": ""
+            }
+          ]
+        },
+        {
+          "type": "select_one cause",
+          "name": "know_lassa_cause",
+          "label": "What causes this disease?",
+          "relevant": "",
+          "parameters": "",
+          "media": ""
+        },
+        {
+          "type": "select_one yes_no_2",
+          "name": "know_contact",
+          "label": "Do you know how one can contact this disease?",
+          "relevant": "",
+          "parameters": "",
+          "media": ""
+        },
+        {
+          "type": "begin_group",
+          "name": "",
+          "label": "",
+          "relevant": "${know_contact}='1'",
+          "parameters": "",
+          "media": "",
+          "relevant_questions": [
+            {
+              "type": "select_multiple contact",
+              "name": "contact",
+              "label": "How can one get the disease",
+              "relevant": "",
+              "parameters": "",
+              "media": ""
+            }
+          ]
+        },
+        {
+          "type": "begin_group",
+          "name": "",
+          "label": "",
+          "relevant": "selected(${contact}, '7')",
+          "parameters": "",
+          "media": "",
+          "relevant_questions": [
+            {
+              "type": "text",
+              "name": "other_contact",
+              "label": "How can one get the disease",
+              "relevant": "",
+              "parameters": "",
+              "media": ""
+            }
+          ]
+        },
+        {
+          "type": "select_one yes_no_2",
+          "name": "fear",
+          "label": "Are you scared of getting Lassa fever?",
+          "relevant": "",
+          "parameters": "",
+          "media": ""
+        },
+        {
+          "type": "range",
+          "name": "fear_range",
+          "label": "On a scale of 0-5 (0 = not scared at all and 5 = very scared) how scared are you of getting Lassa fever?",
+          "relevant": "",
+          "parameters": "start=0 end=5 step=1",
+          "media": ""
+        },
+        {
+          "type": "select_multiple signs",
+          "name": "signs",
+          "label": "What are the signs of Lassa?",
+          "relevant": "",
+          "parameters": "",
+          "media": ""
+        },
+        {
+          "type": "begin_group",
+          "name": "",
+          "label": "",
+          "relevant": "selected(${signs}, '5')",
+          "parameters": "",
+          "media": "",
+          "relevant_questions": [
+            {
+              "type": "text",
+              "name": "other_signs",
+              "label": "What are other signs of Lassa?",
+              "relevant": "",
+              "parameters": "",
+              "media": ""
+            }
+          ]
+        },
+        {
+          "type": "select_one yes_no_3",
+          "name": "can_kill",
+          "label": "Can Lassa Fever disease kill?",
+          "relevant": "",
+          "parameters": "",
+          "media": ""
+        },
+        {
+          "type": "select_one yes_no_3",
+          "name": "can_treat",
+          "label": "Can Lassa Fever disease be treated?",
+          "relevant": "",
+          "parameters": "",
+          "media": ""
+        },
+        {
+          "type": "select_one what_treat",
+          "name": "what_treat",
+          "label": "What can be used to treat Lassa Fever",
+          "relevant": "",
+          "parameters": "",
+          "media": ""
+        },
+        {
+          "type": "select_one yes_no_3",
+          "name": "can_prevent",
+          "label": "Can Lassa Fever be prevented?",
+          "relevant": "",
+          "parameters": "",
+          "media": ""
+        },
+        {
+          "type": "select_multiple how_prevent",
+          "name": "knows_lassa_how_prevent",
+          "label": "How can Lassa Fever be prevented?",
+          "relevant": "",
+          "parameters": "",
+          "media": ""
+        }
+      ]
+    },
+    {
+      "type": "select_one yes_no_2",
+      "name": "take_vaccine",
+      "label": "If there was a good vaccine would you take it?",
+      "relevant": "",
+      "parameters": "",
+      "media": ""
+    }
+  ],
+  [
+    {
+      "type": "select_one yes_no_2",
+      "name": "know_LF_patient",
+      "label": "Have you come across anyone who suffered from LF?",
+      "relevant": "",
+      "parameters": "",
+      "media": ""
+    },
+    {
+      "type": "begin_group",
+      "name": "",
+      "label": "",
+      "relevant": "${know_LF_patient} = '1'",
+      "parameters": "",
+      "media": "",
+      "relevant_questions": [
+        {
+          "type": "integer",
+          "name": "year",
+          "label": "When (year) did they have LF?",
+          "relevant": "",
+          "parameters": "",
+          "media": ""
+        },
+        {
+          "type": "select_one relationship",
+          "name": "relationship",
+          "label": "What was your relationship with the person?",
+          "relevant": "",
+          "parameters": "",
+          "media": ""
+        },
+        {
+          "type": "begin_group",
+          "name": "",
+          "label": "",
+          "relevant": "${relationship} = '7'",
+          "parameters": "",
+          "media": "",
+          "relevant_questions": [
+            {
+              "type": "text",
+              "name": "other_relationship",
+              "label": "What was your relationship with the person?",
+              "relevant": "",
+              "parameters": "",
+              "media": ""
+            }
+          ]
+        },
+        {
+          "type": "select_one yes_no_2",
+          "name": "care",
+          "label": "Did you give care to the person?",
+          "relevant": "",
+          "parameters": "",
+          "media": ""
+        },
+        {
+          "type": "select_one yes_no_3",
+          "name": "seek_treatment",
+          "label": "Did the person receive treatment?",
+          "relevant": "",
+          "parameters": "",
+          "media": ""
+        },
+        {
+          "type": "begin_group",
+          "name": "",
+          "label": "",
+          "relevant": "${seek_treatment} = '2'",
+          "parameters": "",
+          "media": "",
+          "relevant_questions": [
+            {
+              "type": "text",
+              "name": "why_no_treatment",
+              "label": "Why did they not seek treatment?",
+              "relevant": "",
+              "parameters": "",
+              "media": ""
+            }
+          ]
+        },
+        {
+          "type": "begin_group",
+          "name": "",
+          "label": "",
+          "relevant": "${seek_treatment} = '1'",
+          "parameters": "",
+          "media": "",
+          "relevant_questions": [
+            {
+              "type": "select_multiple where_seek_treatment",
+              "name": "where_seek_treatment",
+              "label": "Where did they seek treatment?",
+              "relevant": "",
+              "parameters": "",
+              "media": ""
+            },
+            {
+              "type": "select_one distance_treatment",
+              "name": "distance_treatment",
+              "label": "How far is the main place of treatment from your home?",
+              "relevant": "",
+              "parameters": "",
+              "media": ""
+            },
+            {
+              "type": "select_one yes_no_3",
+              "name": "early_treatment",
+              "label": "Was the patient treated early?",
+              "relevant": "",
+              "parameters": "",
+              "media": ""
+            }
+          ]
+        },
+        {
+          "type": "begin_group",
+          "name": "",
+          "label": "",
+          "relevant": "selected(${where_seek_treatment}, '1')",
+          "parameters": "",
+          "media": "",
+          "relevant_questions": [
+            {
+              "type": "text",
+              "name": "Gov_hospital_name",
+              "label": "What is the name of the hospital?",
+              "relevant": "",
+              "parameters": "",
+              "media": ""
+            }
+          ]
+        },
+        {
+          "type": "begin_group",
+          "name": "",
+          "label": "",
+          "relevant": "selected(${where_seek_treatment}, '2')",
+          "parameters": "",
+          "media": "",
+          "relevant_questions": [
+            {
+              "type": "text",
+              "name": "Mis_hospital_name",
+              "label": "What is the name of the hospital?",
+              "relevant": "",
+              "parameters": "",
+              "media": ""
+            }
+          ]
+        },
+        {
+          "type": "begin_group",
+          "name": "",
+          "label": "",
+          "relevant": "selected(${where_seek_treatment}, '3')",
+          "parameters": "",
+          "media": "",
+          "relevant_questions": [
+            {
+              "type": "text",
+              "name": "Priv_hospital_name",
+              "label": "What is the name of the hospital?",
+              "relevant": "",
+              "parameters": "",
+              "media": ""
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "select_one yes_no_2",
+      "name": "had_lassa",
+      "label": "Have you has lassa fever in the past?",
+      "relevant": "",
+      "parameters": "",
+      "media": ""
+    },
+    {
+      "type": "begin_group",
+      "name": "",
+      "label": "",
+      "relevant": "${had_lassa}='1'",
+      "parameters": "",
+      "media": "",
+      "relevant_questions": [
+        {
+          "type": "select_one last_fever",
+          "name": "last_fever",
+          "label": "When did you last have fever?",
+          "relevant": "",
+          "parameters": "",
+          "media": ""
+        },
+        {
+          "type": "select_one fever_intensity",
+          "name": "fever_intensity",
+          "label": "How intense was the fever\u00a0?",
+          "relevant": "",
+          "parameters": "",
+          "media": ""
+        },
+        {
+          "type": "select_one yes_no_2",
+          "name": "fever_treatment",
+          "label": "Did you receive treatment for the fever?",
+          "relevant": "",
+          "parameters": "",
+          "media": ""
+        },
+        {
+          "type": "begin_group",
+          "name": "",
+          "label": "",
+          "relevant": "${fever_treatment}='1'",
+          "parameters": "",
+          "media": "",
+          "relevant_questions": [
+            {
+              "type": "select_one where_fever_treatment",
+              "name": "where_fever_treatment",
+              "label": "Where did you receive the treatment?",
+              "relevant": "",
+              "parameters": "",
+              "media": ""
+            },
+            {
+              "type": "begin_group",
+              "name": "",
+              "label": "",
+              "relevant": "${where_fever_treatment} = '1'",
+              "parameters": "",
+              "media": "",
+              "relevant_questions": [
+                {
+                  "type": "text",
+                  "name": "fever_treatment_hospital",
+                  "label": "What hospital?",
+                  "relevant": "",
+                  "parameters": "",
+                  "media": ""
+                }
+              ]
+            },
+            {
+              "type": "select_one yes_no_2",
+              "name": "tell_treatment_type",
+              "label": "Can you tell the type of treatment you received?",
+              "relevant": "",
+              "parameters": "",
+              "media": ""
+            },
+            {
+              "type": "begin_group",
+              "name": "",
+              "label": "",
+              "relevant": "${tell_treatment_type} = '1'",
+              "parameters": "",
+              "media": "",
+              "relevant_questions": [
+                {
+                  "type": "text",
+                  "name": "treatment_type",
+                  "label": "What kind of treatment did you have?",
+                  "relevant": "",
+                  "parameters": "",
+                  "media": ""
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "select_one yes_no_2",
+          "name": "know_fever_cause",
+          "label": "Do you know the cause of the fever?",
+          "relevant": "",
+          "parameters": "",
+          "media": ""
+        },
+        {
+          "type": "begin_group",
+          "name": "",
+          "label": "",
+          "relevant": "${know_fever_cause} = '1'",
+          "parameters": "",
+          "media": "",
+          "relevant_questions": [
+            {
+              "type": "select_one fever_cause",
+              "name": "fever_cause",
+              "label": "What was the cause of the fever?",
+              "relevant": "",
+              "parameters": "",
+              "media": ""
+            },
+            {
+              "type": "begin_group",
+              "name": "",
+              "label": "",
+              "relevant": "${fever_cause} = '4'",
+              "parameters": "",
+              "media": "",
+              "relevant_questions": [
+                {
+                  "type": "text",
+                  "name": "other_fever_cause",
+                  "label": "Specify cause of the fever.",
+                  "relevant": "",
+                  "parameters": "",
+                  "media": ""
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "select_one yes_no_2",
+          "name": "care_by_family",
+          "label": "Were you taken care of by any member of your family?",
+          "relevant": "",
+          "parameters": "",
+          "media": ""
+        },
+        {
+          "type": "begin_group",
+          "name": "",
+          "label": "",
+          "relevant": "${care_by_family}='1'",
+          "parameters": "",
+          "media": "",
+          "relevant_questions": [
+            {
+              "type": "select_one yes_no_2",
+              "name": "family_get_fever",
+              "label": "Did any of them come down with fever later?",
+              "relevant": "",
+              "parameters": "",
+              "media": ""
+            },
+            {
+              "type": "begin_group",
+              "name": "",
+              "label": "",
+              "relevant": "${family_get_fever}='1'",
+              "parameters": "",
+              "media": "",
+              "relevant_questions": [
+                {
+                  "type": "select_one yes_no_2",
+                  "name": "family_fever_recovery",
+                  "label": "Did they recover?",
+                  "relevant": "",
+                  "parameters": "",
+                  "media": ""
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "select_one yes_no_2",
+      "name": "rats_present",
+      "label": "Have you seen rats around your home, farm or workplace?",
+      "relevant": "",
+      "parameters": "",
+      "media": ""
+    },
+    {
+      "type": "begin_group",
+      "name": "",
+      "label": "",
+      "relevant": "${rats_present}='1'",
+      "parameters": "",
+      "media": "",
+      "relevant_questions": [
+        {
+          "type": "select_one yes_no_2",
+          "name": "mastomys",
+          "label": "Have you ever seen this type of rat?",
+          "relevant": "",
+          "parameters": "",
+          "media": "rat.jpg"
+        },
+        {
+          "type": "begin_group",
+          "name": "",
+          "label": "",
+          "relevant": "${mastomys}='1'",
+          "parameters": "",
+          "media": "",
+          "relevant_questions": [
+            {
+              "type": "select_one where_rat",
+              "name": "where_rat",
+              "label": "Where have you seen this rat?",
+              "relevant": "",
+              "parameters": "",
+              "media": ""
+            },
+            {
+              "type": "begin_group",
+              "name": "",
+              "label": "",
+              "relevant": "selected(${where_rat}, '4')",
+              "parameters": "",
+              "media": "",
+              "relevant_questions": [
+                {
+                  "type": "text",
+                  "name": "where_rat_other",
+                  "label": "Where else have you seen it?",
+                  "relevant": "",
+                  "parameters": "",
+                  "media": ""
+                }
+              ]
+            },
+            {
+              "type": "select_one yes_no_2",
+              "name": "rat_often",
+              "label": "Do you see them often?",
+              "relevant": "",
+              "parameters": "",
+              "media": ""
+            },
+            {
+              "type": "select_one rat_time",
+              "name": "rat_time",
+              "label": "What time of the year do you see them more?",
+              "relevant": "",
+              "parameters": "",
+              "media": ""
+            },
+            {
+              "type": "begin_group",
+              "name": "",
+              "label": "",
+              "relevant": "${rat_time}='4'",
+              "parameters": "",
+              "media": "",
+              "relevant_questions": [
+                {
+                  "type": "select_multiple rat_month",
+                  "name": "rat_month",
+                  "label": "When do you see the rat more?",
+                  "relevant": "",
+                  "parameters": "",
+                  "media": ""
+                }
+              ]
+            },
+            {
+              "type": "select_one yes_no_2",
+              "name": "kill_rat",
+              "label": "Do you catch or kill them?",
+              "relevant": "",
+              "parameters": "",
+              "media": ""
+            },
+            {
+              "type": "begin_group",
+              "name": "",
+              "label": "",
+              "relevant": "${kill_rat}='1'",
+              "parameters": "",
+              "media": "",
+              "relevant_questions": [
+                {
+                  "type": "select_multiple how_kill_rat",
+                  "name": "how_kill_rat",
+                  "label": "How do you catch or kill them?",
+                  "relevant": "",
+                  "parameters": "",
+                  "media": ""
+                }
+              ]
+            },
+            {
+              "type": "text",
+              "name": "why_catch",
+              "label": "Why do you catch them?",
+              "relevant": "",
+              "parameters": "",
+              "media": ""
+            },
+            {
+              "type": "text",
+              "name": "why_catch2",
+              "label": "What do you do with them when you catch them?",
+              "relevant": "",
+              "parameters": "",
+              "media": ""
+            },
+            {
+              "type": "select_one yes_no_2",
+              "name": "eat_rat",
+              "label": "Do you eat them?",
+              "relevant": "",
+              "parameters": "",
+              "media": ""
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "select_one yes_no_2",
+      "name": "farm",
+      "label": "Do you have a farm?",
+      "relevant": "",
+      "parameters": "",
+      "media": ""
+    },
+    {
+      "type": "begin_group",
+      "name": "",
+      "label": "",
+      "relevant": "${farm}='1'",
+      "parameters": "",
+      "media": "",
+      "relevant_questions": [
+        {
+          "type": "select_multiple farm_type",
+          "name": "farm_type",
+          "label": "What type of farm?",
+          "relevant": "",
+          "parameters": "",
+          "media": ""
+        },
+        {
+          "type": "begin_group",
+          "name": "",
+          "label": "",
+          "relevant": "selected(${farm_type}, '4')",
+          "parameters": "",
+          "media": "",
+          "relevant_questions": [
+            {
+              "type": "text",
+              "name": "farm_type_other",
+              "label": "Specify what else you farm.",
+              "relevant": "",
+              "parameters": "",
+              "media": ""
+            }
+          ]
+        },
+        {
+          "type": "select_one yes_no_2",
+          "name": "food_to_farm",
+          "label": "Do you take food to the farm?",
+          "relevant": "",
+          "parameters": "",
+          "media": ""
+        },
+        {
+          "type": "text",
+          "name": "store_food",
+          "label": "How do you keep the food in the farm?",
+          "relevant": "",
+          "parameters": "",
+          "media": ""
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "name": "rice_how_store",
+      "label": "If you cultivate rice, how do you process and store the crop?",
+      "relevant": "",
+      "parameters": "",
+      "media": ""
+    },
+    {
+      "type": "select_one yes_no_2",
+      "name": "eat_rice",
+      "label": "Do you eat rice?",
+      "relevant": "",
+      "parameters": "",
+      "media": ""
+    },
+    {
+      "type": "select_one yes_no_2",
+      "name": "make_garri",
+      "label": "Do you make garri?",
+      "relevant": "",
+      "parameters": "",
+      "media": ""
+    },
+    {
+      "type": "begin_group",
+      "name": "",
+      "label": "",
+      "relevant": "${make_garri}='1'",
+      "parameters": "",
+      "media": "",
+      "relevant_questions": [
+        {
+          "type": "text",
+          "name": "dry_garri",
+          "label": "How do you dry the garri you make?",
+          "relevant": "",
+          "parameters": "",
+          "media": ""
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "name": "store_garri",
+      "label": "How do you store your garri?",
+      "relevant": "",
+      "parameters": "",
+      "media": ""
+    },
+    {
+      "type": "select_one yes_no_2",
+      "name": "drink_garri",
+      "label": "Do you drink garri?",
+      "relevant": "",
+      "parameters": "",
+      "media": ""
+    },
+    {
+      "type": "text",
+      "name": "store_maize",
+      "label": "How do you process and store maize?",
+      "relevant": "",
+      "parameters": "",
+      "media": ""
+    },
+    {
+      "type": "select_one yes_no_2",
+      "name": "eat_maize",
+      "label": "Do you eat maize?",
+      "relevant": "",
+      "parameters": "",
+      "media": ""
+    },
+    {
+      "type": "select_one yes_no_2",
+      "name": "sell",
+      "label": "Do you sell your products to traders?",
+      "relevant": "",
+      "parameters": "",
+      "media": ""
+    },
+    {
+      "type": "text",
+      "name": "dump",
+      "label": "Where do you dump your refuse?",
+      "relevant": "",
+      "parameters": "",
+      "media": ""
+    },
+    {
+      "type": "text",
+      "name": "far_dump",
+      "label": "How far is it from your farm?",
+      "relevant": "",
+      "parameters": "",
+      "media": ""
+    },
+    {
+      "type": "select_one yes_no_2",
+      "name": "see_dump",
+      "label": "Can we see the dump site?",
+      "relevant": "",
+      "parameters": "",
+      "media": ""
+    },
+    {
+      "type": "begin_group",
+      "name": "",
+      "label": "",
+      "relevant": "${see_dump}='1'",
+      "parameters": "",
+      "media": "",
+      "relevant_questions": [
+        {
+          "type": "text",
+          "name": "dump1",
+          "label": "Take picture of dump site",
+          "relevant": "",
+          "parameters": "",
+          "media": ""
+        },
+        {
+          "type": "text",
+          "name": "dump2",
+          "label": "Take picture of dump site",
+          "relevant": "",
+          "parameters": "",
+          "media": ""
+        }
+      ]
+    }
+  ],
+  [
+    {
+      "type": "select_one yes_no_2",
+      "name": "has_facial_swelling",
+      "label": "Do you have facial swelling?",
+      "relevant": "",
+      "parameters": "",
+      "media": ""
+    },
+    {
+      "type": "select_one yes_no_2",
+      "name": "has_muscle_fatigue",
+      "label": "Do you have muscle fatigue?",
+      "relevant": "",
+      "parameters": "",
+      "media": ""
+    },
+    {
+      "type": "select_one yes_no_2",
+      "name": "has_vomiting",
+      "label": "Are you vomiting?",
+      "relevant": "",
+      "parameters": "",
+      "media": ""
+    },
+    {
+      "type": "select_one yes_no_2",
+      "name": "has_cough",
+      "label": "Do you have a cough?",
+      "relevant": "",
+      "parameters": "",
+      "media": ""
+    },
+    {
+      "type": "select_one yes_no_2",
+      "name": "has_meningitis",
+      "label": "Do you have meningitis?",
+      "relevant": "",
+      "parameters": "",
+      "media": ""
+    },
+    {
+      "type": "select_one yes_no_2",
+      "name": "has_hypertension",
+      "label": "Do you have hypertension?",
+      "relevant": "",
+      "parameters": "",
+      "media": ""
+    },
+    {
+      "type": "text",
+      "name": "who_live_with",
+      "label": "Who do you live with?",
+      "relevant": "",
+      "parameters": "",
+      "media": ""
+    },
+    {
+      "type": "text",
+      "name": "who_sharefood_with",
+      "label": "Who do you share food with?",
+      "relevant": "",
+      "parameters": "",
+      "media": ""
+    },
+    {
+      "type": "text",
+      "name": "who_work_with",
+      "label": "Who do you work with?",
+      "relevant": "",
+      "parameters": "",
+      "media": ""
+    }
+  ],
+  [
+    {
+      "type": "text",
+      "name": "questions",
+      "label": "Please, do you have any question for me?",
+      "relevant": "",
+      "parameters": "",
+      "media": ""
+    },
+    {
+      "type": "text",
+      "name": "notes",
+      "label": "Include any notes about this interview",
+      "relevant": "",
+      "parameters": "",
+      "media": ""
+    }
+  ]
+]
