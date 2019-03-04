@@ -161,6 +161,13 @@ class Person(models.Model):
     questions = models.CharField(max_length=512, default="unknown")
     notes = models.CharField(max_length=512, default="unknown")
 
+    has_facial_swelling = models.BooleanField(default=False)
+    has_muscle_fatigue = models.BooleanField(default=False)
+    has_vomiting = models.BooleanField(default=False)
+    has_cough = models.BooleanField(default=False)
+    has_meningitis = models.BooleanField(default=False)
+    has_hypertension = models.BooleanField(default=False)
+
     # Let's record the interview data automatically
     interview_date = models.DateTimeField(default=datetime.now)
 
