@@ -3,6 +3,7 @@ package com.example.feverfinder.questions;
 import android.Manifest;
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -182,7 +183,7 @@ public class GPSQuestion extends Question implements View.OnClickListener {
             }
         }
         locManager.requestLocationUpdates(
-                LocationManager.GPS_PROVIDER, 0, 0, mListener);
+                LocationManager.GPS_PROVIDER, 0, 10, mListener);
     }
 
     /**
@@ -217,12 +218,26 @@ public class GPSQuestion extends Question implements View.OnClickListener {
             }
         }
         //TODO: check accuracy of this method of location finding!
+        locManager.requestLocationUpdates("gps", 0, 0, mListener);
+        LocationManager lm = (LocationManager) v.getContext().getSystemService(Context.LOCATION_SERVICE);
+        Criteria criteria = new Criteria();
+        criteria.setAccuracy(Criteria.ACCURACY_FINE);
+        criteria.setAltitudeRequired(false);
+        criteria.setBearingRequired(false);
+        criteria.setCostAllowed(true);
+        String strLocationProvider = lm.getBestProvider(criteria, true);
+        Location location = lm.getLastKnownLocation(strLocationProvider);
+        if (location != null) {
+            ((EditText) getView().findViewById(latitudeID)).setText(latitude);
+            ((EditText) getView().findViewById(longitudeID)).setText(longitude);
+        }
 
+        /*
         Location location = locManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
         latitude = String.valueOf(location.getLatitude());
         longitude = String.valueOf(location.getLongitude());
 
         ((EditText) getView().findViewById(latitudeID)).setText(latitude);
-        ((EditText) getView().findViewById(longitudeID)).setText(longitude);
+        ((EditText) getView().findViewById(longitudeID)).setText(longitude); */
     }
 }
